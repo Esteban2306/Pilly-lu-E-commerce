@@ -1,0 +1,37 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "../globals.css";
+import NavBarUser from '../components/NavBar/NavBarUser'
+import Footer from "@/components/footer/footer";
+
+const inter = Inter({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Pilly-Lu",
+  description: "plataform to buy your favorite jewelry",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={inter.variable}
+      >
+        <header>
+          <NavBarUser />
+        </header>
+        {children}
+        <footer>
+          <Footer />
+        </footer>
+      </body>
+    </html>
+  );
+}

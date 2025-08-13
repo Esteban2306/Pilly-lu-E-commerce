@@ -1,7 +1,7 @@
 import express from "express";
 import path from "node:path";
 
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3001, BASE_PATH } = process.env;
 
 const app = express();
 app.disable('x-powered-by');
