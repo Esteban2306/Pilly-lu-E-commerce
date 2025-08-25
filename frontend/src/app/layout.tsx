@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
 import NavBarUser from '../components/NavBar/NavBarUser'
 import Footer from "@/components/footer/footer";
+import modalContext from "@/context/modalContext";
 
-const inter = Inter({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Pilly-Lu",
@@ -21,13 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={inter.variable}
-      >
+      <body>
         <header>
           <NavBarUser />
         </header>
-        {children}
+        <ViewTransition name="page">
+          {children}
+        </ViewTransition>
         <footer>
           <Footer />
         </footer>

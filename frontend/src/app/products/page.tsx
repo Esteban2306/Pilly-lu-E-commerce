@@ -1,5 +1,3 @@
-"use client";
-
 import Image from 'next/image';
 import Link from 'next/link';
 import aretes from '../../../public/icons/iconAirrings.svg';
@@ -24,8 +22,6 @@ export default function productsPage() {
         { nombre: "Cadenas", icono: cadenas },
     ];
 
-
-
     return (
         <main className='min-h-screen'>
             <div className="flex justify-center mt-28">
@@ -45,7 +41,7 @@ export default function productsPage() {
                         key={i}
                         className="flex flex-col items-center"
                     >
-                        <div className="w-28 h-28 bg-blue-300 border border-black rounded-full flex items-center justify-center">
+                        <div className="w-28 h-28 bg-blue-300 shadow-xl/30 rounded-full flex items-center justify-center">
                             <Image
                                 src={cat.icono}
                                 alt={cat.nombre}

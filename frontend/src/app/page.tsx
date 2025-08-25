@@ -8,31 +8,32 @@ import dijes from '../../public/images/home/favDijes.png'
 import ButtonRedirectProduct from "@/components/buttons/buttonRedirectProducts/buttonRedirectProduct";
 import localUbicationOne from '../../public/images/home/localUbication.jpg'
 import ProductGallery from "@/components/product/productGallery/productGallery";
+import SliderProduct from "@/components/product/sliderProduct/sliderProduct";
+import AnimateInspirationalText from "@/components/animates/home/animateInspirationalText";
 
 export default function Home() {
   return (
     <main className="bg-[#F5F5F5]">
-      <section className="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
-
-        <div className="relative w-full h-[800px] ">
+      <section className="w-[95%] h-8/12 m-auto pt-23 grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="relative w-full lg:h-[800px] md:h-[80vh] sm:h[200px]">
           <Image
             src={faceImageOne}
             alt="Mujer sonriendo con joyas Pilly Lu"
             fill
-            className="object-cover rounded-br-lg"
+            className="object-cover rounded-lg"
             priority
           />
-          <span className="absolute bottom-21 left-1/2 -translate-x-1/2 text-black max-w-4xl  w-full text-center text-[20px] font-semibold z-10  px-4 py-2 rounded-md">
+          <span className="font-bold absolute bottom-21 left-1/2 -translate-x-1/2 text-black max-w-4xl  w-full text-center text-[20px]  z-10  px-4 py-2 rounded-md">
             Más que joyas, reflejos de tu alma.
           </span>
         </div>
 
-        <div className="relative w-full h-[800px]">
+        <div className="relative w-full lg:h-[800px] md:h-[80vh]">
           <Image
             src={faceImageThree}
             alt="Modelo usando collar dorado"
             fill
-            className="object-cover rounded-bl-lg"
+            className="object-cover rounded-lg"
             priority
           />
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-4xl  w-full text-black text-center text-[20px] font-semibold z-10 px-4 py-2 rounded-md">
@@ -41,14 +42,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="text-center max-w-2xl mx-auto px-4 py-6 mt-6">
+      <section className="text-center max-w-lg mx-auto px-4 py-6 mt-6">
         <h2 className="text-3xl font-bold">
           Joyas que susurran amor propio
         </h2>
         <ButtonRedirectProduct />
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-6 h-[1000px]">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-6 m-auto w-[95%] h-[900px]">
         <div className="relative md:col-span-2 ">
           <Image
             src={rings}
@@ -61,7 +62,7 @@ export default function Home() {
               Nuevas colecciones.
             </Link >
           </span>
-          <span className="absolute bottom-10 left-[200px] -translate-x-1/2 text-black max-w-[500px]  w-full text-center text-[16px] font-semibold z-10  px-4 py-2 rounded-md">
+          <span className="font-[var(--font-plus-jakarta)] absolute bottom-10 left-[165px] -translate-x-1/2 text-black max-w-[500px]  w-full text-center text-[16px] z-10  px-4 py-2 rounded-md">
             Descubre el detalle que transforma tu esencia.
           </span>
         </div>
@@ -79,7 +80,7 @@ export default function Home() {
                 Dijes.
               </Link >
             </span>
-            <span className="absolute top-12 left-[122px] -translate-x-1/2 text-black max-w-full text-center text-[16px] font-semibold z-10  px-4 py-2 rounded-md">
+            <span className="font-[var(--font-plus-jakarta)] absolute top-12 left-[110px] -translate-x-1/2 text-black max-w-full text-center text-[16px] z-10  px-4 py-2 rounded-md">
               Cada pieza, una parte de ti.
             </span>
           </div>
@@ -95,59 +96,40 @@ export default function Home() {
                 Aretes.
               </Link>
             </span>
-
-            <span className="absolute top-10 left-[132px] -translate-x-1/2 text-black max-w-full text-center text-[16px] max-h-[40px] h-full font-semibold z-10 px-4 py-2 rounded-md">
+            <span className="font-[var(--font-plus-jakarta)] absolute top-10 left-[110px] -translate-x-1/2 text-black max-w-full text-center text-[16px] max-h-[40px] h-full z-10 px-4 py-2 rounded-md">
               Luce tu poder con elegancia.
             </span>
           </div>
         </div>
       </section>
 
-
-      <section className="bg-white py-12 px-4 text-center">
-        <blockquote className="max-w-3xl mx-auto text-4xl md:text-4xl italic font-semibold">
-          "Más que adornos, nuestras joyas son testigos de tu camino, tus emociones y tu autenticidad."
-        </blockquote>
-        <footer className="mt-4 font-semibold text-2xl">— Pilly Lu</footer>
+      <section className=" py-12 px-4 text-center">
+        <AnimateInspirationalText />
+        <footer className="font-[var(--font-plus-jakarta)] mt-4  text-2xl">— Pilly Lu</footer>
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-4xl font-bold mb-6 text-center">Productos</h2>
-        <div className=" 
-                    grid 
-                    justify-center 
-                    gap-4 
-                    mt-20 mb-18
-                    [grid-template-columns:repeat(1,280px)]
-                    sm:[grid-template-columns:repeat(2,280px)]
-                    lg:[grid-template-columns:repeat(3,280px)]">
-          <ProductGallery />
-          <ProductGallery />
-          <ProductGallery />
+        <SliderProduct />
+      </section>
+      <section className="max-w-6xl mx-auto px-4 py-8">
+        <h2 className="text-4xl font-bold mb-6 text-center" id="ubication">Locales</h2>
+        <div className="relative  max-w-80 w-full h-[500px] m-auto">
+          <Image
+            src={localUbicationOne}
+            alt="Interior de la tienda Pilly Lu"
+            fill
+            className="object-cover rounded-lg"
+          />
         </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-4xl font-bold mb-6 text-center">Locales</h2>
-        <div className="">
-          <div className="relative  max-w-80 w-full h-[500px] m-auto">
-            <Image
-              src={localUbicationOne}
-              alt="Interior de la tienda Pilly Lu"
-              fill
-              className="object-cover rounded-lg"
-            />
-          </div>
-          <div className="mt-4 text-center max-w-[300px] m-auto ">
-            <h3 className="text-[24px] font-bold">Tienda Bulevar</h3>
-            <p className="text-[18px] font-semibold">Centro Comercial Bulevar <br />
-              Ak. 58 #127-59, Bogotá <br />
-              Lunes a viernes 10 am - 8pm <br />
-              Sabados y Domingos 11 am - 8pm <br />
-              Watsapp Bulevar Store <br />
-              +57 315 4545 4545
-            </p>
-          </div>
+        <div className="mt-4 text-center max-w-[300px] m-auto ">
+          <h3 className="text-[24px] font-bold">Tienda Bulevar</h3>
+          <p className="font-[var(--font-plus-jakarta)] text-[18px]">Centro Comercial Bulevar <br />
+            Ak. 58 #127-59, Bogotá <br />
+            Lunes a viernes 10 am - 8pm <br />
+            Sabados y Domingos 11 am - 8pm <br />
+            Watsapp Bulevar Store <br />
+            +57 315 4545 4545
+          </p>
         </div>
       </section>
     </main>
