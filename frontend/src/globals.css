@@ -216,3 +216,104 @@ body {
   margin-top: 30px !important; 
   position: relative !important;
 }
+
+.background-footer {
+background: #96BAE0;
+background: linear-gradient(0deg, rgba(150, 186, 224, 1) 60%, rgba(255, 255, 255, 1) 100%);
+}
+
+@property --clr-1{
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --clr-2{
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7daada;
+}
+
+@property --clr-3{
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7aa1cc;
+}
+
+@property --clr-4{
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #4278b3;
+}
+
+@property --clr-5 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5f8bb9;
+}
+
+@property --glow-deg {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: -90deg;
+}
+
+
+.glowing-border {
+  --border-width: 2px;
+  --gradient-glow:
+    var(--clr-1),
+    var(--clr-2),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-1)
+  ;
+
+
+  border: var(--border-width, 1px) solid transparent;
+  background: transparent;
+  background-color: transparent;
+    position: relative;
+    isolation: isolate;
+
+    animation: glow 10s infinite linear;
+}
+
+@keyframes glow {
+  100% {
+    --glow-deg: 270deg;
+  }
+}
+
+.glowing-border::before,
+.glowing-border::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+}
+
+.glowing-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--border-width);
+  border-radius: inherit;
+  background: conic-gradient(from var(--glow-deg), var(--gradient-glow));
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude; /* Para que solo quede el borde visible */
+  z-index: -1;
+  filter: blur(var(--glow-size));
+  opacity: var(--glow-intensity);
+}
+
+.glowing-border::after {
+  z-index: -2;
+  inset: -1.5rem;
+  background: conic-gradient(from var(--glow-deg), var(--gradient-glow));
+  filter: blur(var(--glow-size, 0.5rem));
+  opacity: var(--glow-intesity, 0.125);
+}

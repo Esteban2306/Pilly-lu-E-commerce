@@ -26,7 +26,7 @@ export default function SliderProduct() {
                 loop={true}
                 centeredSlides={true}
                 slidesPerView={3}
-                spaceBetween={5}
+                spaceBetween={2}
                 pagination={{ clickable: true, el: '.swiper-pagination' }}
                 breakpoints={{
                     320: { slidesPerView: 1, spaceBetween: 10 },

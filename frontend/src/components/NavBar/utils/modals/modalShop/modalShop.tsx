@@ -16,7 +16,11 @@ export default function ModalShop() {
                 shadow-lg rounded-b-lg p-4 w-30 h-auto z-50'>
             <ul>
                 <li className='font-bold mb-1'>
-                    <button className="cursor-pointer">Todos</button>
+                    <button className="cursor-pointer">
+                        <Link href={'/products'}>
+                            Todos
+                        </Link>
+                    </button>
                 </li>
                 <li className='font-bold mb-1'>
                     <button className="cursor-pointer">Anillos</button>

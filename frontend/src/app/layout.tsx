@@ -3,7 +3,6 @@ import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
 import NavBarUser from '../components/NavBar/NavBarUser'
 import Footer from "@/components/footer/footer";
-import modalContext from "@/context/modalContext";
 
 
 export const metadata: Metadata = {
@@ -19,15 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header>
-          <NavBarUser />
-        </header>
-        <ViewTransition name="page">
-          {children}
-        </ViewTransition>
-        <footer>
-          <Footer />
-        </footer>
+        {children}
       </body>
     </html>
   );
