@@ -1,15 +1,37 @@
 import express from "express";
 import path from "node:path";
-
-const { PORT = 3001, BASE_PATH } = process.env;
+import userRouter from '../src/routes/user.routes'
+import productRouter from '../src/routes/product.routes'
+import cartRouter from '../src/routes/cart.routes'
+import orderRouter from '../src/routes/order.routes'
+import categoryRoter from '../src/routes/category.routes'
+import cors from 'cors'
 
 const app = express();
 app.disable('x-powered-by');
 
+app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.json());
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}${BASE_PATH ? BASE_PATH : ''}`);
-})
+
+
+app.use('/users', userRouter);
+app.use('/product', productRouter);
+app.use('/cart', cartRouter);
+app.use('/order', orderRouter);
+app.use('/category', categoryRoter);
+
+
+app.use((req, res) => {
+    res.status(404).json({ message: "Recurso no encontrado" });
+});
+
+app.use((err: any, req: any, res: any, next: any) => {
+    console.error(err);
+    res.status(err.status || 500).json({
+        message: err.message || "Error interno del servidor",
+    });
+});
+
+export default app

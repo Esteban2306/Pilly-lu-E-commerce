@@ -116,25 +116,52 @@ export default function Home() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-center" id="ubication">Locales</h2>
-        <div className="relative max-w-full sm:max-w-md w-full h-[300px] sm:h-[400px] md:h-[500px] m-auto">
-          <Image
-            src={localUbicationOne}
-            alt="Interior de la tienda Pilly Lu"
-            fill
-            className="object-cover rounded-lg"
-          />
-        </div>
-        <div className="mt-4 text-center max-w-sm m-auto">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold">Tienda Bulevar</h3>
-          <p className="font-[var(--font-plus-jakarta)] text-sm sm:text-base md:text-lg">
-            Centro Comercial Bulevar <br />
-            Ak. 58 #127-59, Bogotá <br />
-            Lunes a viernes 10 am - 8pm <br />
-            Sabados y Domingos 11 am - 8pm <br />
-            Watsapp Bulevar Store <br />
-            +57 315 4545 4545
-          </p>
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 text-center"
+          id="ubication"
+        >
+          Locales
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="relative w-[300px] h-[300px] sm:h-[400px] md:h-[500px] mx-auto">
+              <Image
+                src={localUbicationOne}
+                alt="Interior de la tienda Pilly Lu"
+                fill
+                className="object-cover rounded-lg shadow-lg"
+              />
+            </div>
+
+            <div className="max-w-[300px] ">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold">
+                Tienda Bulevar
+              </h3>
+              <p className="font-[var(--font-plus-jakarta)] text-sm sm:text-base md:text-lg mt-2">
+                Centro Comercial Bulevar <br />
+                Ak. 58 #127-59, Bogotá <br />
+                Lunes a viernes 10 am - 8pm <br />
+                Sábados y Domingos 11 am - 8pm <br />
+                Whatsapp Bulevar Store <br />
+                +57 315 4545 4545
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col w-full space-y-2">
+            <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d497.04109288831194!2d-74.07188423531011!3d4.712839807957735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sco!4v1756420151605!5m2!1ses-419!2sco"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
         </div>
       </section>
     </main>

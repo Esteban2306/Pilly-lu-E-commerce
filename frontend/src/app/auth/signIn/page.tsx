@@ -74,9 +74,7 @@ export default function SignIn() {
                     {/* Crear cuenta */}
                     <p className="text-center text-sm text-gray-600">
                         Eres nuevo en la familia pilly-lu?{" "}
-                        <a href="#" className="text-secondary font-medium hover:underline">
-                            Crea una cuenta
-                        </a>
+                        <Link href={'/auth/signUp'}>Crea una cuenta</Link>
                     </p>
                 </form>
             </div>

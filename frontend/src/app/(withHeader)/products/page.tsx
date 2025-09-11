@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import aretes from '../../../public/icons/iconAirrings.svg';
-import manilla from '../../../public/icons/iconBracelet.svg';
-import cadenas from '../../../public/icons/iconChains.svg';
-import dijes from '../../../public/icons/iconCharms.svg';
-import anillos from '../../../public/icons/iconRing.svg';
+import aretes from '../../../../public/icons/iconAirrings.svg';
+import manilla from '../../../../public/icons/iconBracelet.svg';
+import cadenas from '../../../../public/icons/iconChains.svg';
+import dijes from '../../../../public/icons/iconCharms.svg';
+import anillos from '../../../../public/icons/iconRing.svg';
 import ProductGallery from '@/components/product/productGallery/productGallery';
 
 export default function productsPage() {

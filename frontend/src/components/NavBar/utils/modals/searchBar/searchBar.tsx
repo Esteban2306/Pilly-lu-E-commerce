@@ -6,9 +6,9 @@ export default function searchBar() {
             <input
                 type="text"
                 placeholder="Buscar productos..."
-                className="animate-slide-in-right w-2xs h-8 absolute -right-25 -top-10 bg-[#F4F4F4] p-2 border border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="animate-slide-in-right w-2xs h-8 absolute left-230 -top-17 bg-[#F4F4F4] p-2 border border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button className="animate-slide-in-right absolute left-19 bottom-1 transform -translate-y-1/2 text-gray-500 hover:text-blue-500">
+            <button className="animate-slide-in-right absolute left-296 bottom-8 transform -translate-y-1/2 text-gray-500 hover:text-blue-500">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"

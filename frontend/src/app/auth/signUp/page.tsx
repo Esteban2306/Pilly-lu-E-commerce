@@ -85,9 +85,7 @@ export default function SignUp() {
 
                     <p className="text-center text-sm text-gray-600">
                         Ya tienes una cuenta?{" "}
-                        <a href="/login" className="text-secondary font-medium hover:underline">
-                            Inicia Sesión
-                        </a>
+                        <Link href={'/auth/signUp'}>Iniciar Sesion</Link>
                     </p>
                 </form>
             </div>

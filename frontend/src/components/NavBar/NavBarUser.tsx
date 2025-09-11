@@ -114,7 +114,7 @@ export default function NavBarUser() {
 
                 <button
                     onClick={() => setActiveModal(prev => prev === 'search' ? null : 'search')}
-                    className="cursor-pointer">
+                    className="cursor-pointer ">
                     <SearchIcon className="size-5 md:size-6" />
                 </button>
                 <ModalWrapper isOpen={activeModal === 'search'} onClose={closeModal}>
