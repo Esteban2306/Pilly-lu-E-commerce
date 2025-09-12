@@ -18,8 +18,10 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
         const payload = Jwt.verify(token, jwtSecret) as CustomJwtPayload;
 
-        res.locals.userID = payload.sub;
-        res.locals.userRole = payload.role;
+        req.userId = payload.sub;
+        req.userRole = payload.role;
+
+        console.log(req)
 
         next();
     } catch {

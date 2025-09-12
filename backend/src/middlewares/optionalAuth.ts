@@ -17,6 +17,7 @@ export const optionalAuth = (req: Request, res: Response, next: NextFunction) =>
             console.log(payload)
             req.userId = payload.sub
             req.userRole = payload.role
+            console.log(req)
 
         } catch (err) {
             console.log(err)
