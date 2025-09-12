@@ -5,7 +5,6 @@ const roleShema = new mongoose.Schema({
         type: String,
         unique: true,
         trim: true,
-        default: 'lectura'
     }
 }, { timestamps: true })
 

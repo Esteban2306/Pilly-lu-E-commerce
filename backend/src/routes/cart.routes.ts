@@ -4,11 +4,10 @@ import { optionalAuth } from "../middlewares/optionalAuth";
 
 const router = Router()
 
-router.use(optionalAuth)
 
-router.post('/add', addItemToCart)
-router.delete('/remove', removeItemFromCart)
-router.get('/:userId', getCartByUserId)
-router.delete('/clear', clearCart)
+router.post('/add', optionalAuth, addItemToCart)
+router.delete('/remove', optionalAuth, removeItemFromCart)
+router.get('/:userId', optionalAuth, getCartByUserId)
+router.delete('/clear', optionalAuth, clearCart)
 
 export default router

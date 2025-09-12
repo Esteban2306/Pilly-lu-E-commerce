@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import NotFoundError from "../middlewares/not-found";
 import bycript from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { Role } from "../models/role";
 
 const jwtSecret = process.env.JWT_SECRET || 'some-secret-key'
 
@@ -17,6 +18,18 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         next(err);
+    }
+}
+
+const createRol = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { name } = req.body
+
+        const createspecificrole = await Role.create({ name })
+
+        res.status(200).json(createspecificrole)
+    } catch (err) {
+        next(err)
     }
 }
 
@@ -38,7 +51,13 @@ const registerUSer = async (req: Request, res: Response, next: NextFunction) => 
         }
 
         const hashPassword = await bycript.hash(password, 10);
-        const data = await User.create({ firstName, lastName, email, password: hashPassword })
+
+        const defaultRole = await Role.findOne({ name: 'lectura' })
+        if (!defaultRole) {
+            throw new NotFoundError('rol no encontrado en la db')
+        }
+
+        const data = await User.create({ firstName, lastName, email, password: hashPassword, role: defaultRole._id })
         res.json(data)
         return
     } catch (err) {
@@ -55,6 +74,8 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             throw new NotFoundError('usuario no encontrado')
         }
 
+        console.log(user)
+
         const isMatch = await bycript.compare(password, user.password!)
         if (!isMatch) {
             return res.status(401).json({ message: 'credenciales invalidas' })
@@ -65,7 +86,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             jwtSecret,
             { expiresIn: '7d' }
         )
-
+        console.log('user: ', token, jwtSecret)
         res.json({
             message: "Login exitoso",
             token
@@ -79,5 +100,5 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 export {
-    getUserById, registerUSer, loginUser
+    getUserById, registerUSer, loginUser, createRol
 }

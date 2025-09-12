@@ -2,12 +2,15 @@ import { Cart } from "../models/cart";
 import { Product } from "../models/product";
 import { Request, Response, NextFunction } from "express";
 import NotFoundError from "../middlewares/not-found";
+
 import { v4 as uuid } from "uuid";
 
 const resolveCartIdentifier = (req: Request, res: Response) => {
-    if (req.header) {
-        return { type: 'user', id: res.locals.userId };
+    if (req.userId) {
+        return { type: 'user', id: req.userId };
     }
+
+    // console.log(req.userId)
 
     let cartId = req.cookies?.cartId;
     if (!cartId) {
@@ -32,6 +35,8 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
 
         const { type, id } = resolveCartIdentifier(req, res);
         const query = type === "user" ? { user: id } : { anonId: id };
+
+        // console.log(query)
 
         let cart = await Cart.findOneAndUpdate(
             { ...query, "products.product": productId },
