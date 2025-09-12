@@ -13,8 +13,8 @@ router.get('/:id', getProductsById);
 router.get('/category/:categoryId', getProductByCategory);
 
 //admin routes
-router.post('/', authenticate, requireRole('admin'), createProduct);
-router.put('/:id', authenticate, requireRole('admin'), updateProduct);
-router.delete('/:id', authenticate, requireRole('admin'), deleteProduct);
+router.post('/', authenticate, requireRole('68c448d6b93e0784df24f2ce'), createProduct);
+router.put('/:id', authenticate, requireRole('68c448d6b93e0784df24f2ce'), updateProduct);
+router.delete('/:id', authenticate, requireRole('68c448d6b93e0784df24f2ce'), deleteProduct);
 
 export default router

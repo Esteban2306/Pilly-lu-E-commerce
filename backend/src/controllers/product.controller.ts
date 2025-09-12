@@ -125,29 +125,6 @@ const deleteProduct = async (req: Request, res: Response, next: NextFunction) =>
     }
 }
 
-// const uploadProductImage = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const files = req.files as Express.Multer.File[]
-
-//         if (!files || files.length == 0) {
-//             throw new BadRequest('Debes subir al menos una imagen')
-//         }
-
-//         if (files.length > 4) {
-//             throw new BadRequest('No se pueden subir mas de 4 imagenes en un producto')
-//         }
-
-//         const uploadedUrls = files.map((file) => `http://localhost:3001/${file.originalname}`)
-
-//         res.status(200).json({
-//             message: "Imágenes subidas correctamente",
-//             images: uploadedUrls
-//         })
-//     } catch (err) {
-//         console.error('error al subir la imagenes')
-//         next(err)
-//     }
-// }
 
 export {
     createProduct,

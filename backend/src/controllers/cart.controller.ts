@@ -10,8 +10,6 @@ const resolveCartIdentifier = (req: Request, res: Response) => {
         return { type: 'user', id: req.userId };
     }
 
-    // console.log(req.userId)
-
     let cartId = req.cookies?.cartId;
     if (!cartId) {
         cartId = uuid();
@@ -36,7 +34,6 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
         const { type, id } = resolveCartIdentifier(req, res);
         const query = type === "user" ? { user: id } : { anonId: id };
 
-        // console.log(query)
 
         let cart = await Cart.findOneAndUpdate(
             { ...query, "products.product": productId },
