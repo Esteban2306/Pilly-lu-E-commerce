@@ -74,7 +74,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             throw new NotFoundError('usuario no encontrado')
         }
 
-        console.log(user)
+
 
         const isMatch = await bycript.compare(password, user.password!)
         if (!isMatch) {
@@ -86,7 +86,6 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             jwtSecret,
             { expiresIn: '7d' }
         )
-        console.log('user: ', token, jwtSecret)
         res.json({
             message: "Login exitoso",
             token

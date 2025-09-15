@@ -6,11 +6,12 @@ import cartRouter from '../src/routes/cart.routes'
 import orderRouter from '../src/routes/order.routes'
 import categoryRoter from '../src/routes/category.routes'
 import cors from 'cors'
-
+import cookieParser from 'cookie-parser'
 const app = express();
 app.disable('x-powered-by');
 
 app.use(cors())
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 

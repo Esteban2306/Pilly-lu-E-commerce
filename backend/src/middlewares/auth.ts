@@ -21,8 +21,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
         req.userId = payload.sub;
         req.userRole = payload.role;
 
-        console.log(req)
-
         next();
     } catch {
         return res.status(401).json({ message: "Invalid or expired token" });

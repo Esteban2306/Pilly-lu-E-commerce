@@ -46,8 +46,7 @@ export default function CreateProduct() {
         }
 
         try {
-            const data = await productApi.create(product)
-            console.log("Respuesta backend:", e)
+            await productApi.create(product)
             setImages([])
             window.location.reload()
         } catch (err) {

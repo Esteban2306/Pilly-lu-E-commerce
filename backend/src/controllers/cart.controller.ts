@@ -5,13 +5,24 @@ import NotFoundError from "../middlewares/not-found";
 
 import { v4 as uuid } from "uuid";
 
-const resolveCartIdentifier = (req: Request, res: Response) => {
+import { ObjectId } from "mongoose";
+
+interface resolveCartType {
+    type: string,
+    id: string | ObjectId,
+}
+
+const resolveCartIdentifier = (req: Request, res: Response, strict: boolean): resolveCartType | null => {
     if (req.userId) {
         return { type: 'user', id: req.userId };
     }
 
+
     let cartId = req.cookies?.cartId;
     if (!cartId) {
+        if (strict) {
+            return null
+        }
         cartId = uuid();
         res.cookie('cartId', cartId, {
             httpOnly: true,
@@ -31,8 +42,8 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
-        const { type, id } = resolveCartIdentifier(req, res);
-        const query = type === "user" ? { user: id } : { anonId: id };
+        const objectserolveCart = resolveCartIdentifier(req, res, true);
+        const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
 
 
         let cart = await Cart.findOneAndUpdate(
@@ -62,15 +73,18 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
 
 const removeItemFromCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { productId } = req.body
-        const { type, id } = resolveCartIdentifier(req, res);
-        const query = type === "user" ? { user: id } : { anonId: id };
+        const { productId } = req.body;
+
+        const objectserolveCart = resolveCartIdentifier(req, res, false);
+        const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
+
 
         const cart = await Cart.findOneAndUpdate(
             query,
             { $pull: { products: { product: productId } } },
             { new: true }
         )
+
         if (!cart) {
             throw new NotFoundError('carrito no encontrado')
         }
@@ -87,8 +101,9 @@ const removeItemFromCart = async (req: Request, res: Response, next: NextFunctio
 
 const getCartByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { type, id } = resolveCartIdentifier(req, res);
-        const query = type === "user" ? { user: id } : { anonId: id };
+        const objectserolveCart = resolveCartIdentifier(req, res, false);
+        const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
+        ;
 
         const cart = await Cart.findOne(query)
             .populate('products.product', 'name, price, image')
@@ -105,8 +120,8 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
 
 const clearCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { type, id } = resolveCartIdentifier(req, res);
-        const query = type === "user" ? { user: id } : { anonId: id };
+        const objectserolveCart = resolveCartIdentifier(req, res, false);
+        const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
 
 
         const cart = await Cart.findOneAndUpdate(
@@ -115,7 +130,6 @@ const clearCart = async (req: Request, res: Response, next: NextFunction) => {
             { new: true }
         )
 
-        console.log(cart)
 
         if (!cart) {
             throw new NotFoundError('carrito no encontrado')
