@@ -8,11 +8,14 @@ import logo from "../../../public/images/logo.png";
 import { CartIcon } from "../icons/NavBar/navBarIconCart";
 import { BellIcon } from "../icons/NavBar/navBarIconBell";
 import { SearchIcon } from "../icons/NavBar/navBarIconSearch";
+import { UserIcon } from '../icons/NavBar/navBarIconUser'
 import ModalShop from "./utils/modals/modalShop/modalShop";
 import ModalCart from "./utils/modals/modalCart/modalCart";
 import SearchBar from "./utils/modals/searchBar/searchBar";
+import ModalUser from "./utils/modals/modalUser/modalUser";
 import ModalWrapper from "./utils/modals/modalWrapper";
 import ButtonGlowingBorder from "../buttons/buttonGlowingBorder/buttonGlowingBorder";
+import { useAuth } from "@/context/authContext";
 
 export default function NavBarUser() {
     const [show, setShow] = useState(true);
@@ -20,6 +23,8 @@ export default function NavBarUser() {
     const [activeModal, setActiveModal] = useState<string | null>(null);
 
     const pathname = usePathname()
+
+    const { token } = useAuth()
 
     const closeModal = () => setActiveModal(null);
 
@@ -93,9 +98,23 @@ export default function NavBarUser() {
             </div>
 
             <div className="flex items-center gap-4 md:gap-8 z-10">
-                <Link href='/auth/signIn' className="hidden sm:block">
-                    <ButtonGlowingBorder text="Iniciar sesion" />
-                </Link>
+                {token ? (
+                    <>
+                        <button
+                            onClick={() => setActiveModal(prev => prev === 'user' ? null : 'user')}
+                            className="relative cursor-pointer"
+                        >
+                            <UserIcon className="size-5 md:size-6" />
+                        </button>
+                        <ModalWrapper isOpen={activeModal === 'user'} onClose={closeModal}>
+                            <ModalUser />
+                        </ModalWrapper>
+                    </>
+                ) : (
+                    <Link href='/auth/signIn' className="hidden sm:block">
+                        <ButtonGlowingBorder text="Iniciar sesion" />
+                    </Link>
+                )}
                 <div className="relative">
                     <button
                         onClick={() => setActiveModal(prev => prev === 'cart' ? null : 'cart')}

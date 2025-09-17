@@ -32,6 +32,8 @@ export default function CreateProduct() {
 
         const formData = new FormData(e.currentTarget);
 
+        console.log("Producto creado antes del porduct", formData)
+
         const product = {
             productName: formData.get("productName") as string,
             description: formData.get("description") as string,
@@ -44,9 +46,12 @@ export default function CreateProduct() {
             stock: Number(formData.get("stock")),
             images,
         }
-
+        console.log("Producto creado con éxito afuera del try", product
+        )
         try {
-            await productApi.create(product)
+            console.log('entrando al try')
+            const data = await productApi.create(product)
+            console.log("Producto creado con éxito")
             setImages([])
             window.location.reload()
         } catch (err) {

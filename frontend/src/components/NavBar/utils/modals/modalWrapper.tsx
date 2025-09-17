@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState } from "react";
 import { ModalWrapperProps } from "./modalWrapper.type";
-import modalContext from "@/context/modalContext";
 
 export default function ModalWrapper({
     isOpen,

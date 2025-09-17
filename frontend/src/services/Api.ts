@@ -29,7 +29,7 @@ export class Api {
             };
 
             if (auth) {
-                const token = getToken
+                const token = getToken()
                 headers.Authorization = `Bearer ${token}`;
             }
 
