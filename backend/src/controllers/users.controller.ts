@@ -88,7 +88,12 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
         )
         res.json({
             message: "Login exitoso",
-            token
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                role: user.role
+            }
         });
 
 

@@ -1,3 +1,4 @@
+import { getToken } from "@/lib/token/token";
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT' | 'OPTIONS' | 'HEADERS';
 
@@ -28,7 +29,8 @@ export class Api {
             };
 
             if (auth) {
-                headers.Authorization = `Bearer ${localStorage.getItem('Token') ?? ''}`;
+                const token = getToken
+                headers.Authorization = `Bearer ${token}`;
             }
 
             const res = await fetch(`${this.baseUrl}/${path}`, {

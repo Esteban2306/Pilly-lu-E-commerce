@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
-import NavBarUser from '../components/NavBar/NavBarUser'
-import Footer from "@/components/footer/footer";
+import { AuthProvider } from "@/context/authContext";
 
 
 export const metadata: Metadata = {
@@ -18,7 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <ViewTransition>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ViewTransition>
       </body>
     </html>
   );

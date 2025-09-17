@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import BadRequest from "../middlewares/bad-request";
 import NotFoundError from "../middlewares/not-found";
 import { Image } from "../models/image";
+import mongoose from "mongoose";
+import { Category } from "../models/category";
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -84,13 +86,18 @@ const getProductByCategory = async (req: Request, res: Response, next: NextFunct
     try {
         const { categoryId } = req.params;
 
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            throw new BadRequest('id de categoria no encontrado')
+        }
+
+        const category = await Category.findById(categoryId)
+
         const products = await Product.find({ category: categoryId })
-            .exec //exec me permite devolver una promise pura aunque await ya lo hace me ayua a evitar posibles errores
 
         if (!products || products.length == 0) {
             throw new NotFoundError('no se han encontrado productos para esta categoria')
         }
-        res.status(200).json(products)
+        res.status(200).json({ category, products })
     } catch (err) {
         next(err)
     }
