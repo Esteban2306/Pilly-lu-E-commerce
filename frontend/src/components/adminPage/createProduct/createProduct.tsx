@@ -1,18 +1,19 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ProductImageUploader from "@/components/buttons/buttonUploadthing/buttonUploadthing"
 import { productApi } from "@/services/ProductApi"
 import Image from "next/image"
 import iconImage from '../../../../public/icons/iconImage.png'
 import iconSettings from '../../../../public/icons/iconSettings.png'
 import iconAtention from '../../../../public/icons/iconAtention.png'
-
-type Img = { url: string; isMain: boolean }
+import { categoryApi } from "@/services/CategoryApi"
+import { CategoryType, Img } from "./types"
 
 export default function CreateProduct() {
     const [images, setImages] = useState<Img[]>([]);
     const [loading, setLoading] = useState(false)
+    const [category, setCategory] = useState<CategoryType[]>([])
 
     const handleImage = (urls: string[]) => {
         setImages(prev => [...prev, ...urls.map(u => ({ url: u, isMain: false }))]);
@@ -62,6 +63,15 @@ export default function CreateProduct() {
 
     }
 
+    useEffect(() => {
+        async function fetchCategory() {
+            const responseCategory: Array<CategoryType> = await categoryApi.getCategory()
+            setCategory(responseCategory)
+        }
+        fetchCategory()
+    }, [])
+
+
     return (
         <form className="space-y-8" aria-label="Create new product form" onSubmit={handleCreateProduct}>
             <section aria-labelledby="main-details" className="bg-white p-6 rounded-2xl shadow-lg">
@@ -96,11 +106,9 @@ export default function CreateProduct() {
                                 className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 focus:ring-2 focus:ring-secondary"
                                 defaultValue="Aretes"
                             >
-                                <option value="Aretes">Aretes</option>
-                                <option value="Anillos">Anillos</option>
-                                <option value="Manilla">Manilla</option>
-                                <option value="Dijes">Dijes</option>
-                                <option value="Cadenas">Cadenas</option>
+                                {category.map(cat => (
+                                    <option key={cat._id} value={cat._id}>{cat.categoryName}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
