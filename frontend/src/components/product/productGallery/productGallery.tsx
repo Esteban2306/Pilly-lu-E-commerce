@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import product from '../../../../public/images/products/productProof.jpg';
 import { CartIcon } from "../../icons/NavBar/navBarIconCart";
-import { productApi } from '@/services/ProductApi';
 import { ProductCardProps } from '@/types/product.types';
 
 export default function ProductGallery({ _id, productName, price, images = [] }: ProductCardProps) {
@@ -15,15 +14,16 @@ export default function ProductGallery({ _id, productName, price, images = [] }:
                 <Link href={`/product/${_id}`}>
                     <Image
                         src={images?.[0]?.url || product}
-                        alt={productName}
-
-                        className="object-cover rounded-lg h-[270px] "
+                        alt={productName || "Imagen del producto"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 260px"
+                        className="object-cover rounded-lg"
                     />
                 </Link>
             </div>
             <div className="relative pt-8 text-center">
-                <CartIcon className='absolute size-5.5 z-10 right-2.5 top-10 cursor-pointer' />
-                <h3 className="font-bold text-[18px] ">
+                <CartIcon className='absolute size-5.5 z-10 -right-1 top-10 cursor-pointer' />
+                <h3 className="font-bold text-[18px] max-w-[220px] truncate mx-auto">
                     <Link href={`/product/${_id}`}>
                         {productName}
                     </Link>

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import ModalWrapper from "@/components/NavBar/utils/modals/modalWrapper";
 import ModalDescription from "@/components/product/utils/modal/modalDescription/modalDescription";
+import { PropsDescriptionModal } from "@/types/Props";
 
-export default function ButtonDescriptionProduct() {
+export default function ButtonDescriptionProduct({ description }: PropsDescriptionModal) {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => setIsOpen(!isOpen);
@@ -24,7 +25,7 @@ export default function ButtonDescriptionProduct() {
                 onClose={handleClose}
                 className="absolute top-full left-0 mt-2 z-50"
             >
-                <ModalDescription />
+                <ModalDescription description={description} />
             </ModalWrapper>
         </div>
     );

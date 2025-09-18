@@ -3,4 +3,4 @@ export type ProductCardProps = {
     productName: string;
     price: number;
     images: { url: string }[];
-}
+}   

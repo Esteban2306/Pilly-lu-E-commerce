@@ -1,6 +1,8 @@
-'use client';
+'use client'
 
-export default function ModalDescription() {
+import { PropsDescriptionModal } from "@/types/Props";
+
+export default function ModalDescription({ description }: PropsDescriptionModal) {
     return (
         <div className='
             animate-fade-in
@@ -19,8 +21,7 @@ export default function ModalDescription() {
         >
             <h3 className="font-bold mb-2">Descripción del Producto</h3>
             <p className="text-sm">
-                Esta es la descripción detallada del producto. Aquí puedes incluir todas las
-                características, materiales, dimensiones y otros detalles importantes.
+                {description || "Este producto aún no tiene descripción."}
             </p>
         </div>
     );

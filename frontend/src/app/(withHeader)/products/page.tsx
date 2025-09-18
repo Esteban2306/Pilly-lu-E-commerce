@@ -6,8 +6,10 @@ import cadenas from '../../../../public/icons/iconChains.svg';
 import dijes from '../../../../public/icons/iconCharms.svg';
 import anillos from '../../../../public/icons/iconRing.svg';
 import ProductGallery from '@/components/product/productGallery/productGallery';
+import { productApi } from '@/services/ProductApi';
+import { Product } from '@/types/productsCategory.types';
 
-export default function productsPage() {
+export default async function productsPage() {
 
     type CategoriasType = {
         nombre: string;
@@ -21,6 +23,8 @@ export default function productsPage() {
         { nombre: "Dijes", icono: dijes },
         { nombre: "Cadenas", icono: cadenas },
     ];
+
+    const product = await productApi.getAll<Product[]>()
 
     return (
         <main className='min-h-screen'>
@@ -63,15 +67,17 @@ export default function productsPage() {
                     sm:[grid-template-columns:repeat(2,280px)]
                     lg:[grid-template-columns:repeat(3,280px)]
                 ">
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
-                <ProductGallery />
+                {product.map((p) => (
+                    <ProductGallery
+                        key={p._id}
+                        _id={p._id}
+                        productName={p.productName}
+                        price={p.price}
+                        images={p.images}
+                    />
+                ))}
+
+
             </div>
         </main>
 
