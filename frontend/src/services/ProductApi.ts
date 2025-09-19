@@ -13,6 +13,10 @@ export class ProductApi extends Api {
         return this.request<T>(`product/category/${id}`, 'GET', false)
     }
 
+    getFeatured<T>() {
+        return this.request<T>(`product/featured`, 'GET', false)
+    }
+
     create<T>(data: Record<string, unknown>) {
         return this.request<T>('product', 'POST', data, true)
     }

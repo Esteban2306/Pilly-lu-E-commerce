@@ -46,6 +46,7 @@ export default function CreateProduct() {
             status: formData.get("status") as string,
             stock: Number(formData.get("stock")),
             images,
+            isFeatured: formData.get("isFeatured") === 'true'
         }
         console.log("Producto creado con éxito afuera del try", product
         )
@@ -245,6 +246,21 @@ export default function CreateProduct() {
                             >
                                 <option value="draft">Borrador</option>
                                 <option value="published">Publicar</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+                                Producto Destacado
+                            </label>
+                            <select
+                                id="isFeatured"
+                                name="isFeatured"
+                                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 focus:ring-2 focus:ring-secondary"
+                                defaultValue="false"
+                            >
+                                <option value="true">destacar</option>
+                                <option value="false">predetermiando</option>
                             </select>
                         </div>
 

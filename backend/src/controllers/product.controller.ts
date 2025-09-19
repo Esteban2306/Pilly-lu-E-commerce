@@ -19,6 +19,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             category,
             stock,
             images,
+            isFeatured
         } = req.body;
 
         if (!productName || !description || !price || !category) {
@@ -34,6 +35,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             status,
             category,
             stock,
+            isFeatured
         });
 
         await product.save();
@@ -103,6 +105,30 @@ const getProductByCategory = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+const getProductsFeatured = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await Product.find({ isFeatured: true })
+
+        res.status(200).json(products)
+    } catch (err) {
+        next(err)
+    }
+}
+
+const getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params
+
+        const product = await Product.findById(id).populate('category')
+        if (!product) {
+            throw new NotFoundError('producto no encontrado')
+        }
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = await Product.findByIdAndUpdate(
@@ -139,5 +165,6 @@ export {
     getProductsById,
     getProductByCategory,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsFeatured
 }

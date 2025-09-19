@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import "swiper/css"
 import "swiper/css/pagination"
@@ -9,8 +9,25 @@ import { Swiper as SwiperType } from "swiper"
 import ProductGallery from "@/components/product/productGallery/productGallery"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
+import { ProductCardProps } from "@/types/product.types"
+import { productApi } from "@/services/ProductApi"
+
+
 export default function SliderProduct() {
     const swiperRef = useRef<SwiperType>(null)
+    const [featured, setFeatured] = useState<ProductCardProps[]>([])
+
+    useEffect(() => {
+        const fetchFeaturedProducts = async () => {
+            try {
+                const response = await productApi.getFeatured<ProductCardProps[]>()
+                setFeatured(response)
+            } catch (error) {
+                console.error("Error fetching featured products:", error)
+            }
+        }
+        fetchFeaturedProducts()
+    }, [])
 
     return (
         <div className="w-full py-10 flex flex-col items-center">
@@ -23,7 +40,7 @@ export default function SliderProduct() {
                     swiperRef.current = swiper
                 }}
                 grabCursor={true}
-                loop={true}
+                loop={featured.length > 3}
                 centeredSlides={true}
                 slidesPerView={3}
                 spaceBetween={2}
@@ -36,9 +53,9 @@ export default function SliderProduct() {
                 modules={[Pagination]}
                 className="max-w-6xl mx-auto m-auto"
             >
-                {[...Array(8)].map((_, i) => (
-                    <SwiperSlide key={i}>
-                        <ProductGallery />
+                {featured.map((p) => (
+                    <SwiperSlide key={p._id}>
+                        <ProductGallery {...p} />
                     </SwiperSlide>
                 ))}
             </Swiper>
