@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured } from "../controllers/product.controller";
+import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured, getImagesByProductId } from "../controllers/product.controller";
 import { authenticate } from "../middlewares/auth";
 
 import { requireRole } from "../middlewares/requireRole";
@@ -11,6 +11,7 @@ const router = Router()
 router.get('/', getProducts);
 router.get('/featured', getProductsFeatured);
 router.get('/category/:categoryId', getProductByCategory);
+router.get('/image/:id', getImagesByProductId)
 router.get('/:id', getProductsById);
 
 

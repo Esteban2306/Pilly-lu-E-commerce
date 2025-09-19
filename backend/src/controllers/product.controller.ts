@@ -60,6 +60,21 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
     }
 };
 
+const getImagesByProductId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+
+        const images = await Image.find({ product: id });
+        if (!images || images.length === 0) {
+            throw new NotFoundError('No se encontraron imágenes para este producto');
+        }
+
+        res.status(200).json(images);
+    } catch (err) {
+        next(err);
+    }
+}
+
 
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -166,5 +181,6 @@ export {
     getProductByCategory,
     updateProduct,
     deleteProduct,
-    getProductsFeatured
+    getProductsFeatured,
+    getImagesByProductId
 }

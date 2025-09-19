@@ -17,6 +17,10 @@ export class ProductApi extends Api {
         return this.request<T>(`product/featured`, 'GET', false)
     }
 
+    getImagesByProductId<T>(id: string) {
+        return this.request<T>(`product/image/${id}`, 'GET', false)
+    }
+
     create<T>(data: Record<string, unknown>) {
         return this.request<T>('product', 'POST', data, true)
     }
@@ -28,6 +32,8 @@ export class ProductApi extends Api {
     delete<T>(id: string) {
         return this.request<T>(`product/${id}`, 'DELETE', true)
     }
+
+
 }
 
 export const productApi = new ProductApi({

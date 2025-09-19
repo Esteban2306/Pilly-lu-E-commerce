@@ -43,12 +43,12 @@ export default function SliderProduct() {
                 loop={featured.length > 3}
                 centeredSlides={true}
                 slidesPerView={3}
-                spaceBetween={2}
+                spaceBetween={10}
                 pagination={{ clickable: true, el: '.swiper-pagination' }}
                 breakpoints={{
-                    320: { slidesPerView: 1, spaceBetween: 10 },
-                    640: { slidesPerView: 2, spaceBetween: 20 },
-                    1024: { slidesPerView: 3, spaceBetween: 20 },
+                    320: { slidesPerView: 1, spaceBetween: 1 },
+                    640: { slidesPerView: 2, spaceBetween: 2 },
+                    1024: { slidesPerView: 3, spaceBetween: 2 },
                 }}
                 modules={[Pagination]}
                 className="max-w-6xl mx-auto m-auto"
