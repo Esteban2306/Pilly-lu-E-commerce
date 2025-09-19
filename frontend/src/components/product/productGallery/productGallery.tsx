@@ -1,27 +1,14 @@
 'use client';
 
-
 import Image from 'next/image';
 import Link from 'next/link';
 import product from '../../../../public/images/products/productProof.jpg';
 import { CartIcon } from "../../icons/NavBar/navBarIconCart";
 import { ProductCardProps } from '@/types/product.types';
-import { productApi } from '@/services/ProductApi';
-import { useEffect, useState } from 'react';
-import { getImagesUrlResponse } from '@/types/getImageUrl.types';
+import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages';
 
 export default function ProductGallery({ _id, productName, price, images = [] }: ProductCardProps) {
-    const [imagesByUrl, setImagesByUrl] = useState<getImagesUrlResponse[]>([]);
-
-    const img: getImagesUrlResponse | undefined = imagesByUrl?.find(img => img.isMain)
-
-    useEffect(() => {
-        async function fetchImages() {
-            const imagesUrl = await productApi.getImagesByProductId<getImagesUrlResponse[]>(_id)
-            setImagesByUrl(imagesUrl)
-        }
-        fetchImages()
-    }, [])
+    const { mainImage, isLoading } = useProductFetchImages(_id)
 
     return (
         <div
@@ -30,7 +17,7 @@ export default function ProductGallery({ _id, productName, price, images = [] }:
             <div className="relative w-[260]  h-[270px] m-auto pt-2">
                 <Link href={`/product/${_id}`}>
                     <Image
-                        src={img?.url || product}
+                        src={mainImage?.url || product}
                         alt={productName || "Imagen del producto"}
                         fill
                         sizes="(max-width: 768px) 100vw, 260px"

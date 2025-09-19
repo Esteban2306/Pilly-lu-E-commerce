@@ -13,7 +13,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
     return (
         <section className="max-w-5xl mx-auto px-4 py-8 mt-18" >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <ColageProcut />
+                <ColageProcut id={params.id} />
                 <div>
                     <h1 className="text-4xl font-bold">{product.productName}</h1>
 

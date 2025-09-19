@@ -1,16 +1,19 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image";
 import productProof from '../../../../public/images/products/productProof.jpg'
 import productProofTwo from '../../../../public/images/products/productProofTwo.jpg'
 import productProoftrhee from '../../../../public/images/products/productProoftrhee.jpg'
 import productProofFourth from '../../../../public/images/products/productProofFourth.jpg'
 import { ImageType } from "./galeryProductType";
+import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages';
 
 
+export default function collageProduct({ id }: { id: string }) {
 
-export default function collageProduct() {
+    const { imagesByUrl, isLoading, mainImage } = useProductFetchImages(id)
+
 
     const images = [
         productProof,
@@ -18,8 +21,17 @@ export default function collageProduct() {
         productProofFourth,
         productProoftrhee
     ]
-    const [principalImage, serPrincipalImage] = useState<ImageType>(images[0])
-    const [thumblnais, setthumblnais] = useState<ImageType[]>(images.slice(1))
+
+    const [principalImage, setPrincipalImage] = useState<ImageType>(images[0])
+    const [thumblnais, setThumbnails] = useState<ImageType[]>(images.slice(1))
+
+    useEffect(() => {
+        if (imagesByUrl.length > 0) {
+            setPrincipalImage(mainImage?.url || productProof);
+            setThumbnails(imagesByUrl.filter(img => img.url !== mainImage?.url).map(img => img.url));
+        }
+    }, [imagesByUrl, mainImage]);
+
 
     const handleSwap = (clicked: ImageType) => {
         const newThumbnails: ImageType[] = []
@@ -32,8 +44,8 @@ export default function collageProduct() {
             }
         });
 
-        setthumblnais(newThumbnails);
-        serPrincipalImage(clicked);
+        setThumbnails(newThumbnails);
+        setPrincipalImage(clicked);
     }
 
     return (
@@ -42,20 +54,23 @@ export default function collageProduct() {
                 <Image
                     src={principalImage}
                     alt="vista grande de producto"
-                    className=" object-cover size-92"
+                    width={368}
+                    height={368}
+                    className=" object-cover size-92 rounded-lg"
                 />
             </div>
             <div className="flex md:flex-col gap-4">
+
                 {thumblnais.map((thumb, index) => (
-                    <div
-                        key={typeof thumb === 'string' ? thumb : index}
+                    <div key={typeof thumb === 'string' ? thumb : (thumb?.src || index)} onClick={() => handleSwap(thumb)}
                         className="rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-400 hover:animate-scale hover:animate-duration-200"
-                        onClick={() => handleSwap(thumb)}
                     >
                         <Image
                             src={thumb}
-                            alt="Vista 1"
-                            className=" object-cover size-28"
+                            alt={`Vista ${index + 1}`}
+                            width={92}
+                            height={92}
+                            className="object-cover size-28"
                         />
                     </div>
                 ))}
