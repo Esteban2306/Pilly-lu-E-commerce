@@ -106,7 +106,7 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
         ;
 
         const cart = await Cart.findOne(query)
-            .populate('products.product', 'name, price, image')
+            .populate('products.product', 'name price image')
 
         if (!cart) {
             throw new NotFoundError('carrito no encontrado')

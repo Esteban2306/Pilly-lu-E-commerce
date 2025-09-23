@@ -1,21 +1,22 @@
 import { Api } from "./Api";
+import { Cart } from "@/types/cart.types";
 
 export class CartApi extends Api {
 
-    addItemToCart<T>(data: Record<string, unknown>) {
-        return this.request<T>('cart/add', 'POST', data, false)
+    addItemToCart(productId: string, amount: number) {
+        return this.request<{ cart: Cart }>('cart/add', 'POST', { productId, amount }, true)
     }
 
-    removeItemFromCart<T>(data: Record<string, unknown>) {
-        return this.request<T>('cart/remove', 'DELETE', data, false)
+    removeItemFromCart(productId: string) {
+        return this.request<{ cart: Cart }>('cart/remove', 'DELETE', { productId }, false)
     }
 
-    getCartByUserId<T>(id: string) {
-        return this.request<T>(`cart/${id}`, 'GET', false)
+    getCartByUserId() {
+        return this.request<{ cart: Cart }>(`cart`, 'GET', true)
     }
 
-    clearCart<T>() {
-        return this.request<T>('cart/clear', 'DELETE', false)
+    clearCart() {
+        return this.request<{ cart: Cart }>('cart/clear', 'DELETE', false)
     }
 }
 

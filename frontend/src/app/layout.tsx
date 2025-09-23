@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
 import { AuthProvider } from "@/context/authContext";
+import { CartProvider } from "@/context/cartContext";
 
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
       <body>
         <ViewTransition>
           <AuthProvider>
-            {children}
+            <CartProvider>
+              {children}
+            </CartProvider>
           </AuthProvider>
         </ViewTransition>
       </body>
