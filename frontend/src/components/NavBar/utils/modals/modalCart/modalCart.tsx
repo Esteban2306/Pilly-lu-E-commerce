@@ -1,18 +1,13 @@
+'use client'
 import React from "react";
 import CartItem from "./CartItem"
 import productProof from '../../../../../../public/images/products/productProof.jpg'
+import { useCart } from "@/context/cartContext";
 
 const CartModal: React.FC = () => {
-    // Por ahora, simulamos productos estáticos
-    const mockProducts = [
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-        { title: "Manilla de oro 18k", price: "$140.000", image: productProof },
-    ];
 
+    const { cart, product, removeCart } = useCart()
+    console.log(product)
     return (
         <div className="
                 animate-fade-in
@@ -36,8 +31,14 @@ const CartModal: React.FC = () => {
             <h2 className="text-2xl font-semibold mb-2 text-center">Carrito</h2>
 
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-                {mockProducts.map((p, i) => (
-                    <CartItem key={i} {...p} />
+                {product?.map((p, i) => (
+                    <CartItem
+                        key={i}
+                        title={p.product.productName}
+                        price={p.product.price}
+                        image={p.product?.images?.[0]?.url}
+                        onRemove={() => removeCart(p.product._id)}
+                    />
                 ))}
             </div>
 

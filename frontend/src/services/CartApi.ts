@@ -8,15 +8,15 @@ export class CartApi extends Api {
     }
 
     removeItemFromCart(productId: string) {
-        return this.request<{ cart: Cart }>('cart/remove', 'DELETE', { productId }, false)
+        return this.request<{ cart: Cart }>(`cart/${productId}/remove`, 'DELETE')
     }
 
     getCartByUserId() {
-        return this.request<{ cart: Cart }>(`cart`, 'GET', true)
+        return this.request<Cart>(`cart`, 'GET', true)
     }
 
     clearCart() {
-        return this.request<{ cart: Cart }>('cart/clear', 'DELETE', false)
+        return this.request<Cart>('cart/clear', 'DELETE', false)
     }
 }
 

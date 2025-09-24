@@ -1,4 +1,5 @@
 import { Product } from '@/types/productsCategory.types'
+import { ProductCardProps } from './product.types';
 
 export interface CartProduct {
     product: Product;

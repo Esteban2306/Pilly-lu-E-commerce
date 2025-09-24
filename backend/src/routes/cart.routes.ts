@@ -6,8 +6,8 @@ const router = Router()
 
 
 router.post('/add', optionalAuth, addItemToCart)
-router.delete('/remove', optionalAuth, removeItemFromCart)
-router.get('/:userId', optionalAuth, getCartByUserId)
+router.delete('/:productId/remove', optionalAuth, removeItemFromCart)
+router.get('/', optionalAuth, getCartByUserId)
 router.delete('/clear', optionalAuth, clearCart)
 
 export default router

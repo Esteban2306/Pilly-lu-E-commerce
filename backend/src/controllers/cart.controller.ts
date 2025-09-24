@@ -17,7 +17,6 @@ const resolveCartIdentifier = (req: Request, res: Response, strict: boolean): re
         return { type: 'user', id: req.userId };
     }
 
-
     let cartId = req.cookies?.cartId;
     if (!cartId) {
         if (strict) {
@@ -50,14 +49,28 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
             { ...query, "products.product": productId },
             { $inc: { "products.$.amount": amount } },
             { new: true }
-        );
+        ).populate({
+            path: 'products.product',
+            select: 'productName price images',
+            populate: {
+                path: 'images',
+                select: 'url',
+            },
+        })
 
         if (!cart) {
             cart = await Cart.findOneAndUpdate(
                 query,
                 { $push: { products: { product: productId, amount } } },
                 { new: true, upsert: true }
-            );
+            ).populate({
+                path: 'products.product',
+                select: 'productName price images',
+                populate: {
+                    path: 'images',
+                    select: 'url',
+                },
+            })
         }
 
         return res.status(200).json({
@@ -73,7 +86,7 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
 
 const removeItemFromCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { productId } = req.body;
+        const { productId } = req.params;
 
         const objectserolveCart = resolveCartIdentifier(req, res, false);
         const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
@@ -83,14 +96,21 @@ const removeItemFromCart = async (req: Request, res: Response, next: NextFunctio
             query,
             { $pull: { products: { product: productId } } },
             { new: true }
-        )
+        ).populate({
+            path: 'products.product',
+            select: 'productName price images',
+            populate: {
+                path: 'images',
+                select: 'url',
+            },
+        })
 
         if (!cart) {
             throw new NotFoundError('carrito no encontrado')
         }
 
         return res.status(200).json({
-            success: true,
+            success: 'true',
             message: "producto eliminado del carrito",
             cart
         });
@@ -106,7 +126,14 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
         ;
 
         const cart = await Cart.findOne(query)
-            .populate('products.product', 'name price image')
+            .populate({
+                path: 'products.product',
+                select: 'productName price images',
+                populate: {
+                    path: 'images',
+                    select: 'url',
+                },
+            })
 
         if (!cart) {
             throw new NotFoundError('carrito no encontrado')

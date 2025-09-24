@@ -5,9 +5,9 @@ import ColageProcut from "@/components/product/collageProduct/collageProduct";
 import { productApi } from "@/services/ProductApi";
 import { Product } from "@/types/productsCategory.types";
 
+import ButtonAddItemToCart from "@/components/buttons/buttonAddItemToCart/buttonAddItemtoCart";
 
 export default async function ProductDetail({ params }: { params: { id: string } }) {
-
     const product = await productApi.getById<Product>(params.id)
     const productrecomendated = await productApi.getAll<Product[]>()
     return (
@@ -26,9 +26,7 @@ export default async function ProductDetail({ params }: { params: { id: string }
 
                     <div className="flex gap-10 ">
                         <ButtonCountCart />
-                        <button className="mt-4 bg-secondary hover:bg-[#7CA6D3] text-black px-4 py-2 rounded">
-                            Agregar al carrito
-                        </button>
+                        <ButtonAddItemToCart productId={product._id} />
                     </div>
 
                     <div className="mt-6">

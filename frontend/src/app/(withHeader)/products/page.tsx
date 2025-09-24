@@ -61,7 +61,7 @@ export default async function productsPage() {
             <div className="
                     grid 
                     justify-center 
-                    gap-4 
+                    gap-7 
                     mt-20 mb-18
                     [grid-template-columns:repeat(1,280px)]
                     sm:[grid-template-columns:repeat(2,280px)]
