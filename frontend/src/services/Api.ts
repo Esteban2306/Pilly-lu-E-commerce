@@ -36,6 +36,7 @@ export class Api {
             const res = await fetch(`${this.baseUrl}/${path}`, {
                 method,
                 headers,
+                credentials: 'include',
                 body: method !== 'GET' ? JSON.stringify(data) : null,
             });
 

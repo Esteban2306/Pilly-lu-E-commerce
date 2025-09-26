@@ -4,6 +4,7 @@ import NotFoundError from "../middlewares/not-found";
 import bycript from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { Role } from "../models/role";
+import { mergeCarts } from "../utils/mergeCarts";
 
 const jwtSecret = process.env.JWT_SECRET || 'some-secret-key'
 
@@ -74,8 +75,6 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             throw new NotFoundError('usuario no encontrado')
         }
 
-
-
         const isMatch = await bycript.compare(password, user.password!)
         if (!isMatch) {
             return res.status(401).json({ message: 'credenciales invalidas' })
@@ -85,7 +84,13 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
             { sub: user._id, role: user.role?.toString() },
             jwtSecret,
             { expiresIn: '7d' }
-        )
+        );
+
+        if (req.cookies?.cartId) {
+            await mergeCarts(user._id.toString(), req.cookies.cartId)
+            res.clearCookie('cartId')
+        }
+
         res.json({
             message: "Login exitoso",
             token,

@@ -124,6 +124,7 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
         const objectserolveCart = resolveCartIdentifier(req, res, false);
         const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
         ;
+        console.log(query)
 
         const cart = await Cart.findOne(query)
             .populate({

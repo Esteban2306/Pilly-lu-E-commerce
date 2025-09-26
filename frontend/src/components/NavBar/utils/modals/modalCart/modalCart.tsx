@@ -7,7 +7,6 @@ import { useCart } from "@/context/cartContext";
 const CartModal: React.FC = () => {
 
     const { cart, product, removeCart } = useCart()
-    console.log(product)
     return (
         <div className="
                 animate-fade-in
