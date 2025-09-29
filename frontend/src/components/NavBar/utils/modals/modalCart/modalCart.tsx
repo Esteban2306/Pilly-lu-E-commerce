@@ -3,10 +3,32 @@ import React from "react";
 import CartItem from "./CartItem"
 import productProof from '../../../../../../public/images/products/productProof.jpg'
 import { useCart } from "@/context/cartContext";
+import { useRouter } from "next/navigation";
+import { orderApi } from "@/services/OrderApi";
+import { redirect } from "next/navigation";
 
 const CartModal: React.FC = () => {
 
     const { cart, product, removeCart } = useCart()
+    const router = useRouter()
+
+    console.log('carrito', cart)
+    console.log('producto', product)
+
+    const handleConsultCart = async () => {
+        try {
+            const userId = cart?.user;
+            const response = await orderApi.createOrder<{ order: any, whatsappLink: string }>({ userId });
+            const orderId = response.order._id;
+            const resWhatsappLink = response.whatsappLink
+
+            console.log(resWhatsappLink)
+            //redirect(resWhatsappLink)
+            window.location.href = resWhatsappLink
+        } catch (err) {
+            console.error('Error creando orden: ', err)
+        }
+    }
     return (
         <div className="
                 animate-fade-in
@@ -41,7 +63,10 @@ const CartModal: React.FC = () => {
                 ))}
             </div>
 
-            <button className="bg-secondary rounded-lg p-3 mt-4 h-10 text-[14px] font-medium hover:bg-blue-300">
+            <button
+                onClick={handleConsultCart}
+                className="bg-secondary rounded-lg p-3 mt-4 h-10 text-[14px] font-medium hover:bg-blue-300"
+            >
                 Consultar carrito en WhatsApp
             </button>
         </div>

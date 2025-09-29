@@ -4,6 +4,8 @@ import { Request, Response, NextFunction } from "express";
 import NotFoundError from "../middlewares/not-found";
 import BadRequest from "../middlewares/bad-request";
 import mongoose from "mongoose";
+import { Product } from "../models/product";
+import { OrderType } from "../types/order.type";
 
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
@@ -44,7 +46,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                 $group: {
                     _id: null,
                     items: {
-                        $push: { product: '$product', amount: '$amount', price: '$price' }
+                        $push: { product: '$product', amount: '$amount', price: '$price', subtotal: { $multiply: ['$amount', '$price'] } }
                     },
                     total: { $sum: '$subtotal' },
                     insufficientCount: { $sum: '$insufficient' }
@@ -64,6 +66,14 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             total
         })
 
+        const orderUrl = `http://localhost:3000/order/${order._id}`
+
+        const message = `Nueva orden creada!\n\nOrden 🛒, ID: ${order._id}\nTotal: $${order.total}\nVer detalles aqui: ${orderUrl}`
+
+        const encodeMessage = encodeURIComponent(message)
+
+        const whatsappLink = `https://wa.me/573144455235?text=${encodeMessage}`
+
         await Order.updateOne(
             { user: userId },
             { $set: { products: [] } }
@@ -71,7 +81,8 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
         res.status(201).json({
             message: 'Orden creada exitosamente',
-            order
+            order,
+            whatsappLink
         })
 
     } catch (err) {
@@ -87,7 +98,14 @@ const getOrdersByUserId = async (req: Request, res: Response, next: NextFunction
 
         const order = await Order.find({ user: userObjectId })
             .populate('user', 'name email')
-            .populate('products.product', 'productName price')
+            .populate({
+                path: 'products.product',
+                select: 'productName price images',
+                populate: {
+                    path: 'images',
+                    select: 'url'
+                }
+            })
 
         if (!order) {
             throw new NotFoundError('no hay ordenes creadas para este usuario')
@@ -108,11 +126,24 @@ const getOrderById = async (req: Request, res: Response, next: NextFunction) => 
 
         const order = await Order.findById(orderId)
             .populate('user', 'name email')
-            .populate('products.product', 'productName price')
+            .populate({
+                path: 'products.product',
+                select: 'productName price images sku stock amount',
+                populate: {
+                    path: 'images',
+                    select: 'url'
+                }
+            }) as OrderType | null;
 
         if (!order) {
             throw new NotFoundError('no hay ordenes creadas para este usuario')
         }
+
+        //const orderResponse = order.toObject()
+
+        order.products = order.products.map((item: any) => ({
+            product: { ...item.product, amount: item.amount, subtotal: item.subtotal }
+        }))
 
         res.status(200).json({
             message: 'orden encontrada con exito',

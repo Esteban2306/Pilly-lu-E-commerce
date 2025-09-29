@@ -59,7 +59,7 @@ const productShema = new mongoose.Schema({
         default: 0
     },
 
-    slug: {
+    sku: {
         type: String,
         require: true,
         default: () => {

@@ -30,6 +30,7 @@ const orderShema = new mongoose.Schema({
         require: true
     },
 
+
     status: {
         type: String,
         enum: ["pendiente", "pagado", "enviado", "entregado", "cancelado"],

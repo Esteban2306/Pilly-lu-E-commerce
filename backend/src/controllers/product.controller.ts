@@ -19,6 +19,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             category,
             stock,
             images,
+            sku,
             isFeatured
         } = req.body;
 
@@ -35,6 +36,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             status,
             category,
             stock,
+            sku,
             isFeatured
         });
 

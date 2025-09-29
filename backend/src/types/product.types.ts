@@ -1,17 +1,17 @@
-export type Category = {
+export type CategoryType = {
     _id: string;
     categoryName: string;
 }
 
-export type Product = {
+
+export type ProductType = {
     _id: string;
     productName: string;
     description: string;
     price: number;
     images: { url: string }[];
-    category: string | Category;
+    category: string | CategoryType;
     sku: string;
     amount: number;
-    subtotal: number;
     stock: number;
 }

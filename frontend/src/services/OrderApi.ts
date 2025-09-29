@@ -6,8 +6,8 @@ export class OrderApi extends Api {
         return this.request<T>('order', 'POST', data, true)
     }
 
-    getOrderByUser<T>() {
-        return this.request<T>('order/user', 'GET', true)
+    getOrderByUser<T>(id: string) {
+        return this.request<T>(`order/user/${id}`, 'GET', true)
     }
 
     getOrderById<T>(id: string) {

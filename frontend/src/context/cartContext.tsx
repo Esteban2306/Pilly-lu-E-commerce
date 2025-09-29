@@ -1,10 +1,10 @@
 'use client'
 
-import { createContext, useState, useContext, useEffect, Children } from "react"
+import { createContext, useState, useContext, useEffect } from "react"
 import { cartApi } from "@/services/CartApi"
 import { Cart, CartProduct } from "@/types/cart.types"
 import { CartContextType } from "./types"
-import { ProductCardProps } from "@/types/product.types"
+
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
