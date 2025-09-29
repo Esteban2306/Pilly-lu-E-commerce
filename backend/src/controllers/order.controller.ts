@@ -68,7 +68,11 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
         const orderUrl = `http://localhost:3000/order/${order._id}`
 
-        const message = `Nueva orden creada!\n\nOrden 🛒, ID: ${order._id}\nTotal: $${order.total}\nVer detalles aqui: ${orderUrl}`
+        const message =
+            `*Nueva orden creada*\n\n` +
+            `*Orden ID:* ${order._id}\n` +
+            `*Total:* $${order.total}\n\n` +
+            `Ver detalles aquí:\n${orderUrl}`
 
         const encodeMessage = encodeURIComponent(message)
 
