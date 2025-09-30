@@ -126,7 +126,6 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
         const objectserolveCart = resolveCartIdentifier(req, res, false);
         const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
         ;
-        console.log(query)
 
         const cart = await Cart.findOne(query)
             .populate({
@@ -176,9 +175,6 @@ const updateItemCuantity = async (req: Request, res: Response, next: NextFunctio
         const { productId } = req.params
         const { amount } = req.body
 
-        console.log(amount)
-        console.log(productId)
-
         if (!amount || amount < 1) {
             throw new BadRequest('cantidad invalida')
         }
@@ -186,8 +182,6 @@ const updateItemCuantity = async (req: Request, res: Response, next: NextFunctio
         const objectserolveCart = resolveCartIdentifier(req, res, false);
         const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
 
-
-        console.log("Query:", { ...query, 'products.product': new mongoose.Types.ObjectId(productId) });
         const cart = await Cart.findOneAndUpdate(
             { ...query, 'products.product': new mongoose.Types.ObjectId(productId) },
             { $set: { 'products.$.amount': amount } },

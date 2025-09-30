@@ -6,8 +6,6 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
 
     const { order } = await orderApi.getOrderById<{ order: OrderType }>(id)
 
-    console.log(order)
-
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-30">
             <div className="border-b pb-4 mb-6">
