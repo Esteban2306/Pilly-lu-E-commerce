@@ -31,7 +31,7 @@ export default function ProductGallery({ _id, productName, price }: ProductCardP
 
                     </Link>
                 </div>
-                <div className="relative pt-8 text-center">
+                <div className="relative pt-2 text-center">
                     <button
                         onClick={() => addToCart(_id, 1)}
                     >

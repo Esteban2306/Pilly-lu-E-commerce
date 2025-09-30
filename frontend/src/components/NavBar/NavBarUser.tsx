@@ -116,15 +116,13 @@ export default function NavBarUser() {
                     </Link>
                 )}
                 <div className="relative">
-                    <button
-                        onClick={() => setActiveModal(prev => prev === 'cart' ? null : 'cart')}
-                        className="relative cursor-pointer"
-                    >
-                        <CartIcon className="size-5 md:size-6" />
-                    </button>
-                    <ModalWrapper isOpen={activeModal === 'cart'} onClose={closeModal}>
-                        <ModalCart />
-                    </ModalWrapper>
+                    <ModalCart
+                        trigger={
+                            <button className="relative cursor-pointer" aria-label="Abrir carrito">
+                                <CartIcon className="size-5 md:size-6" />
+                            </button>
+                        }
+                    />
                 </div>
 
                 <button className="cursor-pointer">
