@@ -12,11 +12,15 @@ export class CartApi extends Api {
     }
 
     getCartByUserId() {
-        return this.request<Cart>(`cart`, 'GET', true)
+        return this.request<{ cart: Cart }>(`cart`, 'GET', true)
     }
 
     clearCart() {
-        return this.request<Cart>('cart/clear', 'DELETE', false)
+        return this.request<{ cart: Cart }>('cart/clear', 'DELETE', false)
+    }
+
+    updateItemCuantity(productId: string, amount: number) {
+        return this.request<{ cart: Cart }>(`cart/${productId}`, 'PUT', { amount })
     }
 }
 

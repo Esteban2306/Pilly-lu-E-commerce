@@ -13,7 +13,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [product, setProduct] = useState<CartProduct[] | null>(null)
 
     useEffect(() => {
-        cartApi.getCartByUserId().then((res) => { console.log(res); setCart(res); setProduct(res.products) })
+        cartApi.getCartByUserId().then((res) => { console.log(res); setCart(res.cart); setProduct(res.cart.products) })
     }, [])
 
     const addCart = async (productId: string, amount: number) => {
@@ -30,12 +30,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     const clearCart = async () => {
         const res = await cartApi.clearCart()
-        setCart(res)
-        setProduct(res.products)
+        setCart(res.cart)
+        setProduct(res.cart.products)
     }
 
+    const updateQunatity = async (productId: string, amount: number) => {
+        const res = await cartApi.updateItemCuantity(productId, amount)
+        setCart(res.cart)
+        setProduct(res.cart.products)
+    }
     return (
-        <CartContext.Provider value={{ cart, product, addToCart: addCart, removeCart: removeItem, clearCart }}>
+        <CartContext.Provider value={{ cart, product, addToCart: addCart, removeCart: removeItem, clearCart, updateCart: updateQunatity }}>
             {children}
         </CartContext.Provider>
     )

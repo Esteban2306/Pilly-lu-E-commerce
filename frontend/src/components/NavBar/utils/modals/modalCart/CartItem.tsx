@@ -3,16 +3,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Counter } from '@/components/ui/shadcn-io/counter';
+import { useCart } from "@/context/cartContext";
 
 interface CartItemProps {
+    productId: string
     title: string;
     price: number;
     image: string;
-    onRemove: () => void;
+    amount: number
 }
 
-const CartItem: React.FC<CartItemProps> = ({ title, price, image, onRemove }) => {
-    const [number, setNumber] = useState(1);
+const CartItem: React.FC<CartItemProps> = ({ productId, title, price, image, amount }) => {
+    const { updateCart, removeCart } = useCart()
 
     return (
         <div
@@ -35,9 +37,9 @@ const CartItem: React.FC<CartItemProps> = ({ title, price, image, onRemove }) =>
             </div>
 
             <div className="flex items-center gap-2">
-                <Counter number={number} setNumber={setNumber} />
+                <Counter number={amount} setNumber={(newAmount) => updateCart(productId, newAmount)} />
                 <button
-                    onClick={onRemove}
+                    onClick={() => removeCart(productId)}
                     className="text-black font-bold hover:text-red-500 cursor-pointer transition-transform duration-200 hover:rotate-90"
                 >
                     ✕

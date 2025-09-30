@@ -59,10 +59,11 @@ const ModalCart: React.FC<ModalCartProps> = ({ trigger }) => {
                     {product?.map((p, i) => (
                         <CartItem
                             key={i}
+                            productId={p.product._id}
                             title={p.product.productName}
                             price={p.product.price}
                             image={p.product?.images?.[0]?.url}
-                            onRemove={() => removeCart(p.product._id)}
+                            amount={p.amount}
                         />
                     ))}
                 </div>

@@ -5,7 +5,9 @@ import NotFoundError from "../middlewares/not-found";
 
 import { v4 as uuid } from "uuid";
 
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
+import BadRequest from "../middlewares/bad-request";
+import { success } from "zod";
 
 interface resolveCartType {
     type: string,
@@ -140,7 +142,7 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
             throw new NotFoundError('carrito no encontrado')
         }
 
-        res.status(200).json(cart)
+        res.status(200).json({ cart })
     } catch (err) {
         next(err)
     }
@@ -163,7 +165,51 @@ const clearCart = async (req: Request, res: Response, next: NextFunction) => {
             throw new NotFoundError('carrito no encontrado')
         }
 
-        res.status(200).json(cart)
+        res.status(200).json({ cart })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const updateItemCuantity = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { productId } = req.params
+        const { amount } = req.body
+
+        console.log(amount)
+        console.log(productId)
+
+        if (!amount || amount < 1) {
+            throw new BadRequest('cantidad invalida')
+        }
+
+        const objectserolveCart = resolveCartIdentifier(req, res, false);
+        const query = objectserolveCart?.type === "user" ? { user: objectserolveCart.id } : { anonId: objectserolveCart?.id };
+
+
+        console.log("Query:", { ...query, 'products.product': new mongoose.Types.ObjectId(productId) });
+        const cart = await Cart.findOneAndUpdate(
+            { ...query, 'products.product': new mongoose.Types.ObjectId(productId) },
+            { $set: { 'products.$.amount': amount } },
+            { new: true }
+        ).populate({
+            path: "products.product",
+            select: "productName price images",
+            populate: {
+                path: "images",
+                select: "url",
+            },
+        });
+
+        if (!cart) {
+            throw new NotFoundError('Producto no encontrado en el carrito')
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'cantidad actualizada',
+            cart
+        })
     } catch (err) {
         next(err)
     }
@@ -173,5 +219,6 @@ export {
     addItemToCart,
     removeItemFromCart,
     getCartByUserId,
-    clearCart
+    clearCart,
+    updateItemCuantity
 }
