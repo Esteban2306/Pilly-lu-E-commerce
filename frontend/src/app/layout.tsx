@@ -3,7 +3,12 @@ import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
 import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
 
+const queryClient = new QueryClient()
 
 export const metadata: Metadata = {
   title: "Pilly-Lu",
@@ -19,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ViewTransition>
+
           <AuthProvider>
             <CartProvider>
               {children}
@@ -26,6 +32,6 @@ export default function RootLayout({
           </AuthProvider>
         </ViewTransition>
       </body>
-    </html>
+    </html >
   );
 }

@@ -6,6 +6,7 @@ import BadRequest from "../middlewares/bad-request";
 import mongoose from "mongoose";
 import { Product } from "../models/product";
 import { OrderType } from "../types/order.type";
+import { success } from "zod";
 
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
@@ -185,10 +186,81 @@ const cancelOrder = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const deleteProductInOrder = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { orderId, productId } = req.params;
+
+        const order = await Order.findById(orderId);
+        if (!order) throw new NotFoundError("Orden no encontrada");
+
+        if (order.status !== "pendiente") {
+            throw new BadRequest(`No puedes eliminar productos en una orden con estado '${order.status}'`);
+        }
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            orderId,
+            { $pull: { products: { product: new mongoose.Types.ObjectId(productId) } } },
+            { new: true }
+        ).populate({
+            path: "products.product",
+            select: "productName price images",
+            populate: { path: "images", select: "url" }
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Producto eliminado de la orden",
+            order: updatedOrder,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const updateOrderProductAmount = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { orderId, productId } = req.params;
+        const { amount } = req.body;
+
+        if (!amount || amount < 1) {
+            throw new BadRequest("Cantidad inválida");
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) throw new NotFoundError("Orden no encontrada");
+
+        if (order.status !== "pendiente") {
+            throw new BadRequest(`No puedes modificar cantidades en una orden con estado '${order.status}'`);
+        }
+
+        const updatedOrder = await Order.findOneAndUpdate(
+            { _id: orderId, "products.product": new mongoose.Types.ObjectId(productId) },
+            { $set: { "products.$.amount": amount } },
+            { new: true }
+        ).populate({
+            path: "products.product",
+            select: "productName price images",
+            populate: { path: "images", select: "url" }
+        });
+
+        if (!updatedOrder) throw new NotFoundError("Producto no encontrado en la orden");
+
+        res.status(200).json({
+            success: true,
+            message: "Cantidad actualizada en la orden",
+            order: updatedOrder,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     getOrdersByUserId,
     createOrder,
     getOrderById,
-    cancelOrder
+    cancelOrder,
+    deleteProductInOrder,
+    updateOrderProductAmount
 }
 

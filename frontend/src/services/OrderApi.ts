@@ -17,6 +17,14 @@ export class OrderApi extends Api {
     cancelOrder<T>(id: string) {
         return this.request<T>(`order/${id}/cancel`, 'GET', true)
     }
+
+    editAmountOrder<T>(orderId: string, productId: string, amount: number) {
+        return this.request<T>(`order/${orderId}/product/${productId}`, 'PUT', { amount })
+    }
+
+    deleteProductOrder<T>(orderId: string, productId: string) {
+        return this.request<T>(`order/${orderId}/product/${productId}`, 'DELETE')
+    }
 }
 
 export const orderApi = new OrderApi({
