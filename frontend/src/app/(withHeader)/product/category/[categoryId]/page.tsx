@@ -3,9 +3,9 @@ import ProductGallery from "@/components/product/productGallery/productGallery"
 import { Category, Product } from "@/types/productsCategory.types";
 
 
-export default async function productIdPage({ params }: { params: { id: string } }) {
+export default async function productIdPage({ params }: { params: { categoryId: string } }) {
 
-    const { category, products } = await productApi.getByCategory<{ category: Category; products: Product[] }>(params.id)
+    const { category, products } = await productApi.getByCategory<{ category: Category; products: Product[] }>(params.categoryId)
 
     if (!products.length) {
         return (
@@ -16,12 +16,11 @@ export default async function productIdPage({ params }: { params: { id: string }
         );
     }
 
-    return (
-        <main className='min-h-screen'>
-            <div className="flex justify-center mt-28">
-                <h1 className="text-4xl font-medium mb-4 h-c">{category.categoryName}</h1>
-            </div>
-            <div className="
+    return (<main className='min-h-screen'>
+        <div className="flex justify-center mt-28">
+            <h1 className="text-4xl font-medium mb-4 h-c">{category.categoryName}</h1>
+        </div>
+        <div className="
                     grid 
                     justify-center 
                     gap-4 
@@ -30,10 +29,16 @@ export default async function productIdPage({ params }: { params: { id: string }
                     sm:[grid-template-columns:repeat(2,280px)]
                     lg:[grid-template-columns:repeat(3,280px)]
                 ">
-                {products.map((p) => (
-                    <ProductGallery key={p._id} />
-                ))}
-            </div>
-        </main>
+            {products.map((p) => (
+                <ProductGallery
+                    key={p._id}
+                    _id={p._id}
+                    productName={p.productName}
+                    price={p.price}
+                    images={p.images}
+                />
+            ))}
+        </div>
+    </main>
     )
 }

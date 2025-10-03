@@ -9,8 +9,8 @@ export class ProductApi extends Api {
         return this.request<T>(`product/${id}`, 'GET', false)
     }
 
-    getByCategory<T>(id: string) {
-        return this.request<T>(`product/category/${id}`, 'GET', false)
+    getByCategory<T>(categoryId: string) {
+        return this.request<T>(`product/category/${categoryId}`, 'GET', false)
     }
 
     getFeatured<T>() {

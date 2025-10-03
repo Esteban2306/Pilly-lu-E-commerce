@@ -105,22 +105,33 @@ const getProductByCategory = async (req: Request, res: Response, next: NextFunct
     try {
         const { categoryId } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-            throw new BadRequest('id de categoria no encontrado')
+        let category = null;
+        if (mongoose.Types.ObjectId.isValid(categoryId)) {
+            category = await Category.findById(categoryId);
+        }
+        if (!category) {
+            category = await Category.findOne({ slug: categoryId.toString().toLowerCase().trim() });
+        }
+        if (!category) {
+            throw new NotFoundError('Categoría no encontrada');
         }
 
-        const category = await Category.findById(categoryId)
+        const products = await Product.find({ category: category._id })
+            .populate({
+                path: 'images',
+                select: 'url alt isMain'
+            })
+            .exec();
 
-        const products = await Product.find({ category: categoryId })
-
-        if (!products || products.length == 0) {
-            throw new NotFoundError('no se han encontrado productos para esta categoria')
+        if (!products || products.length === 0) {
+            throw new NotFoundError('No se han encontrado productos para esta categoría');
         }
-        res.status(200).json({ category, products })
+
+        res.status(200).json({ category, products });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 const getProductsFeatured = async (req: Request, res: Response, next: NextFunction) => {
     try {

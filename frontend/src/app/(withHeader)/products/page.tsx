@@ -14,14 +14,15 @@ export default async function productsPage() {
     type CategoriasType = {
         nombre: string;
         icono: string;
+        slug: string;
     };
 
-    const categorias: CategoriasType[] = [
-        { nombre: "Anillos", icono: anillos },
-        { nombre: "Aretes", icono: aretes },
-        { nombre: "Manilla", icono: manilla },
-        { nombre: "Dijes", icono: dijes },
-        { nombre: "Cadenas", icono: cadenas },
+    const categorias = [
+        { nombre: "Anillos", icono: anillos, slug: "anillos", categoryId: '68c841d9aa6f123a0efb5c80' },
+        { nombre: "Aretes", icono: aretes, slug: "aretes", categoryId: '68c841bfaa6f123a0efb5c7e' },
+        { nombre: "Manilla", icono: manilla, slug: "manillas", categoryId: '68c841ecaa6f123a0efb5c82' },
+        { nombre: "Dijes", icono: dijes, slug: "dijes", categoryId: '68c841f1aa6f123a0efb5c84' },
+        { nombre: "Cadenas", icono: cadenas, slug: "cadenas", categoryId: '68c841fbaa6f123a0efb5c86' },
     ];
 
     const product = await productApi.getAll<Product[]>()
@@ -41,7 +42,7 @@ export default async function productsPage() {
             >
                 {categorias.map((cat, i) => (
                     <Link
-                        href={`/categoria/${cat.nombre.toLowerCase()}`}
+                        href={`/product/category/${cat.slug}`}
                         key={i}
                         className="flex flex-col items-center"
                     >

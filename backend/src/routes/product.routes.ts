@@ -11,7 +11,7 @@ const router = Router()
 router.get('/', getProducts);
 router.get('/featured', getProductsFeatured);
 router.get('/category/:categoryId', getProductByCategory);
-router.get('/image/:id', getImagesByProductId)
+router.get('/image/:id', getImagesByProductId);
 router.get('/:id', getProductsById);
 
 
