@@ -81,6 +81,8 @@ const getImagesByProductId = async (req: Request, res: Response, next: NextFunct
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const product = await Product.find()
+            .populate("category", "categoryName")
+
         res.status(200).json(product)
     } catch (err) {
         next(err)
