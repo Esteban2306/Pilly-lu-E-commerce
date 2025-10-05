@@ -4,11 +4,24 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { productApi } from "@/services/ProductApi";
+import { useDeleteProducts } from "@/hooks/useProducts/useProducts";
 
-const Delete = () => {
+type DeleteProps = {
+    id: string;
+}
+
+const Delete = ({ id }: DeleteProps) => {
     const [isActive, setIsActive] = useState(true);
+    const deleteMutation = useDeleteProducts()
 
     const handleDeleteClick = () => setIsActive(false);
+
+    const handleConfirmDelete = async () => {
+        deleteMutation.mutate(id)
+        setIsActive(true);
+    }
+
     const handleCancelClick = () => setIsActive(true);
 
     return (
@@ -38,8 +51,9 @@ const Delete = () => {
                         "h-10 rounded-md px-10 transition-all z-10 bg-gray-200 text-black duration-500 flex items-center justify-center"
                     )}
                     onClick={handleDeleteClick}
+                    disabled={deleteMutation.isPending}
                 >
-                    Delete
+                    {deleteMutation.isPending ? '...' : 'Eliminar'}
                 </motion.button>
 
                 <AnimatePresence>
@@ -51,7 +65,7 @@ const Delete = () => {
                             exit={{ opacity: 0, x: 0 }}
                             transition={{ duration: 0.3, ease: "easeOut" }}
                             className="absolute h-10 w-10 rounded-full bg-red-400 text-black flex items-center justify-center"
-                            onClick={() => console.log("✅ Eliminado")}
+                            onClick={handleConfirmDelete}
                         >
                             <Check className="w-4 h-4" />
                         </motion.button>

@@ -30,7 +30,7 @@ export class ProductApi extends Api {
     }
 
     delete<T>(id: string) {
-        return this.request<T>(`product/${id}`, 'DELETE', true)
+        return this.request<T>(`product/${id}`, 'DELETE')
     }
 
 

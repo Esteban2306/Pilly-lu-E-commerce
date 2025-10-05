@@ -9,7 +9,9 @@ import { FileEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function CartAdminProduct({ _id, productName, price, category }: ProductCardProps) {
+
     const { mainImage } = useProductFetchImages(_id);
+
 
     return (
         <div className="relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden flex flex-col">
@@ -44,7 +46,7 @@ export default function CartAdminProduct({ _id, productName, price, category }: 
                 </div>
 
                 <div className="flex justify-center mt-4">
-                    <Delete />
+                    <Delete id={_id} />
                 </div>
             </div>
         </div>
