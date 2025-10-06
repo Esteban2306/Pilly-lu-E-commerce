@@ -14,4 +14,5 @@ export type Product = {
     amount?: number;
     subtotal?: number;
     stock?: number;
+    isFeatured?: boolean;
 }

@@ -38,3 +38,19 @@ export function useUpdateProducts() {
 
     })
 }
+
+export function useToggleFeaturedProducts() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: (id: string) => productApi.toggleFeatured(id),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+        },
+
+        onError: (error) => {
+            console.error("Error al destacar un producto:", error);
+        },
+    })
+}

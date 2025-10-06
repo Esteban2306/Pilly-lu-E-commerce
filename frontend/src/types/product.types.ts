@@ -8,4 +8,5 @@ export type ProductCardProps = {
     category: string | Category | null;
     sku?: string;
     description?: string
+    isFeatured?: boolean
 }   

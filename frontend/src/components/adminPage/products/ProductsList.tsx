@@ -4,12 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CartAdminProduct from "@/components/adminPage/cartAdminProduct/CartAdminProduct";
 import { useProducts } from "@/hooks/useProducts/useProducts";
+import Link from "next/link";
 
 export default function ProductsList() {
 
     const { data: products, isLoading, isError } = useProducts();
-
-    console.log('productos: ', products)
 
     if (isLoading) return <p className="text-center mt-10">Cargando productos...</p>;
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar productos</p>;
@@ -23,9 +22,11 @@ export default function ProductsList() {
                     <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100">
                         Exportar
                     </Button>
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-5">
-                        Añadir Producto
-                    </Button>
+                    <Link href={'/admin/create'}>
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-5">
+                            Añadir Producto
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
@@ -64,6 +65,7 @@ export default function ProductsList() {
                                 ? p.category.categoryName
                                 : "Sin categoría"}
                         images={p.images}
+                        isFeatured={p.isFeatured}
                     />
                 ))}
             </div>

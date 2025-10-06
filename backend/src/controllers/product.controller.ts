@@ -145,6 +145,27 @@ const getProductsFeatured = async (req: Request, res: Response, next: NextFuncti
     }
 }
 
+const toggleFeatured = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findById(id);
+        if (!product) {
+            throw new NotFoundError("Producto no encontrado");
+        }
+
+        product.isFeatured = !product.isFeatured;
+        await product.save();
+
+        res.status(200).json({
+            message: `El producto ahora está ${product.isFeatured ? "destacado" : "sin destacar"}`,
+            isFeatured: product.isFeatured,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 const getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
@@ -197,5 +218,6 @@ export {
     updateProduct,
     deleteProduct,
     getProductsFeatured,
-    getImagesByProductId
+    getImagesByProductId,
+    toggleFeatured
 }

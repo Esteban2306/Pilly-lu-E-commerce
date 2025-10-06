@@ -9,6 +9,7 @@ import iconSettings from '../../../../public/icons/iconSettings.png'
 import iconAtention from '../../../../public/icons/iconAtention.png'
 import { categoryApi } from "@/services/CategoryApi"
 import { CategoryType, Img } from "./types"
+import Link from "next/link"
 
 export default function CreateProduct() {
     const [images, setImages] = useState<Img[]>([]);
@@ -277,12 +278,14 @@ export default function CreateProduct() {
             </section>
 
             <div className="flex justify-end gap-4">
-                <button
-                    type="button"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100"
-                >
-                    Cancelar
-                </button>
+                <Link href={'/admin/dashboard'}>
+                    <button
+                        type="button"
+                        className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100"
+                    >
+                        Cancelar
+                    </button>
+                </Link>
                 <button
                     type="submit"
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-secondary rounded-lg hover:bg-third cursor-pointer"

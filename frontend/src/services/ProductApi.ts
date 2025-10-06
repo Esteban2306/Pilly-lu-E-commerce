@@ -33,6 +33,10 @@ export class ProductApi extends Api {
         return this.request<T>(`product/${id}`, 'DELETE')
     }
 
+    toggleFeatured<T>(id: string) {
+        return this.request<T>(`product/${id}/toggleFeatured`, 'PATCH')
+    }
+
 
 }
 
