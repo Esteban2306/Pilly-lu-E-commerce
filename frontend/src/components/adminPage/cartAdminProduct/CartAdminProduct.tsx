@@ -7,8 +7,9 @@ import imageProduct from '../../../../public/images/products/productProof.jpg';
 import Delete from '@/components/buttons/deleteButton/deleteButton';
 import { FileEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import EditProductPopover from '../editProductPopover/EditProductPopover';
 
-export default function CartAdminProduct({ _id, productName, price, category }: ProductCardProps) {
+export default function CartAdminProduct({ _id, productName, price, category, images }: ProductCardProps) {
 
     const { mainImage } = useProductFetchImages(_id);
 
@@ -17,13 +18,7 @@ export default function CartAdminProduct({ _id, productName, price, category }: 
         <div className="relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden flex flex-col">
 
             <div className="relative h-[280px] w-full">
-                <Button
-                    variant="secondary"
-                    size="icon"
-                    className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-white shadow-sm cursor-pointer"
-                >
-                    <FileEdit className="w-4 h-4 text-gray-700" />
-                </Button>
+                <EditProductPopover product={{ _id, productName, price, category, images }} />
 
                 <Image
                     src={mainImage?.url || imageProduct}

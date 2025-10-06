@@ -9,6 +9,8 @@ export default function ProductsList() {
 
     const { data: products, isLoading, isError } = useProducts();
 
+    console.log('productos: ', products)
+
     if (isLoading) return <p className="text-center mt-10">Cargando productos...</p>;
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar productos</p>;
 
@@ -57,7 +59,10 @@ export default function ProductsList() {
                         _id={p._id}
                         productName={p.productName}
                         price={p.price}
-                        category={typeof p.category === "string" ? undefined : p.category}
+                        category={
+                            typeof p.category === "object" && p.category?.categoryName
+                                ? p.category.categoryName
+                                : "Sin categoría"}
                         images={p.images}
                     />
                 ))}

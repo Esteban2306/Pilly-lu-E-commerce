@@ -165,7 +165,7 @@ const updateProduct = async (req: Request, res: Response, next: NextFunction) =>
             req.params.id,
             req.body,
             { new: true, runValidators: true }
-        )
+        ).populate("category", "categoryName")
         if (!data) {
             throw new NotFoundError('producto no encontrado')
         }

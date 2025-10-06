@@ -20,3 +20,21 @@ export function useDeleteProducts() {
         },
     })
 }
+
+export function useUpdateProducts() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
+            productApi.update(data, id),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+        },
+
+        onError: (error) => {
+            console.error("Error actualizando producto:", error);
+        },
+
+    })
+}

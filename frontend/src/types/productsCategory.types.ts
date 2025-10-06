@@ -6,12 +6,12 @@ export type Category = {
 export type Product = {
     _id: string;
     productName: string;
-    description: string;
+    description?: string;
     price: number;
     images: { url: string }[];
-    category: string | Category;
-    sku: string;
-    amount: number;
-    subtotal: number;
-    stock: number;
+    category: string | Category | undefined | null;
+    sku?: string;
+    amount?: number;
+    subtotal?: number;
+    stock?: number;
 }
