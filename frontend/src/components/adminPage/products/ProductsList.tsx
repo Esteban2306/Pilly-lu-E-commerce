@@ -3,15 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CartAdminProduct from "@/components/adminPage/cartAdminProduct/CartAdminProduct";
-import { useProducts } from "@/hooks/useProducts/useProducts";
+import { useProducts, useGetCategory } from "@/hooks/useProducts/useProducts";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function ProductsList() {
 
-    const { data: products, isLoading, isError } = useProducts();
+    const [filters, setFilters] = useState({
+        search: '',
+        category: '',
+        sortBy: ''
+    })
+
+    const { data: products, isLoading, isError, refetch } = useProducts(filters);
+    const { data: category } = useGetCategory();
+
+    const handleApplyFilters = () => {
+        refetch()
+    }
 
     if (isLoading) return <p className="text-center mt-10">Cargando productos...</p>;
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar productos</p>;
+
 
 
     return (
@@ -34,21 +47,32 @@ export default function ProductsList() {
                 <div className="flex gap-10">
                     <Input
                         placeholder="Buscar producto..."
+                        value={filters.search}
+                        onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                         className="w-64 bg-gray-100 rounded-full text-gray-700 placeholder:text-gray-500"
                     />
-                    <select className="bg-gray-100 px-4 py-2 rounded-full text-gray-700">
-                        <option>Todos</option>
-                        <option>Footwear</option>
-                        <option>Accessories</option>
-                        <option>Apparel</option>
+                    <select
+                        value={filters.category}
+                        onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                        className="bg-gray-100 px-4 py-2 rounded-full text-gray-700">
+                        <option value={''}>Todos</option>
+                        {category?.map(cat => (
+                            <option key={cat._id} value={cat.categoryName}>{cat.categoryName}</option>
+                        ))}
                     </select>
-                    <select className="bg-gray-100 px-4 py-2 rounded-full text-gray-700">
-                        <option>Más nuevo</option>
-                        <option>Más barato</option>
-                        <option>Más caro</option>
+                    <select
+                        value={filters.sortBy}
+                        onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                        className="bg-gray-100 px-4 py-2 rounded-full text-gray-700"
+                    >
+                        <option value={''}>Más nuevo</option>
+                        <option value={'price_asc'}>Más barato</option>
+                        <option value={'price_desc'}>Más caro</option>
                     </select>
                 </div>
-                <Button className="bg-blue-600 text-white rounded-full px-6 hover:bg-blue-700">
+                <Button
+                    onClick={handleApplyFilters}
+                    className="bg-blue-600 text-white rounded-full px-6 hover:bg-blue-700">
                     Aplicar
                 </Button>
             </div>
@@ -60,10 +84,7 @@ export default function ProductsList() {
                         _id={p._id}
                         productName={p.productName}
                         price={p.price}
-                        category={
-                            typeof p.category === "object" && p.category?.categoryName
-                                ? p.category.categoryName
-                                : "Sin categoría"}
+                        category={p.category}
                         images={p.images}
                         isFeatured={p.isFeatured}
                     />

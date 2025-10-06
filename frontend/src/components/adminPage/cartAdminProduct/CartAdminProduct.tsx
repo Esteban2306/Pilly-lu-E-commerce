@@ -67,9 +67,7 @@ export default function CartAdminProduct({
                     <h3 className="font-semibold text-lg text-left truncate">{productName}</h3>
                     <div className="flex justify-between items-center mt-1">
                         <span className="text-sm px-2 py-1 bg-blue-100 text-black rounded-full">
-                            {typeof category === 'string'
-                                ? 'Sin categoría'
-                                : category?.categoryName}
+                            {category?.categoryName}
                         </span>
                         <p className="text-black font-medium">${price}</p>
                     </div>

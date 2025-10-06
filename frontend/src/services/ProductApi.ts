@@ -1,8 +1,8 @@
 import { Api } from "./Api";
 
 export class ProductApi extends Api {
-    getAll<T>() {
-        return this.request<T>('product', 'GET', false)
+    getAll<T>(query?: string) {
+        return this.request<T>(`product${query ? query : ''}`, 'GET', false)
     }
 
     getById<T>(id: string) {

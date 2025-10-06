@@ -123,7 +123,7 @@ export default function CreateProduct() {
                                 defaultValue="gold"
                             >
                                 <option value="gold">Oro laminado 18K</option>
-                                <option value="silver">Plata ley 925</option>
+                                <option value="silver">Plata ley 9f25</option>
                                 <option value="bronce">Bronce</option>
                                 <option value="acero">Acero rodinado</option>
                             </select>

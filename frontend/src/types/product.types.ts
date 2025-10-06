@@ -5,7 +5,7 @@ export type ProductCardProps = {
     productName: string;
     price: number;
     images: { url: string }[];
-    category: string | Category | null;
+    category: Category | null;
     sku?: string;
     description?: string
     isFeatured?: boolean

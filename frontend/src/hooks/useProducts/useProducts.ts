@@ -1,11 +1,32 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productApi } from "@/services/ProductApi";
 import { Product } from "@/types/productsCategory.types";
+import { categoryApi } from "@/services/CategoryApi";
+import { Category } from "@/types/productsCategory.types";
 
-export function useProducts() {
+export function useProducts(filters?: Record<string, string | number | boolean>) {
     return useQuery({
-        queryKey: ['products'],
-        queryFn: () => productApi.getAll<Product[]>()
+        queryKey: ["products", filters],
+        queryFn: async () => {
+            const params = new URLSearchParams();
+
+            if (filters) {
+                Object.entries(filters).forEach(([key, value]) => {
+                    if (value !== undefined && value !== "") {
+                        params.append(key, String(value));
+                    }
+                });
+            }
+
+            return productApi.getAll<Product[]>(`?${params.toString()}`);
+        },
+    });
+}
+
+export function useGetCategory() {
+    return useQuery({
+        queryKey: ['category'],
+        queryFn: () => categoryApi.getCategory<Category[] | undefined>()
     })
 }
 
@@ -54,3 +75,4 @@ export function useToggleFeaturedProducts() {
         },
     })
 }
+

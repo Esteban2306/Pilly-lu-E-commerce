@@ -5,6 +5,7 @@ import NotFoundError from "../middlewares/not-found";
 import { Image } from "../models/image";
 import mongoose from "mongoose";
 import { Category } from "../models/category";
+import { machine } from "node:os";
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -80,8 +81,52 @@ const getImagesByProductId = async (req: Request, res: Response, next: NextFunct
 
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const product = await Product.find()
+
+        const { search, category, minPrice, maxPrice, sortBy } = req.query
+
+        const filter: Record<string, any> = {}
+
+        if (search) {
+            filter.productName = { $regex: search, $options: 'i' }
+        }
+
+        if (category) {
+            const foundCategory = await Category.findOne({
+                categoryName: { $regex: category.toString(), $options: 'i' }
+            })
+
+            if (foundCategory) {
+                filter.category = foundCategory._id;
+            }
+        }
+
+        if (minPrice || maxPrice) {
+            filter.price = {};
+            if (minPrice) filter.price.$gte = Number(minPrice);
+            if (maxPrice) filter.price.$lte = Number(maxPrice);
+        }
+
+        let sortOptions = {};
+        switch (sortBy) {
+            case "price_asc":
+                sortOptions = { price: 1 };
+                break;
+            case "price_desc":
+                sortOptions = { price: -1 };
+                break;
+            case "newest":
+                sortOptions = { createdAt: -1 };
+                break;
+            case "oldest":
+                sortOptions = { createdAt: 1 };
+                break;
+            default:
+                sortOptions = { createdAt: -1 };
+        }
+
+        const product = await Product.find(filter)
             .populate("category", "categoryName")
+            .sort(sortOptions)
 
         res.status(200).json(product)
     } catch (err) {
