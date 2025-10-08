@@ -1,8 +1,7 @@
 'use client'
 
 import { unstable_ViewTransition as ViewTransition } from "react";
-import NavBarUser from "@/components/NavBar/NavBarUser";
-import Footer from "@/components/footer/footer";
+import { NavBarAdmin } from "@/components/adminPage/navbarAdmin/navbarAdmin";
 import {
     QueryClient,
     QueryClientProvider
@@ -19,7 +18,7 @@ export default function RootLayout({
     return (
         <>
             <header>
-                <NavBarUser />
+                <NavBarAdmin />
             </header>
             <QueryClientProvider client={queryClient}>
                 <ViewTransition name="page">
@@ -27,7 +26,7 @@ export default function RootLayout({
                 </ViewTransition>
             </QueryClientProvider>
             <footer>
-                <Footer />
+
             </footer>
         </>
     );

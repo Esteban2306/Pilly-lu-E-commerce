@@ -4,19 +4,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
-import logo from "../../../public/images/logo.png";
-import { CartIcon } from "../icons/NavBar/navBarIconCart";
-import { BellIcon } from "../icons/NavBar/navBarIconBell";
-import { SearchIcon } from "../icons/NavBar/navBarIconSearch";
-import ModalShop from "./utils/modals/modalShop/modalShop";
-import ModalCart from "./utils/modals/modalCart/modalCart";
-import SearchBar from "./utils/modals/searchBar/searchBar";
-import ModalWrapper from "./utils/modals/modalWrapper";
-import ButtonGlowingBorder from "../buttons/buttonGlowingBorder/buttonGlowingBorder";
+import logo from '../../../../public/images/logo.png'
+import ModalShop from "@/components/NavBar/utils/modals/modalShop/modalShop";
+import ModalWrapper from "@/components/NavBar/utils/modals/modalWrapper";
+import ButtonGlowingBorder from "@/components/buttons/buttonGlowingBorder/buttonGlowingBorder";
 import { useAuth } from "@/context/authContext";
 import ModalUserPanel from "@/utils/modals/modalUser/ModalUserPanel";
 
-export default function NavBarUser() {
+export function NavBarAdmin() {
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -78,7 +73,7 @@ export default function NavBarUser() {
                         onClick={() => setActiveModal(prev => prev === 'shop' ? null : 'shop')}
                         className={`${baseClass} ${activeModal === 'shop' ? activeClasses : inactiveClass}`}
                     >
-                        Shop
+                        Usuarios
                     </button>
                     <ModalWrapper isOpen={activeModal === 'shop'} onClose={closeModal} >
                         <ModalShop />
@@ -86,7 +81,11 @@ export default function NavBarUser() {
                 </div>
 
                 <a href="/#ubication" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
-                    Contáctanos
+                    Ordenes
+                </a>
+
+                <a href="/#ubication" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
+                    Productos
                 </a>
             </nav>
 
@@ -96,31 +95,7 @@ export default function NavBarUser() {
                 </Link>
             </div>
 
-            <div className="flex items-center gap-4 md:gap-8 z-10">
-
-                <div className="relative">
-                    <ModalCart
-                        trigger={
-                            <button className="relative cursor-pointer" aria-label="Abrir carrito">
-                                <CartIcon className="size-5 md:size-6" />
-                            </button>
-                        }
-                    />
-                </div>
-
-                <button className="cursor-pointer">
-                    <BellIcon className="size-5 md:size-6" />
-                </button>
-
-                <button
-                    onClick={() => setActiveModal(prev => prev === 'search' ? null : 'search')}
-                    className="cursor-pointer ">
-                    <SearchIcon className="size-5 md:size-6" />
-                </button>
-                <ModalWrapper isOpen={activeModal === 'search'} onClose={closeModal}>
-                    <SearchBar />
-                </ModalWrapper>
-
+            <div className="flex items-center justify-center gap-4 md:gap-7 z-10">
                 {token ? (
                     <>
                         <ModalUserPanel />

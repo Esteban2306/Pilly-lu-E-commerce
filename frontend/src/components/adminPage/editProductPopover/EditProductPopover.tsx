@@ -60,6 +60,9 @@ export default function EditProductPopover({ product }: { product: Product }) {
                 className="w-[420px] bg-gradient-to-b from-blue-50 to-white border border-blue-200 shadow-lg rounded-xl p-6"
                 side="right"
                 align="center"
+                sideOffset={8}
+                avoidCollisions={true}
+                collisionPadding={10}
             >
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold text-blue-700">Update Product</h2>

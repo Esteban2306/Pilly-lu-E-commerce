@@ -46,9 +46,11 @@ const Delete = ({ id }: DeleteProps) => {
                 style={{ filter: "url(#goo)" }}
             >
                 <motion.button
-                    whileHover={{ scale: 0.9 }}
+                    animate={isActive ? { scale: 1, zIndex: 10 } : { scale: 0.8, zIndex: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    whileHover={isActive ? { scale: 0.9 } : {}}
                     className={cn(
-                        "h-10 rounded-md px-10 transition-all z-10 bg-gray-200 text-black duration-500 flex items-center justify-center"
+                        "h-10 rounded-md px-10 transition-all bg-gray-200 text-black duration-500 flex items-center justify-center"
                     )}
                     onClick={handleDeleteClick}
                     disabled={deleteMutation.isPending}
@@ -64,7 +66,7 @@ const Delete = ({ id }: DeleteProps) => {
                             animate={{ opacity: 1, x: -100 }}
                             exit={{ opacity: 0, x: 0 }}
                             transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="absolute h-10 w-10 rounded-full bg-red-400 text-black flex items-center justify-center"
+                            className="absolute h-10 w-10 rounded-full bg-primary text-black flex items-center justify-center"
                             onClick={handleConfirmDelete}
                         >
                             <Check className="w-4 h-4" />
@@ -80,7 +82,7 @@ const Delete = ({ id }: DeleteProps) => {
                             animate={{ opacity: 1, x: 100 }}
                             exit={{ opacity: 0, x: 0 }}
                             transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="absolute h-10 w-10 rounded-full bg-green-400 text-black flex items-center justify-center"
+                            className="absolute h-10 w-10 rounded-full bg-red-300 text-black flex items-center justify-center"
                             onClick={handleCancelClick}
                         >
                             <X className="w-4 h-4" />

@@ -9,6 +9,12 @@ import { useState } from "react";
 
 export default function ProductsList() {
 
+    const [tempSearch, setTempSearch] = useState({
+        search: '',
+        category: '',
+        sortBy: ''
+    })
+
     const [filters, setFilters] = useState({
         search: '',
         category: '',
@@ -19,7 +25,7 @@ export default function ProductsList() {
     const { data: category } = useGetCategory();
 
     const handleApplyFilters = () => {
-        refetch()
+        const { refetch } = useProducts(filters);
     }
 
     if (isLoading) return <p className="text-center mt-10">Cargando productos...</p>;
@@ -32,9 +38,6 @@ export default function ProductsList() {
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">Productos</h1>
                 <div className="flex gap-3">
-                    <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100">
-                        Exportar
-                    </Button>
                     <Link href={'/admin/create'}>
                         <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-5">
                             Añadir Producto
@@ -47,13 +50,14 @@ export default function ProductsList() {
                 <div className="flex gap-10">
                     <Input
                         placeholder="Buscar producto..."
-                        value={filters.search}
-                        onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                        value={tempSearch.search}
+                        onChange={(e) => setTempSearch({ ...filters, search: e.target.value })}
+
                         className="w-64 bg-gray-100 rounded-full text-gray-700 placeholder:text-gray-500"
                     />
                     <select
-                        value={filters.category}
-                        onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+                        value={tempSearch.category}
+                        onChange={(e) => setTempSearch({ ...filters, category: e.target.value })}
                         className="bg-gray-100 px-4 py-2 rounded-full text-gray-700">
                         <option value={''}>Todos</option>
                         {category?.map(cat => (
@@ -61,8 +65,8 @@ export default function ProductsList() {
                         ))}
                     </select>
                     <select
-                        value={filters.sortBy}
-                        onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                        value={tempSearch.sortBy}
+                        onChange={(e) => setTempSearch({ ...filters, sortBy: e.target.value })}
                         className="bg-gray-100 px-4 py-2 rounded-full text-gray-700"
                     >
                         <option value={''}>Más nuevo</option>
@@ -71,7 +75,7 @@ export default function ProductsList() {
                     </select>
                 </div>
                 <Button
-                    onClick={handleApplyFilters}
+                    onClick={() => setFilters(tempSearch)}
                     className="bg-blue-600 text-white rounded-full px-6 hover:bg-blue-700">
                     Aplicar
                 </Button>
