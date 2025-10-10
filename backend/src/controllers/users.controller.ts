@@ -5,9 +5,9 @@ import bycript from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { Role } from "../models/role";
 import { mergeCarts } from "../utils/mergeCarts";
+import BadRequest from "../middlewares/bad-request";
 
 const jwtSecret = process.env.JWT_SECRET || 'some-secret-key'
-
 
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,6 +19,62 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         next(err);
+    }
+}
+
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const { search, role } = req.query
+
+        const filter: any = {}
+
+        if (role && role !== 'all') filter['role.name'] = role
+
+        const data = await User.find(filter)
+            .populate('role', 'name')
+
+        const formattedData = data.filter(u => {
+            if (!search) return true
+            const text = `${u.firstName} ${u.lastName} ${u.email}`.toLowerCase()
+            return text.includes((search as string).toLowerCase())
+        }).map(user => ({
+            _id: user._id,
+            email: user.email,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            createdAt: user.createdAt,
+            fullName: `${user.firstName} ${user.lastName}`,
+        }))
+
+        res.status(200).json({
+            message: 'usuarios encontrados con exito',
+            data: formattedData
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const delteUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params
+
+        const data = await User.findById(id)
+
+        if (!data) {
+            throw new NotFoundError('usuario no encontrado')
+        }
+
+        await data.deleteOne()
+
+        res.status(200).json({
+            message: 'usuario eliminado con exito',
+            data
+        })
+    } catch (err) {
+        next(err)
     }
 }
 
@@ -111,5 +167,5 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 export {
-    getUserById, registerUSer, loginUser, createRol
+    getUserById, registerUSer, loginUser, createRol, getAllUsers, delteUser
 }

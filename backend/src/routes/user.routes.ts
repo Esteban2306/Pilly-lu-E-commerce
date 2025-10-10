@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUserById, loginUser, registerUSer, createRol } from "../controllers/users.controller";
+import { getUserById, loginUser, registerUSer, createRol, getAllUsers, delteUser } from "../controllers/users.controller";
 import { authenticate } from "../middlewares/auth";
 import { requireRole } from "../middlewares/requireRole";
 
@@ -10,6 +10,8 @@ router.post('/signUp', registerUSer)
 router.post('/createRole', createRol)
 
 router.get('/:id', authenticate, requireRole('68c448d6b93e0784df24f2ce'), getUserById)
+router.get('/', authenticate, requireRole('68c448d6b93e0784df24f2ce'), getAllUsers)
+router.delete('/:id', authenticate, requireRole('68c448d6b93e0784df24f2ce'), delteUser)
 
 
 

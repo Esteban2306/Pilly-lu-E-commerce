@@ -68,23 +68,15 @@ export function NavBarAdmin() {
             `}
         >
             <nav className="hidden md:flex items-center gap-6 z-10">
-                <div className="relative group">
-                    <button
-                        onClick={() => setActiveModal(prev => prev === 'shop' ? null : 'shop')}
-                        className={`${baseClass} ${activeModal === 'shop' ? activeClasses : inactiveClass}`}
-                    >
-                        Usuarios
-                    </button>
-                    <ModalWrapper isOpen={activeModal === 'shop'} onClose={closeModal} >
-                        <ModalShop />
-                    </ModalWrapper>
-                </div>
+                <a href="/admin/users" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
+                    Usuarios
+                </a>
 
                 <a href="/#ubication" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
                     Ordenes
                 </a>
 
-                <a href="/#ubication" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
+                <a href="/admin/dashboard" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
                     Productos
                 </a>
             </nav>
