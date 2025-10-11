@@ -6,8 +6,12 @@ export class OrderApi extends Api {
         return this.request<T>('order', 'POST', data, true)
     }
 
-    getOrderByUser<T>(id: string) {
-        return this.request<T>(`order/user/${id}`, 'GET', true)
+    getOrder<T>(queryParams?: string) {
+        const url = queryParams && queryParams.trim().length > 0
+            ? `order?${queryParams}`
+            : "order";
+
+        return this.request<T>(url, "GET", true);
     }
 
     getOrderById<T>(id: string) {
@@ -24,6 +28,14 @@ export class OrderApi extends Api {
 
     deleteProductOrder<T>(orderId: string, productId: string) {
         return this.request<T>(`order/${orderId}/product/${productId}`, 'DELETE')
+    }
+
+    deleteOrder<T>(orderId: string) {
+        return this.request<T>(`order/${orderId}`, 'DELETE')
+    }
+
+    updateOrder<T>(data: Record<string, unknown>, orderId: string) {
+        return this.request<T>(`order/${orderId}`, 'PUT', data)
     }
 }
 

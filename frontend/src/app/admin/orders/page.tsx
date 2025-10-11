@@ -2,7 +2,7 @@ import OrderAdminClient from "@/components/adminPage/adminPageInfo/orderAdminCli
 
 export default function OrderPage() {
     return (
-        <main className="min-h-screen px-6" >
+        <main className="min-h-screen pt-18" >
             <OrderAdminClient />
         </main>
     )

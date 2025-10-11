@@ -1,42 +1,24 @@
 import mongoose, { Schema } from "mongoose";
+import { OrderTypeGeneral } from "../types/order.type";
 
-
-const orderShema = new mongoose.Schema({
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        require: true
-    },
-
-    products: [{
-        product: {
-            type: Schema.Types.ObjectId,
-            ref: 'Product',
+const orderSchema = new Schema<OrderTypeGeneral>(
+    {
+        user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        products: [
+            {
+                product: { type: Schema.Types.ObjectId, ref: "Product" },
+                amount: { type: Number, default: 1 },
+                price: { type: Number, required: true },
+            },
+        ],
+        total: { type: Number, required: true },
+        status: {
+            type: String,
+            enum: ["pendiente", "pagado", "enviado", "entregado", "cancelado", "procesando"],
+            default: "pendiente",
         },
-
-        amount: {
-            type: Number,
-            default: 1
-        },
-
-        price: {
-            type: Number,
-            require: true
-        }
-    }],
-
-    total: {
-        type: Number,
-        require: true
     },
+    { timestamps: true }
+);
 
-
-    status: {
-        type: String,
-        enum: ["pendiente", "pagado", "enviado", "entregado", "cancelado"],
-        default: "pendiente"
-    }
-
-}, { timestamps: true })
-
-export const Order = mongoose.model('Order', orderShema)
+export const Order = mongoose.model<OrderTypeGeneral>("Order", orderSchema);

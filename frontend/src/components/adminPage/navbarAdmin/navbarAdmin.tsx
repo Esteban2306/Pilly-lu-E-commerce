@@ -72,7 +72,7 @@ export function NavBarAdmin() {
                     Usuarios
                 </a>
 
-                <a href="/#ubication" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
+                <a href="/admin/orders" className={`${baseClass} ${pathname === '/#ubication' ? activeClasses : inactiveClass}`}>
                     Ordenes
                 </a>
 

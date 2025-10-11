@@ -95,35 +95,74 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const getOrdersByUserId = async (req: Request, res: Response, next: NextFunction) => {
+const getOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id } = req.params;
+        const { search, status, dateFrom, dateTo, sort } = req.query;
 
-        const userObjectId = new mongoose.Types.ObjectId(id);
+        const filter: any = {};
 
-        const order = await Order.find({ user: userObjectId })
-            .populate('user', 'name email')
-            .populate({
-                path: 'products.product',
-                select: 'productName price images',
-                populate: {
-                    path: 'images',
-                    select: 'url'
-                }
-            })
-
-        if (!order) {
-            throw new NotFoundError('no hay ordenes creadas para este usuario')
+        if (status && status !== "all") {
+            filter.status = status;
         }
 
-        res.status(200).json({
-            message: 'orden encontrada con exito',
-            order
-        })
+        if (dateFrom || dateTo) {
+            filter.createdAt = {};
+            if (dateFrom) filter.createdAt.$gte = new Date(dateFrom as string);
+            if (dateTo) filter.createdAt.$lte = new Date(dateTo as string);
+        }
+
+        let query = Order.find(filter)
+            .populate({
+                path: "user",
+                select: "firstName lastName email _id",
+            })
+            .populate({
+                path: "products.product",
+                select: "productName price images.url",
+            });
+
+        if (search) {
+            query = query.find({
+                $or: [
+                    { "user.firstName": { $regex: search, $options: "i" } },
+                    { "user.lastName": { $regex: search, $options: "i" } },
+                    { "user.email": { $regex: search, $options: "i" } },
+                    { _id: { $regex: search, $options: "i" } },
+                ],
+            });
+        }
+
+        if (sort) {
+            const [field, direction] = (sort as string).split("_");
+            query = query.sort({ [field]: direction === "desc" ? -1 : 1 });
+        }
+
+        const orders = await query.exec();
+
+        if (!orders.length) {
+            throw new NotFoundError("No hay órdenes registradas");
+        }
+
+        const formatted = orders.map(o => ({
+            _id: o._id,
+            total: o.total,
+            status: o.status,
+            createdAt: o.createdAt,
+            updatedAt: o.updatedAt,
+            user: o.user
+                ? {
+                    name: `${(o.user as any).firstName || ""} ${(o.user as any).lastName || ""}`.trim(),
+                    email: (o.user as any).email || "N/A",
+                }
+                : { name: "Usuario eliminado", email: "" },
+        }));
+
+        res.status(200).json({ message: "Órdenes encontradas con éxito", order: formatted });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
+
 
 const getOrderById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -255,12 +294,54 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
     }
 };
 
+const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { orderId } = req.params;
+
+        const data = await Order.findById(orderId);
+
+        if (!data) {
+            throw new NotFoundError('Orden no encotrada')
+        }
+        await data.deleteOne()
+
+        res.status(200).json({
+            mesasge: 'Orden eliminada con exito',
+            data
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = await Order.findByIdAndUpdate(
+            req.params.orderId,
+            req.body,
+            { new: true, runValidators: true }
+        )
+        if (!data) {
+            throw new NotFoundError('orden no encontrada')
+        }
+
+        res.status(200).json({
+            message: 'orden editada con exito',
+            data
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 export {
-    getOrdersByUserId,
+    getOrders,
     createOrder,
     getOrderById,
     cancelOrder,
     deleteProductInOrder,
-    updateOrderProductAmount
+    updateOrderProductAmount,
+    deleteOrder,
+    updateOrder
 }
 
