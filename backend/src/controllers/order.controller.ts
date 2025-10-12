@@ -234,6 +234,17 @@ const deleteProductInOrder = async (req: Request, res: Response, next: NextFunct
             throw new BadRequest(`No puedes eliminar productos en una orden con estado '${order.status}'`);
         }
 
+        order.products = order.products.filter(
+            (item: any) => item.product.toString() !== productId
+        );
+
+        order.total = order.products.reduce(
+            (acc: number, item: any) => acc + (item.amount * item.price),
+            0
+        );
+
+        await order.save();
+
         const updatedOrder = await Order.findByIdAndUpdate(
             orderId,
             { $pull: { products: { product: new mongoose.Types.ObjectId(productId) } } },
@@ -259,9 +270,7 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
         const { orderId, productId } = req.params;
         const { amount } = req.body;
 
-        if (!amount || amount < 1) {
-            throw new BadRequest("Cantidad inválida");
-        }
+        if (!amount || amount < 1) throw new BadRequest("Cantidad inválida");
 
         const order = await Order.findById(orderId);
         if (!order) throw new NotFoundError("Orden no encontrada");
@@ -270,21 +279,30 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
             throw new BadRequest(`No puedes modificar cantidades en una orden con estado '${order.status}'`);
         }
 
-        const updatedOrder = await Order.findOneAndUpdate(
-            { _id: orderId, "products.product": new mongoose.Types.ObjectId(productId) },
-            { $set: { "products.$.amount": amount } },
-            { new: true }
-        ).populate({
+        const productItem = order.products.find(
+            (item: any) => item.product.toString() === productId
+        );
+
+        if (!productItem) throw new NotFoundError("Producto no encontrado en la orden");
+
+        productItem.amount = amount;
+
+        order.total = order.products.reduce(
+            (acc: number, item: any) => acc + (item.amount * item.price),
+            0
+        );
+
+        await order.save();
+
+        const updatedOrder = await order.populate({
             path: "products.product",
             select: "productName price images",
-            populate: { path: "images", select: "url" }
+            populate: { path: "images", select: "url" },
         });
-
-        if (!updatedOrder) throw new NotFoundError("Producto no encontrado en la orden");
 
         res.status(200).json({
             success: true,
-            message: "Cantidad actualizada en la orden",
+            message: "Cantidad actualizada correctamente",
             order: updatedOrder,
         });
     } catch (err) {

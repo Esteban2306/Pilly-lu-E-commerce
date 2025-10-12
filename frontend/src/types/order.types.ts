@@ -4,7 +4,7 @@ export type OrderType = {
     _id: string;
     user: string;
     products: { product: Product }[];
-    total: number;
+    total: number | string;
     subtotal: number;
     amount: number;
     status: string;
