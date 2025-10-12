@@ -8,10 +8,12 @@ import { ProductCardProps } from '@/types/product.types';
 import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages';
 import { CometCard } from '@/components/ui/comet-card';
 import { useCart } from '@/context/cartContext';
+import { useCurrencyFormat } from '@/hooks/useCurrencyFormat/useCurrencyFormat';
 
 export default function ProductGallery({ _id, productName, price }: ProductCardProps) {
     const { mainImage, isLoading } = useProductFetchImages(_id)
     const { addToCart } = useCart();
+    const { formatCurrency } = useCurrencyFormat()
 
     return (
         <CometCard>
@@ -44,7 +46,7 @@ export default function ProductGallery({ _id, productName, price }: ProductCardP
                     </h3>
                     <p className="text-gray-700">
                         <Link href={`/product/${_id}`}>
-                            {price}
+                            {formatCurrency(price)}
                         </Link>
                     </p>
                 </div>

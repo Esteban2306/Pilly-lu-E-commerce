@@ -4,9 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import NotFoundError from "../middlewares/not-found";
 import BadRequest from "../middlewares/bad-request";
 import mongoose from "mongoose";
-import { Product } from "../models/product";
 import { OrderType } from "../types/order.type";
-import { success } from "zod";
 
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {

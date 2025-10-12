@@ -13,8 +13,6 @@ interface Project {
   pricePerHour: string
   categories: string[]
   description: string
-  location: string
-  timeAgo: string
   logoColor: string
   logoIcon: string
 }

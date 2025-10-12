@@ -214,5 +214,6 @@ export {
     removeItemFromCart,
     getCartByUserId,
     clearCart,
-    updateItemCuantity
+    updateItemCuantity,
+    resolveCartIdentifier
 }

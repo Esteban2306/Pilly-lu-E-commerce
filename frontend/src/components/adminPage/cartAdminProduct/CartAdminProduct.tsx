@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import EditProductPopover from '../editProductPopover/EditProductPopover'
 import { useToggleFeaturedProducts } from '@/hooks/useProducts/useProducts'
 import { cn } from '@/lib/utils'
+import { useCurrencyFormat } from '@/hooks/useCurrencyFormat/useCurrencyFormat';
 
 export default function CartAdminProduct({
     _id,
@@ -21,7 +22,7 @@ export default function CartAdminProduct({
 }: ProductCardProps) {
     const { mainImage } = useProductFetchImages(_id)
     const { mutate: toggleFeatured, isPending } = useToggleFeaturedProducts()
-
+    const { formatCurrency } = useCurrencyFormat()
     const handleToggle = () => {
         toggleFeatured(_id)
     }
@@ -89,7 +90,7 @@ export default function CartAdminProduct({
                     </div>
 
                     <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">${price}</p>
+                        <p className="text-lg font-bold text-blue-600">{formatCurrency(price)}</p>
                     </div>
                 </div>
 
