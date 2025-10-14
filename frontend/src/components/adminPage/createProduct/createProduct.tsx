@@ -273,6 +273,18 @@ export default function CreateProduct() {
                                 className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 focus:ring-2 focus:ring-secondary"
                             />
                         </div>
+
+                        <div>
+                            <label htmlFor="sku" className="block text-sm font-medium text-gray-700">
+                                Stock
+                            </label>
+                            <input
+                                id="stock"
+                                name="stock"
+                                type="number"
+                                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900 focus:ring-2 focus:ring-secondary"
+                            />
+                        </div>
                     </div>
                 </fieldset>
             </section>

@@ -26,9 +26,14 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
                     </div>
                     <p className="mt-2 font-bold">Color: <span className="font-semibold">Gold</span></p>
 
-                    <div className="flex gap-10 ">
+                    <div className="flex gap-10 justify-between ">
                         <ButtonCountCart value={count} onChange={setCount} />
                         <ButtonAddItemToCart productId={product._id} amount={count} />
+                    </div>
+
+                    <div className="flex mt-6">
+                        <label className="">Productos en stock:</label>
+                        <span className="flex font-bold ml-2">{product.stock}</span>
                     </div>
 
                     <div className="mt-6">

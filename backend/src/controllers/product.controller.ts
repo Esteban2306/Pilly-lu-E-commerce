@@ -5,7 +5,6 @@ import NotFoundError from "../middlewares/not-found";
 import { Image } from "../models/image";
 import mongoose from "mongoose";
 import { Category } from "../models/category";
-import { machine } from "node:os";
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
