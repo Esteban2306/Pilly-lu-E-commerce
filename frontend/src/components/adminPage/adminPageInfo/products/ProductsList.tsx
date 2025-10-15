@@ -40,10 +40,8 @@ export default function ProductsList() {
         setSearchFilters("")
     }
 
-
     if (isLoading) return <p className="text-center mt-10">Cargando productos...</p>;
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar productos</p>;
-
 
     return (
         <div className="p-6 mt-24 mb-30">

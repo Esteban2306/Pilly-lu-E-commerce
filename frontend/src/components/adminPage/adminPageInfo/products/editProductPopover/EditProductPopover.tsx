@@ -116,7 +116,7 @@ export default function EditProductPopover({ product }: { product: Product }) {
                     </button>
                 </div>
 
-                <div className="grid gap-3 max-h-[70vh] overflow-y-auto pr-1">
+                <div className="grid gap-3 max-h-[70vh] overflow-y-scroll pr-2 pl-1 scroll-p-2">
                     <div className="grid gap-1">
                         <Label>Nombre</Label>
                         <Input name="productName" value={form.productName} onChange={handleChange} />
@@ -136,11 +136,11 @@ export default function EditProductPopover({ product }: { product: Product }) {
                     <div className="grid grid-cols-2 gap-3">
                         <div>
                             <Label>Color</Label>
-                            <Input name="color" value={form.color} onChange={handleChange} />
+                            <Input name="color" value={form.color} onChange={handleChange} className="focus:ring-2 focus:ring-sky-300 focus:border-sky-300" />
                         </div>
                         <div>
                             <Label>Oferta</Label>
-                            <Input name="offer" value={form.offer} onChange={handleChange} />
+                            <Input name="offer" value={form.offer} onChange={handleChange} className="focus:ring-2 focus:ring-sky-300 focus:border-sky-300" />
                         </div>
                     </div>
 

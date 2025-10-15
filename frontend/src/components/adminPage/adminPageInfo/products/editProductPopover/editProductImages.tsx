@@ -31,8 +31,6 @@ export default function EditProductImages({ productId }: { productId: string }) 
     const handleNewUpload = async (urls: string[]) => {
         const newImages = urls.map(url => ({ url, isMain: false }))
         const response = await productApi.addImages(productId, newImages)
-
-        // 👇 aquí accedemos al array real
         const created = (response as any).newImageDocs || []
         setImages(prev => [...prev, ...created])
     }

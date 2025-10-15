@@ -17,7 +17,6 @@ export function useProducts(filters?: Record<string, string | number | boolean>)
                     }
                 });
             }
-            console.log(productApi.getAll<Product[]>(`?${params.toString()}`))
             return productApi.getAll<Product[]>(`?${params.toString()}`);
 
         },

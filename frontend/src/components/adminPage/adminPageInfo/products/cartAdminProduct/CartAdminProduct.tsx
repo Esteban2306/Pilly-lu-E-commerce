@@ -61,7 +61,7 @@ export default function CartAdminProduct({
                     className={cn(
                         "absolute top-3 right-3 z-30 cursor-pointer rounded-full border border-transparent transition-all duration-300 hover:scale-110",
                         isFeatured
-                            ? "text-blue-500 bg-blue-50 border-blue-200 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+                            ? "text-blue-500 bg-blue-50/80 border-blue-200 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
                             : "text-blue-700 hover:text-blue-400 hover:bg-blue-50"
                     )}
                 >

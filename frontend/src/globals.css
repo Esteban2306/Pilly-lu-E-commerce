@@ -319,3 +319,9 @@ background: linear-gradient(0deg, rgba(150, 186, 224, 1) 60%, rgba(255, 255, 255
   filter: blur(var(--glow-size, 0.5rem));
   opacity: var(--glow-intesity, 0.125);
 }
+
+input:focus,
+textarea:focus,
+select:focus {
+  @apply ring-2 ring-blue-100 border-blue-100;
+}

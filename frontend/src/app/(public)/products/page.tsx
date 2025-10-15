@@ -9,7 +9,7 @@ import ProductGallery from '@/components/product/productGallery/productGallery';
 import { productApi } from '@/services/ProductApi';
 import { Product } from '@/types/productsCategory.types';
 
-export default async function productsPage() {
+export default async function productsHome() {
 
     type CategoriasType = {
         nombre: string;

@@ -49,7 +49,7 @@ export default function ProductListFilter({
             </div>
 
             <div
-                className={`transition-all duration-300 overflow-hidden ${showFilters ? "max-h-[600px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                className={`transition-all duration-300  ${showFilters ? "max-h-[600px] opacity-100 mt-4" : "max-h-0 opacity-0"
                     } md:max-h-none md:opacity-100 md:mt-0`}
             >
                 <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
