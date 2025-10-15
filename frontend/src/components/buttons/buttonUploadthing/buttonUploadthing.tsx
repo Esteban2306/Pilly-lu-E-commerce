@@ -12,6 +12,7 @@ type Props = {
     onRemove?: (url: string) => void;
     onSetMain?: (url: string) => void;
     isMain?: boolean;
+    compact?: boolean;
 };
 
 export default function ProductImageUploader({
@@ -19,6 +20,7 @@ export default function ProductImageUploader({
     onRemove,
     onSetMain,
     isMain,
+    compact
 }: Props) {
     const { startUpload, isUploading } = useUploadThing("productImage");
     const [preview, setPreview] = useState<string | null>(null);
@@ -43,7 +45,8 @@ export default function ProductImageUploader({
         <div className="flex flex-col items-center gap-2">
             <div
                 {...getRootProps()}
-                className="relative size-40 border-2 border-dashed rounded-md flex items-center justify-center text-gray-400 text-sm cursor-pointer hover:border-secondary transition overflow-hidden"
+                className={`relative border-2 border-dashed rounded-md flex items-center justify-center text-gray-400 text-sm cursor-pointer hover:border-secondary transition overflow-hidden
+                            ${compact ? "size-[120px]" : "size-40"}`}
             >
                 <input {...getInputProps()} />
 

@@ -25,7 +25,11 @@ export class ProductApi extends Api {
         return this.request<T>('product', 'POST', data, true)
     }
 
-    update<T>(data: Record<string, unknown>, id: string) {
+    addImages<T>(id: string, images: { url: string; isMain?: boolean }[]) {
+        return this.request<T>(`product/${id}/images`, 'POST', { images }, true);
+    }
+
+    update<T>(id: string, data: Record<string, unknown>) {
         return this.request<T>(`product/${id}`, 'PUT', data, true)
     }
 
@@ -35,6 +39,10 @@ export class ProductApi extends Api {
 
     toggleFeatured<T>(id: string) {
         return this.request<T>(`product/${id}/toggleFeatured`, 'PATCH')
+    }
+
+    updateImages<T>(data: Record<string, unknown>, id: string) {
+        return this.request<T>(`product/images/${id}`, 'PUT', data, true)
     }
 
 

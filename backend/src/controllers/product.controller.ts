@@ -77,6 +77,26 @@ const getImagesByProductId = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { url, alt, isMain } = req.body;
+
+        const updated = await Image.findByIdAndUpdate(
+            id,
+            { url, alt, isMain },
+            { new: true }
+        );
+
+        if (!updated) {
+            throw new NotFoundError("Imagen no encontrada");
+        }
+
+        res.status(200).json(updated);
+    } catch (err) {
+        next(err);
+    }
+};
 
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -253,6 +273,37 @@ const deleteProduct = async (req: Request, res: Response, next: NextFunction) =>
     }
 }
 
+const addImagesToProduct = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { images } = req.body;
+
+        const product = await Product.findById(id)
+        if (!product) {
+            throw new NotFoundError('producto no encontrado')
+        }
+
+        const newImageDocs = await Image.insertMany(
+            images.map((img: any) => ({
+                url: img.url,
+                alt: img.alt ?? "",
+                isMain: Boolean(img.isMain),
+                product: product._id,
+            }))
+        );
+
+        product.images.push(...newImageDocs.map((i: any) => i._id))
+        await product.save()
+
+        res.status(201).json({
+            message: 'imagen creada con exito',
+            newImageDocs
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 export {
     createProduct,
@@ -263,5 +314,7 @@ export {
     deleteProduct,
     getProductsFeatured,
     getImagesByProductId,
-    toggleFeatured
+    toggleFeatured,
+    updateImage,
+    addImagesToProduct
 }

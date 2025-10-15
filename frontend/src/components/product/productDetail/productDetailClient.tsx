@@ -66,6 +66,8 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
                         productName={p.productName}
                         price={p.price}
                         images={p.images}
+                        color={p.color}
+                        offer={p.offer}
                     />
                 ))}
 

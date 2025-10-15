@@ -1,4 +1,4 @@
-import ProductsList from "@/components/adminPage/products/ProductsList";
+import ProductsList from "@/components/adminPage/adminPageInfo/products/ProductsList";
 
 export default function ProductsPage() {
     return (

@@ -7,6 +7,10 @@ export type ProductCardProps = {
     images: { url: string }[];
     category?: Category | null;
     sku?: string;
-    description?: string
-    isFeatured?: boolean
-}   
+    description?: string;
+    isFeatured?: boolean;
+    color: string;
+    offer: string;
+    stock?: number;
+    status?: string;
+};

@@ -8,8 +8,11 @@ export type Product = {
     productName: string;
     description?: string;
     price: number;
+    color: string;
+    offer: string;
+    status: string;
     images: { url: string }[];
-    category: Category | null;
+    category: Category | null | undefined;
     sku?: string;
     amount?: number;
     subtotal?: number;

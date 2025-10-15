@@ -1,3 +1,4 @@
 export type PropsDescriptionModal = {
-    description: string
+    description: string | undefined
+
 }

@@ -61,7 +61,7 @@ export default function OrderAdminClient() {
 
     return (
         <div className="p-8 min-h-screen">
-            <h1 className="text-2xl text-black font-black mb-6">Gestión de Órdenes</h1>
+            <h1 className="text-3xl text-black font-black mb-6">Gestión de Órdenes</h1>
 
             <OrderFilterBar
                 searchValue={searchFilters}
