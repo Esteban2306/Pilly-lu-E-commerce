@@ -1,43 +1,45 @@
-
-
-import Link from "next/link";
+import Link from "next/link"
+import { Gem } from "lucide-react"
+import ringsIcon from '../../../../../../public/icons/iconRingBlack.svg'
+import brasaletIcon from '../../../../../../public/icons/iconBrasaletBlack.png'
+import cadenaIcon from '../../../../../../public/icons/iconCadenaBlack.png'
+import airRingsIcon from '../../../../../../public/icons/iconAirringsBlack.png'
+import chairsIcon from '../../../../../../public/icons/iconChairsBlack.png'
 
 export default function ModalShop() {
+    const categories = [
+        { name: "Todos", href: "/products" },
+        { name: "Anillos", href: "/products/anillos", icon: ringsIcon },
+        { name: "Manillas", href: "/products/manillas", icon: brasaletIcon },
+        { name: "Cadenas", href: "/products/cadenas", icon: cadenaIcon },
+        { name: "Aretes", href: "/products/aretes", icon: airRingsIcon },
+        { name: "Dijes", href: "/products/dijes", icon: chairsIcon },
+    ]
+
     return (
-        <div className=' absolute top-[19px] -left-5  
-                animate-fade-in
-                animate-duration-200
-                 bg-primary/30
-                bg-gradient-to-r
-                from-blue-200/50
-                via-transparent
-                to-blue-200/50
-                backdrop-blur-md
-                shadow-lg rounded-b-lg p-4 w-30 h-auto z-50'>
-            <ul>
-                <li className='font-bold mb-1'>
-                    <button className="cursor-pointer">
-                        <Link href={'/products'}>
-                            Todos
-                        </Link>
-                    </button>
+        <ul className="flex flex-col gap-1">
+            {categories.map((cat) => (
+                <li key={cat.name}>
+                    <Link
+                        href={cat.href}
+                        className="
+              flex items-center gap-2
+              px-3 py-2 
+              rounded-md 
+              font-semibold 
+              text-zinc-700 
+              dark:text-zinc-200 
+              hover:bg-blue-100/60 
+              dark:hover:bg-blue-900/40 
+              hover:text-blue-600 
+              transition
+            "
+                    >
+                        {cat.icon && <img src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
+                        {cat.name}
+                    </Link>
                 </li>
-                <li className='font-bold mb-1'>
-                    <button className="cursor-pointer">Anillos</button>
-                </li>
-                <li className='font-bold mb-1'>
-                    <button className="cursor-pointer">Manillas</button>
-                </li>
-                <li className='font-bold mb-1'>
-                    <button className="cursor-pointer">Cadenas</button>
-                </li>
-                <li className='font-bold mb-1 '>
-                    <button className="cursor-pointer">Aretes</button>
-                </li>
-                <li className='font-bold'>
-                    <button className="cursor-pointer">Dijes</button>
-                </li>
-            </ul>
-        </div>
-    );
+            ))}
+        </ul>
+    )
 }

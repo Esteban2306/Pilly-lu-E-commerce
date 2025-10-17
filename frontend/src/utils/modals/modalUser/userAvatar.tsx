@@ -10,7 +10,7 @@ const UserAvatar = ({ name }: { name: string }) => {
             className="
                 flex items-center justify-center
                 size-8 rounded-full
-                border border-blue-500
+                border border-blue-300
                 bg-transparent text-black
                 font-semibold text-sm
                 transition-all duration-300

@@ -39,7 +39,7 @@ const ModalUserPanel = () => {
                 "
             >
                 <div className="relative">
-                    <div className="size-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-200 p-0.5">
+                    <div className="size-16 rounded-full bg-gradient-to-br from-blue-200 to-blue-200 p-0.5">
                         <div className="flex items-center justify-center size-full rounded-full bg-white dark:bg-zinc-900">
                             <UserAvatar name={`${user.firstName} ${user.lastName}`} />
                         </div>

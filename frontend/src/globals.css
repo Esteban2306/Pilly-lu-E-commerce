@@ -325,3 +325,13 @@ textarea:focus,
 select:focus {
   @apply ring-2 ring-blue-100 border-blue-100;
 }
+
+/* --- FIX: elimina el espacio blanco fantasma debajo del drawer --- */
+[data-vaul-drawer-direction="bottom"]::after {
+  display: none !important;
+}
+
+[data-vaul-drawer][data-vaul-drawer-direction="bottom"] {
+  bottom: 0 !important;
+  height: 90vh !important; /* o el valor que estés usando */
+}
