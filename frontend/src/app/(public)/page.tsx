@@ -11,12 +11,13 @@ import localUbicationOne from '../../../public/images/home/localUbication.jpg'
 import ProductGallery from "@/components/product/productGallery/productGallery";
 import SliderProduct from "@/components/product/sliderProduct/sliderProduct";
 import AnimateInspirationalText from "@/components/animates/home/animateInspirationalText";
+import ShowcaseFocusSection from "@/components/animates/home/ShowcaseFocusSection";
 
 export default function Home() {
   return (
     <main className="bg-white mt-12">
       <section className="w-[95%] m-auto pt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[80vh] lg:h-[800px]">
+        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[80vh] lg:h-[540px]">
           <Image
             src={faceImageOne}
             alt="Mujer sonriendo con joyas Pilly Lu"
@@ -24,12 +25,12 @@ export default function Home() {
             className="object-cover rounded-lg"
             priority
           />
-          <span className="font-bold absolute bottom-6 left-1/2 -translate-x-1/2 text-black w-full max-w-md text-center text-base sm:text-lg md:text-xl z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
+          <span className="font-bold absolute bg-blue-200/80 bottom-16 left-1/2 -translate-x-1/2 text-black w-full max-w-[380px] text-center text-base sm:text-lg md:text-[20px] z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
             Más que joyas, reflejos de tu alma.
           </span>
         </div>
 
-        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[80vh] lg:h-[800px]">
+        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[80vh] lg:h-[540px]">
           <Image
             src={faceImageThree}
             alt="Modelo usando collar dorado"
@@ -37,14 +38,19 @@ export default function Home() {
             className="object-cover rounded-lg"
             priority
           />
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md text-black text-center text-base sm:text-lg md:text-xl font-semibold z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
+          <span className="font-bold absolute bg-blue-200/80 bottom-16 left-1/2 -translate-x-1/2 text-black w-full max-w-[380px] text-center text-base sm:text-lg md:text-[20px] z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
             Porque cada mujer merece brillar
           </span>
         </div>
       </section>
 
-      <section className="text-center max-w-lg mx-auto px-4 py-6 mt-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">
+      <section className="max-w-6xl mx-auto px-4 ">
+        <SliderProduct />
+      </section>
+
+
+      <section className="text-center max-w-lg mx-auto px-4 py-4 mb-6">
+        <h2 className="text-2xl sm:text-3xl font-bold pb-4">
           Joyas que susurran amor propio
         </h2>
         <Link href={'/products'}>
@@ -52,70 +58,16 @@ export default function Home() {
         </Link>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 m-auto w-[95%]">
-        <div className="relative md:col-span-2 h-[300px] sm:h-[500px] md:h-[700px] lg:h-[900px]">
-          <Image
-            src={rings}
-            alt="anillos dorados sobre fondo claro"
-            fill
-            className="object-cover rounded-lg"
-          />
-          <span className="absolute bottom-16 left-1/2 md:left-[140px] -translate-x-1/2 md:translate-x-0 text-black w-full max-w-xs sm:max-w-md text-center md:text-start text-lg sm:text-xl md:text-2xl font-semibold z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-            <Link href='/products' className="relative after:content-[''] after:block after:border-b-2 after:border-black after:w-[80%] after:mx-auto md:after:mx-0">
-              Nuevas colecciones.
-            </Link >
-          </span>
-          <span className="font-[var(--font-plus-jakarta)] absolute bottom-6 left-1/2 md:left-[165px] -translate-x-1/2 md:translate-x-0 text-black w-full max-w-xs sm:max-w-md text-center text-sm sm:text-base md:text-lg z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-            Descubre el detalle que transforma tu esencia.
-          </span>
-        </div>
-
-        <div className="grid grid-rows-2 gap-4 h-[600px] sm:h-[700px] md:h-[900px]">
-          <div className="relative h-full">
-            <Image
-              src={dijes}
-              alt="Anillos en caja de exhibición"
-              fill
-              className="object-cover rounded-lg"
-            />
-            <span className="absolute top-4 left-1/2 md:left-[50px] -translate-x-1/2 md:translate-x-0 text-black w-full text-center md:text-start text-lg sm:text-xl md:text-2xl font-semibold z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-              <Link href='/products' className="relative after:content-[''] after:block after:border-b-2 after:border-black after:w-[60%] sm:after:w-[80%] after:mx-auto md:after:mx-0">
-                Dijes.
-              </Link >
-            </span>
-            <span className="font-[var(--font-plus-jakarta)] absolute top-16 left-1/2 md:left-[110px] -translate-x-1/2 md:translate-x-0 text-black text-sm sm:text-base max-w-xs text-center md:text-start z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-              Cada pieza, una parte de ti.
-            </span>
-          </div>
-          <div className="relative h-full">
-            <Image
-              src={earrings}
-              alt="Anillos dorados sobre fondo claro"
-              fill
-              className="object-cover rounded-lg"
-            />
-            <span className="absolute top-4 left-1/2 md:left-[110px] -translate-x-1/2 md:translate-x-0 inline-block text-black text-lg sm:text-xl md:text-2xl font-bold z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-              <Link href="/products" className="relative after:content-[''] after:block after:border-b-2 after:border-black after:w-[60%] sm:after:w-[80%] after:mx-auto md:after:mx-0">
-                Aretes.
-              </Link>
-            </span>
-            <span className="font-[var(--font-plus-jakarta)] absolute top-16 left-1/2 md:left-[110px] -translate-x-1/2 md:translate-x-0 text-black text-sm sm:text-base max-w-xs text-center md:text-start z-10 px-2 sm:px-4 py-1 sm:py-2 rounded-md">
-              Luce tu poder con elegancia.
-            </span>
-          </div>
-        </div>
-      </section>
+      <ShowcaseFocusSection />
 
       <section className="py-12 px-4 text-center">
         <AnimateInspirationalText />
         <footer className="font-[var(--font-plus-jakarta)] mt-4 text-xl sm:text-2xl">— Pilly Lu</footer>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 py-8">
-        <SliderProduct />
-      </section>
 
-      <section className="max-w-6xl mx-auto px-4 py-8">
+
+      <section className="max-w-5xl mx-auto px-4 py-8">
         <h2
           className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 text-center"
           id="ubication"

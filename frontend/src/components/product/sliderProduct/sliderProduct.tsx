@@ -30,13 +30,13 @@ export default function SliderProduct() {
 
     useEffect(() => {
         if (!featured.length) return
-        const mid = Math.floor(featured.length / 2)
+        const mid = Math.floor(featured.length / 3)
         setTimeout(() => {
             ; (swiperRef.current as any)?.slideToLoop?.(mid, 0)
         }, 50)
     }, [featured])
 
-    const initialSlide = featured.length ? Math.floor(featured.length / 2) : 0
+    const initialSlide = featured.length ? Math.floor(featured.length / 3) : 0
 
     return (
         <div className="w-full py-10 flex flex-col items-center">
@@ -64,12 +64,12 @@ export default function SliderProduct() {
                         1024: { slidesPerView: 3, spaceBetween: 30 },
                     }}
                     modules={[Pagination]}
-                    className="max-w-[1000px] w-full mx-auto"
+                    className=" w-full mx-auto transform translate-x-0 translate-y-0"
                 >
                     {featured.map((p) => (
                         <SwiperSlide
                             key={p._id}
-                            className="h-auto flex justify-center items-start"
+                            className="h-auto flex justify-center items-start transform translate-x-0 translate-y-0"
                         >
                             <div className="w-full">
                                 <ProductGallery {...p} />

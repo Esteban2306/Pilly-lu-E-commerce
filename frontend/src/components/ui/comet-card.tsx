@@ -95,7 +95,7 @@ export const CometCard = ({
 
           transition: { duration: 0.2 },
         }}
-        className="relative rounded-2xl"
+        className="relative rounded-2xl flex justify-center"
       >
         {children}
         <motion.div
