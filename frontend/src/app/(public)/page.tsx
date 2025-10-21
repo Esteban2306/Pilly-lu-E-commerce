@@ -2,13 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import faceImageOne from '../../../public/images/home/gridHeroOne.jpg'
 import faceImageThree from '../../../public/images/home/gridHeroThree.png'
-import earrings from '../../../public/images/home/earrings.jpg'
-import rings from '../../../public/images/home/ringshome.jpg'
-import dijes from '../../../public/images/home/favDijes.png'
 import ButtonRedirectProduct from "@/components/buttons/buttonRedirectProducts/buttonRedirectProduct";
 import ButtonGlowingBorder from "@/components/buttons/buttonGlowingBorder/buttonGlowingBorder";
 import localUbicationOne from '../../../public/images/home/localUbication.jpg'
-import ProductGallery from "@/components/product/productGallery/productGallery";
 import SliderProduct from "@/components/product/sliderProduct/sliderProduct";
 import AnimateInspirationalText from "@/components/animates/home/animateInspirationalText";
 import ShowcaseFocusSection from "@/components/animates/home/ShowcaseFocusSection";

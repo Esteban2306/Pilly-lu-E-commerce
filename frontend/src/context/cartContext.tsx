@@ -13,7 +13,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [product, setProduct] = useState<CartProduct[] | null>(null)
 
     useEffect(() => {
-        cartApi.getCartByUserId().then((res) => { console.log(res); setCart(res.cart); setProduct(res.cart.products) })
+        cartApi.getCartByUserId().then((res) => { setCart(res.cart); setProduct(res.cart.products) })
     }, [])
 
     const addCart = async (productId: string, amount: number) => {

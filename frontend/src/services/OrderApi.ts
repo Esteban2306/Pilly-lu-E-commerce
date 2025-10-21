@@ -18,6 +18,10 @@ export class OrderApi extends Api {
         return this.request<T>(`order/${id}`, 'GET', true)
     }
 
+    getOrdersByUserId<T>(userId: string) {
+        return this.request<T>(`order/user/${userId}`, 'GET', true)
+    }
+
     cancelOrder<T>(id: string) {
         return this.request<T>(`order/${id}/cancel`, 'GET', true)
     }

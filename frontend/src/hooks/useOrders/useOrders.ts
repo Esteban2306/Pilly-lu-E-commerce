@@ -58,3 +58,17 @@ export function useUpdateOrders() {
         }
     })
 }
+
+export function useUserOrders(userId?: string) {
+    return useQuery<Order[]>({
+        queryKey: ['orders', userId],
+        queryFn: async () => {
+            if (!userId) return []
+            const res = await orderApi.getOrdersByUserId<{ formattedOrders: Order[] }>(userId)
+            return res.formattedOrders || []
+        },
+        initialData: [],
+        enabled: !!userId,
+        staleTime: 2 * 60 * 1000,
+    })
+}

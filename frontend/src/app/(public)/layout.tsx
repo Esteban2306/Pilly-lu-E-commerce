@@ -1,5 +1,4 @@
 'use client'
-
 import { unstable_ViewTransition as ViewTransition } from "react";
 import NavBarUser from "@/components/NavBar/NavBarUser";
 import Footer from "@/components/footer/footer";

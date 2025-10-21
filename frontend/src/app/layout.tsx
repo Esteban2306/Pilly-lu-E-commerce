@@ -3,12 +3,7 @@ import { unstable_ViewTransition as ViewTransition } from "react";
 import "../globals.css";
 import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query'
-
-const queryClient = new QueryClient()
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Pilly-Lu",
@@ -22,16 +17,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">
+      <body className="overflow-x">
         <ViewTransition>
-
-          <AuthProvider>
-            <CartProvider>
-              {children}
-            </CartProvider>
-          </AuthProvider>
+          <ReactQueryProvider>
+            <AuthProvider>
+              <CartProvider>
+                {children}
+              </CartProvider>
+            </AuthProvider>
+          </ReactQueryProvider>
         </ViewTransition>
       </body>
-    </html >
+    </html>
   );
 }

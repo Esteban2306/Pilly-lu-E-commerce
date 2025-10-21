@@ -31,6 +31,7 @@ import brasaletIcon from '../../../public/icons/iconBrasaletBlack.png'
 import cadenaIcon from '../../../public/icons/iconCadenaBlack.png'
 import airRingsIcon from '../../../public/icons/iconAirringsBlack.png'
 import chairsIcon from '../../../public/icons/iconChairsBlack.png'
+import ModalNotification from "./utils/modals/modalNotification/modalNotification"
 
 export default function NavBarUser() {
     const [show, setShow] = useState(true)
@@ -102,13 +103,9 @@ export default function NavBarUser() {
                     }
                 />
 
-                <button
-                    className="cursor-pointer p-2 rounded-lg border border-blue-200
-          bg-blue-100/50 text-black hover:bg-blue-200/70
-          transition duration-200 flex items-center justify-center"
-                >
-                    <BellIcon className="size-4 md:size-5" />
-                </button>
+
+                <ModalNotification />
+
 
                 <button
                     onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
@@ -226,22 +223,33 @@ export default function NavBarUser() {
                         <div className="border-t border-zinc-300 pt-4 space-y-2 max-w-[90vw] m-auto">
                             <ModalCart
                                 trigger={
-                                    <button className="w-full flex items-center justify-center font-bold gap-2 py-3 rounded-md bg-gray-100 hover:bg-white transition">
+                                    <button className="w-full flex items-center font-bold gap-2 py-3 rounded-md bg-gray-100 hover:bg-white transition">
                                         Carrito <CartIcon className="size-5" />
                                     </button>
                                 }
                             />
+                            <DropDrawerSub>
+                                <DropDrawerSubTrigger >
+                                    <span className='font-bold'>Notificación</span>
+                                    <BellIcon />
+                                </DropDrawerSubTrigger>
+                                <DropDrawerSubContent
+                                    id="notifications"
+                                    title="Notificaciones"
+                                    className="border-t border-zinc-300 pt-3 mt-1 flex flex-col gap-2 animate-in fade-in-50"
+                                >
+                                    <ModalNotification inline />
+                                </DropDrawerSubContent>
+                            </DropDrawerSub>
 
-                            <button className="w-full flex items-center justify-center gap-2 py-3 font-bold rounded-md bg-gray-100 hover:bg-white transition">
-                                Notificaciones <BellIcon className="size-5" />
-                            </button>
-
-                            <button
-                                onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
-                                className="w-full flex items-center justify-center gap-2 py-3 font-bold rounded-md bg-gray-100 hover:bg-white transition"
-                            >
-                                Buscar <SearchIcon className="size-5" />
-                            </button>
+                            <DropDrawerSub>
+                                <button
+                                    onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
+                                    className="w-[380px] flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-700"
+                                >
+                                    Buscar <SearchIcon className="size-5" />
+                                </button>
+                            </DropDrawerSub>
                         </div>
                     </DropDrawerContent>
                 </DropDrawer>

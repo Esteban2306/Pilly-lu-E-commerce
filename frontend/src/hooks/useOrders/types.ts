@@ -1,3 +1,5 @@
+import { Product } from "@/types/productsCategory.types";
+
 export interface Order {
     _id: string;
     total: number;
@@ -8,6 +10,7 @@ export interface Order {
         name: string;
         email: string
     };
+    products: Product[];
 }
 
 export interface FiltersRole {

@@ -196,6 +196,59 @@ const getOrderById = async (req: Request, res: Response, next: NextFunction) => 
     }
 }
 
+const getAllOrdersByUserId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new BadRequest('ID de usuario invalido')
+        }
+
+        const orders = await Order.find({ user: userId })
+            .populate({
+                path: 'products.product',
+                select: 'productName price images sku stock amount',
+                populate: {
+                    path: 'images',
+                    select: 'url'
+                }
+            })
+            .populate({
+                path: 'user',
+                select: 'firstName lastName email'
+            })
+            .sort({ createdAt: -1 });
+
+        if (!orders.length) {
+            throw new NotFoundError('No se encuentran ordenes hechas en este usuario.')
+        }
+
+        const formattedOrders = orders.map(order => ({
+            _id: order._id,
+            total: order.total,
+            status: order.status,
+            createdAt: order.createdAt,
+            updatedAt: order.updatedAt,
+            products: order.products.map((item: any) => ({
+                name: item.product?.productName || "Producto eliminado",
+                price: item.price,
+                amount: item.amount,
+                subtotal: item.amount * item.price,
+                images: item.product?.images?.[0]?.url || null,
+            })),
+        }))
+
+        res.status(200).json({
+            message: 'Órdenes del usuario encontradas con exito.',
+            formattedOrders
+        })
+
+
+    } catch (err) {
+        next(err)
+    }
+}
+
 const cancelOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { orderId } = req.params;
@@ -358,6 +411,7 @@ export {
     deleteProductInOrder,
     updateOrderProductAmount,
     deleteOrder,
-    updateOrder
+    updateOrder,
+    getAllOrdersByUserId
 }
 
