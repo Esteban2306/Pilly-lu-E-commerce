@@ -13,6 +13,6 @@ export class AuthApi extends Api {
 }
 
 export const authApi = new AuthApi({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://pilly-lu-e-commerce-production.up.railway.app',
     headers: { 'Content-Type': 'application/json' },
 });

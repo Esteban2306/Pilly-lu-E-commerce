@@ -15,6 +15,6 @@ export class UsersApi extends Api {
 }
 
 export const userApi = new UsersApi({
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'https://pilly-lu-e-commerce-production.up.railway.app',
     headers: { 'Content-Type': 'application/json' },
 });
