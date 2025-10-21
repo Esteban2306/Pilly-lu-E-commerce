@@ -234,7 +234,7 @@ const getAllOrdersByUserId = async (req: Request, res: Response, next: NextFunct
                 price: item.price,
                 amount: item.amount,
                 subtotal: item.amount * item.price,
-                images: item.product?.images?.[0]?.url || null,
+                images: new Array({ url: item.product?.images?.[0]?.url }) || null,
             })),
         }))
 

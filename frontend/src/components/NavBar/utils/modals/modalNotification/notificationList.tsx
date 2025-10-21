@@ -38,13 +38,13 @@ export default function NotificationList({ orders = [], isLoading }: { orders: O
                     <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none">
                         {order.products.map((p, i) => (
                             <div key={i} className="flex-shrink-0 flex flex-col items-center">
-                                {p.images && p.images.length > 0 && p.images[0]?.url ? (
+                                {p.images && p.images.length > 0 && p.images[0].url ? (
                                     <Image
                                         src={p.images[0].url}
                                         alt={p.productName || "Producto"}
                                         width={50}
                                         height={50}
-                                        className="rounded-md object-cover"
+                                        className="rounded-md object-cover size-12"
                                     />
                                 ) : (
                                     <div className="w-[50px] h-[50px] bg-gray-200 dark:bg-gray-600 rounded-md" />
