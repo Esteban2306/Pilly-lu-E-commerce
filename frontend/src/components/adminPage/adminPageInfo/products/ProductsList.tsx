@@ -5,6 +5,8 @@ import { useProducts } from "@/hooks/useProducts/useProducts";
 import { useState } from "react";
 import ProductListFilter from "./productListFilter";
 import { useDebounce } from "@/hooks/useDebounce/useDebounce";
+import Link from "next/link";
+import ArrowButton from "@/components/buttons/buttonOpenAnimation/buttonOpenAnimation";
 
 export default function ProductsList() {
 
@@ -45,10 +47,21 @@ export default function ProductsList() {
 
     return (
         <div className="p-6 mt-24 mb-30">
+            <div className="flex justify-between">
+                <h2 className="font-black text-3xl mb-6">
+                    Productos
+                </h2>
 
-            <h2 className="font-black text-3xl mb-6">
-                Productos
-            </h2>
+                <Link href={'/admin/create'}>
+                    <ArrowButton
+                        text="Crear Producto"
+                        textColor="#000000"
+                        buttonOverlayColor='#96BAE0'
+                        borderColor="#96BAE0"
+                        className="w-34"
+                    />
+                </Link>
+            </div>
 
             <ProductListFilter
                 searchValue={searchFilters}
