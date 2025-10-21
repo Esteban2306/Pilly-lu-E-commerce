@@ -1,4 +1,4 @@
-import { Cart } from "../models/cart";
+import { Cart } from "../models/cart.js";
 import mongoose from "mongoose";
 
 export const mergeCarts = async (userId: string, anonId: string) => {

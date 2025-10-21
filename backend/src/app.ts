@@ -1,13 +1,17 @@
 import express from "express";
 import path from "node:path";
-import userRouter from '../src/routes/user.routes'
-import productRouter from '../src/routes/product.routes'
-import cartRouter from '../src/routes/cart.routes'
-import orderRouter from '../src/routes/order.routes'
-import categoryRoter from '../src/routes/category.routes'
+import userRouter from './routes/user.routes.js'
+import productRouter from './routes/product.routes.js'
+import cartRouter from './routes/cart.routes.js'
+import orderRouter from './routes/order.routes.js'
+import categoryRoter from './routes/category.routes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.disable('x-powered-by');
 
 app.use(cors({

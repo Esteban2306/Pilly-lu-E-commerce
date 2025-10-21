@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured, getImagesByProductId, toggleFeatured, updateImage, addImagesToProduct } from "../controllers/product.controller";
-import { authenticate } from "../middlewares/auth";
+import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured, getImagesByProductId, toggleFeatured, updateImage, addImagesToProduct } from "../controllers/product.controller.js";
+import { authenticate } from "../middlewares/auth.js";
 
-import { requireRole } from "../middlewares/requireRole";
+import { requireRole } from "../middlewares/requireRole.js";
 
 
 const router = Router()

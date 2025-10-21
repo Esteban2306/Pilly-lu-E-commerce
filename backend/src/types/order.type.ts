@@ -1,6 +1,6 @@
-import { ProductType } from "./product.types"
+import { ProductType } from "./product.types.js"
 import { Document, Types } from "mongoose";
-import { User } from "../models/users";
+import { User } from "../models/users.js";
 
 export type OrderType = {
     _id: string;

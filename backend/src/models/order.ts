@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { OrderTypeGeneral } from "../types/order.type";
+import { OrderTypeGeneral } from "../types/order.type.js";
 
 const orderSchema = new Schema<OrderTypeGeneral>(
     {

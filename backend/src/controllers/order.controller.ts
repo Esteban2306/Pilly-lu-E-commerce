@@ -1,10 +1,10 @@
-import { Order } from "../models/order";
-import { Cart } from "../models/cart";
+import { Order } from "../models/order.js";
+import { Cart } from "../models/cart.js";
 import { Request, Response, NextFunction } from "express";
-import NotFoundError from "../middlewares/not-found";
-import BadRequest from "../middlewares/bad-request";
+import NotFoundError from "../middlewares/not-found.js";
+import BadRequest from "../middlewares/bad-request.js";
 import mongoose from "mongoose";
-import { OrderType } from "../types/order.type";
+import { OrderType } from "../types/order.type.js";
 
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {

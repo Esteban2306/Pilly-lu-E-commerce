@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getOrders, deleteOrder, createOrder, getOrderById, cancelOrder, deleteProductInOrder, updateOrderProductAmount, updateOrder, getAllOrdersByUserId } from "../controllers/order.controller";
-import { authenticate } from "../middlewares/auth";
+import { getOrders, deleteOrder, createOrder, getOrderById, cancelOrder, deleteProductInOrder, updateOrderProductAmount, updateOrder, getAllOrdersByUserId } from "../controllers/order.controller.js";
+import { authenticate } from "../middlewares/auth.js";
 
 const router = Router()
 

@@ -1,13 +1,12 @@
-import { Cart } from "../models/cart";
-import { Product } from "../models/product";
+import { Cart } from "../models/cart.js";
+import { Product } from "../models/product.js";
 import { Request, Response, NextFunction } from "express";
-import NotFoundError from "../middlewares/not-found";
+import NotFoundError from "../middlewares/not-found.js";
 
 import { v4 as uuid } from "uuid";
 
 import mongoose, { ObjectId } from "mongoose";
-import BadRequest from "../middlewares/bad-request";
-import { success } from "zod";
+import BadRequest from "../middlewares/bad-request.js";
 
 interface resolveCartType {
     type: string,

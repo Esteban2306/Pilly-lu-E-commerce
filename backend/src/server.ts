@@ -1,6 +1,6 @@
 import 'dotenv/config'
-import app from './app'
-import { connectDB } from './config/db/db';
+import app from './app.js'
+import { connectDB } from './config/db/db.js';
 
 const { PORT = 3001, BASE_PATH, MONGO_URI } = process.env;
 

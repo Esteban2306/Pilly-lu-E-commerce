@@ -1,11 +1,11 @@
-import { User } from "../models/users";
+import { User } from "../models/users.js";
 import { Request, Response, NextFunction } from "express";
-import NotFoundError from "../middlewares/not-found";
+import NotFoundError from "../middlewares/not-found.js";
 import bycript from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { Role } from "../models/role";
-import { mergeCarts } from "../utils/mergeCarts";
-import BadRequest from "../middlewares/bad-request";
+import { Role } from "../models/role.js";
+import { mergeCarts } from "../utils/mergeCarts.js";
+import BadRequest from "../middlewares/bad-request.js";
 
 const jwtSecret = process.env.JWT_SECRET || 'some-secret-key'
 

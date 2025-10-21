@@ -1,10 +1,10 @@
-import { Product } from "../models/product";
+import { Product } from "../models/product.js";
 import { Request, Response, NextFunction } from "express";
-import BadRequest from "../middlewares/bad-request";
-import NotFoundError from "../middlewares/not-found";
-import { Image } from "../models/image";
+import BadRequest from "../middlewares/bad-request.js";
+import NotFoundError from "../middlewares/not-found.js";
+import { Image } from "../models/image.js";
 import mongoose from "mongoose";
-import { Category } from "../models/category";
+import { Category } from "../models/category.js";
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {

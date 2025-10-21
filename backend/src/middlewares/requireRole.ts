@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import Forbiden from "./forbiden";
+import Forbiden from "./forbiden.js";
 
-import { Role } from "../models/role";
-import { User } from "../models/users";
+import { Role } from "../models/role.js";
+import { User } from "../models/users.js";
 
 export const requireRole = (...roles: string[]) => (req: Request, res: Response, next: NextFunction) => {
     const role = req.userRole
