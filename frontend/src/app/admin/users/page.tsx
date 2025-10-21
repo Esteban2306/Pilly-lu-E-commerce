@@ -2,7 +2,7 @@ import USerAdminClient from "@/components/adminPage/adminPageInfo/userAdminClien
 
 export default function UsersPage() {
     return (
-        <main className=" px-6 mt-22" >
+        <main className=" px-6 mt-24" >
             <USerAdminClient />
         </main>
     )

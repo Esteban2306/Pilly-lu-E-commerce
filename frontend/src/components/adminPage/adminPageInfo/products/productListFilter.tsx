@@ -29,7 +29,6 @@ export default function ProductListFilter({
 
     return (
         <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-blue-100 mb-10">
-            {/* ----- MOBILE HEADER ----- */}
             <div className="flex justify-between items-center w-full md:hidden">
                 <button
                     onClick={() => setShowFilters(!showFilters)}
