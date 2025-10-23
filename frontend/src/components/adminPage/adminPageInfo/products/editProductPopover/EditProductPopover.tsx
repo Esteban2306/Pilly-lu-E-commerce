@@ -7,12 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2, FileEdit, X } from "lucide-react"
-import ProductImageUploader from "@/components/buttons/buttonUploadthing/buttonUploadthing"
 import { useUpdateProducts } from "@/hooks/useProducts/useProducts"
 import { Product } from "@/types/productsCategory.types"
-import Image from "next/image"
 import { Img } from "@/components/adminPage/createProduct/types"
-import useProductFetchImages from "@/hooks/productFetchImages/productFetchImages"
 import EditProductImages from "./editProductImages"
 
 export default function EditProductPopover({ product }: { product: Product }) {
@@ -31,8 +28,6 @@ export default function EditProductPopover({ product }: { product: Product }) {
         images
     });
 
-
-
     useEffect(() => {
         if (product) {
             setForm({
@@ -50,8 +45,6 @@ export default function EditProductPopover({ product }: { product: Product }) {
         }
     }, [product]);
 
-
-    const { mainImage, isLoading } = useProductFetchImages(product._id)
     const [open, setOpen] = useState(false)
     const [uploading, setUploading] = useState(false)
 
@@ -62,18 +55,6 @@ export default function EditProductPopover({ product }: { product: Product }) {
         setForm(prev => ({ ...prev, [name]: value }))
         setImages([])
     }
-
-    const handleImage = (urls: string[]) => {
-        setImages(prev => [...prev, ...urls.map(u => ({ url: u, isMain: false }))]);
-    }
-
-    const setAsMain = (url: string) => {
-        setImages(prev => prev.map(img => ({ ...img, isMain: img.url === url })));
-    }
-
-    const removeImage = (url: string) => {
-        setImages(prev => prev.filter(i => i.url !== url));
-    };
 
     const handleSubmit = () => {
         updateMutation.mutate(
@@ -178,24 +159,7 @@ export default function EditProductPopover({ product }: { product: Product }) {
                     <div className="mt-3">
                         <Label>Imágenes</Label>
                         <div className="flex gap-2 mt-2">
-
                             <EditProductImages productId={product._id} />
-                            {/* <ProductImageUploader
-                                onUploadComplete={handleImage}
-                                onRemove={removeImage}
-                                onSetMain={setAsMain}
-                                isMain={images.find(img => img.isMain)?.url === images[0]?.url}
-                            /> */}
-                            {/* {form.images.map((img: any, idx: number) => (
-                                <Image
-                                    key={idx}
-                                    src={img.url}
-                                    alt="product"
-                                    width={60}
-                                    height={60}
-                                    className="rounded-md border border-blue-200 object-cover"
-                                />
-                            ))} */}
                         </div>
                     </div>
                 </div>

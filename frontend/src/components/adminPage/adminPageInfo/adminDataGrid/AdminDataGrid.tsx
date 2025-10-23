@@ -2,9 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
-import { useState } from 'react'
-import { OrderType } from '@/types/order.types'
-import { UserType } from '@/types/user.types'
 
 interface Column {
     key: string
@@ -26,7 +23,7 @@ export default function AdminDataGrid<T extends BaseRow>({
     onDelete,
     renderActions,
 }: AdminDataGridProps<T>) {
-    const [openRowId, setOpenRowId] = useState<number | string | null>(null)
+    // const [openRowId, setOpenRowId] = useState<number | string | null>(null)
 
     return (
         <>

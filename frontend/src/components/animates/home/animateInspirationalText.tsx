@@ -1,7 +1,5 @@
 'use client'
 
-import { createScope, utils, animate } from "animejs"
-import { useRef, useEffect } from "react"
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
 
 

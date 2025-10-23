@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { productApi } from "@/services/ProductApi"
 import ProductGallery from "@/components/product/productGallery/productGallery"
 import { Category, Product } from "@/types/productsCategory.types"
@@ -16,7 +16,7 @@ export default async function productIdPage({ params }: { params: { categoryId: 
         params.categoryId
     )
 
-    const iconMap: Record<string, any> = {
+    const iconMap: Record<string, StaticImageData> = {
         anillos,
         aretes,
         manillas: manilla,

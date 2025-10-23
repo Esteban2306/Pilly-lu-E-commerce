@@ -20,13 +20,13 @@ import {
 export function NavBarAdmin() {
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [activeModal, setActiveModal] = useState<string | null>(null);
+    // const [activeModal, setActiveModal] = useState<string | null>(null);
 
     const pathname = usePathname()
 
     const { token } = useAuth()
 
-    const closeModal = () => setActiveModal(null);
+    // const closeModal = () => setActiveModal(null);
 
     useEffect(() => {
         const handleScroll = () => {

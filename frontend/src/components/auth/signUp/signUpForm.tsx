@@ -5,19 +5,19 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/authContext"
-import { authApi, AuthApi } from "@/services/AuthApi"
+import { authApi } from "@/services/AuthApi"
 
 
 const SignUpForm = () => {
 
     const router = useRouter()
-    const { user } = useAuth()
+    // const { user } = useAuth()
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState<string | null>(null)
+    const [_error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {

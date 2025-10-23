@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 
-interface FilterBarProps {
-    filters: string
-    filtersTwo: string
-    onChange: (filters: any) => void
-    onChangeTwo: (filters: any) => void
+interface FilterBarProps<T = string, U = string> {
+    filters: T
+    filtersTwo: U
+    onChange: (value: T) => void
+    onChangeTwo: (value: U) => void
     onReset?: () => void
 }
 

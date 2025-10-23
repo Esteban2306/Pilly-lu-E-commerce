@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { Counter } from '@/components/ui/shadcn-io/counter';
 import { useCart } from "@/context/cartContext";

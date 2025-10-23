@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { DropDrawer, DropDrawerContent, DropDrawerTrigger } from "@/components/ui/dropdrawer"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import ModalShop from "./modalShop"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -9,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function ShopPopover() {
     const [open, setOpen] = useState(false)
-    const isMobile = useIsMobile()
+    // const isMobile = useIsMobile()
 
     const baseClass = "text-base font-bold cursor-pointer transition-all duration-200"
     const inactiveClass =
@@ -44,34 +43,3 @@ export default function ShopPopover() {
         </Popover>
     )
 }
-
-// <DropDrawer>
-//     <DropDrawerTrigger asChild>
-//         <button
-//             className={`${baseClass} ${open ? activeClasses : inactiveClass}`}
-//             aria-expanded={open}
-//         >
-//             Shop
-//         </button>
-//     </DropDrawerTrigger>
-
-//     <DropDrawerContent
-//         // Aplica sideOffset solo si NO es mobile
-//         {...(!isMobile && { sideOffset: 10, align: "start" })}
-//         className={`
-//   bg-white/90 dark:bg-zinc-900/90
-//   backdrop-blur-md
-//   border border-zinc-200/30 dark:border-zinc-700/50
-//   shadow-2xl
-//   rounded-xl
-//   p-3
-//   animate-in fade-in-50 zoom-in-95
-//   ${isMobile
-//                 ? "fixed inset-x-0 bottom-0 w-full h-[90vh] rounded-none p-6 overflow-y-auto"
-//                 : "w-48"
-//             }
-// `}
-//     >
-//         <ModalShop />
-//     </DropDrawerContent>
-// </DropDrawer>

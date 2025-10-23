@@ -1,7 +1,7 @@
 'use client'
 
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { LogOut, Shield, Settings } from "lucide-react"
+import { LogOut, Shield } from "lucide-react"
 import { useAuth } from "@/context/authContext"
 import Link from "next/link"
 import UserAvatar from "./userAvatar"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { ModalWrapperProps } from "./modalWrapper.type";
 
 export default function ModalWrapper({

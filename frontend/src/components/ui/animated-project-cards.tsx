@@ -1,11 +1,12 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, MapPin } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import React, { useState } from "react"
 import { Counter } from "./shadcn-io/counter"
 import { orderApi } from "@/services/OrderApi"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
+import Image from "next/image"
 
 interface Project {
   id: string
@@ -87,35 +88,35 @@ const childVariants = {
   },
 }
 
-const pillVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.8,
-    y: 10,
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 25,
-    },
-  },
-  hover: {
-    scale: 1.05,
-    y: -1,
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 25,
-    },
-  },
-  tap: {
-    scale: 0.98,
-  },
-}
+// const pillVariants = {
+//   hidden: {
+//     opacity: 0,
+//     scale: 0.8,
+//     y: 10,
+//   },
+//   visible: {
+//     opacity: 1,
+//     scale: 1,
+//     y: 0,
+//     transition: {
+//       type: "spring",
+//       stiffness: 400,
+//       damping: 25,
+//     },
+//   },
+//   hover: {
+//     scale: 1.05,
+//     y: -1,
+//     transition: {
+//       type: "spring",
+//       stiffness: 400,
+//       damping: 25,
+//     },
+//   },
+//   tap: {
+//     scale: 0.98,
+//   },
+// }
 
 const logoVariants = {
   hover: {
@@ -177,14 +178,13 @@ function ProjectCard({ project, orderId }: { project: Project, orderId: string }
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4 flex-1">
-          {/* Logo */}
           <motion.div
             variants={logoVariants}
             whileHover="hover"
             className={`w-12 h-12 ${project.logoColor} rounded-xl flex items-center justify-center text-white text-lg font-semibold flex-shrink-0 shadow-sm`}
           >
             {project.logoIcon && (
-              <img
+              <Image
                 src={project.logoIcon}
                 alt={project.title}
                 className="w-12 h-12 rounded object-cover"
@@ -192,19 +192,15 @@ function ProjectCard({ project, orderId }: { project: Project, orderId: string }
             )}
           </motion.div>
 
-          {/* Content */}
           <div className="flex-1 min-w-0">
-            {/* Title and Status Row */}
             <motion.div className="flex items-center gap-3 mb-2" variants={childVariants}>
               <h3 className="font-semibold text-gray-900 text-sm">{project.title}</h3>
             </motion.div>
 
-            {/* Price */}
             <motion.p className="text-gray-600 text-sm mb-4 font-medium" variants={childVariants}>
               {project.pricePerHour}
             </motion.p>
 
-            {/* Expandable Content */}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
@@ -214,11 +210,9 @@ function ProjectCard({ project, orderId }: { project: Project, orderId: string }
                   exit="hidden"
                   className="overflow-hidden"
                 >
-                  {/* Descripción con cantidad */}
                   <motion.p className="text-gray-600 text-sm leading-relaxed mb-4" variants={childVariants}>
                     {project.description}
                   </motion.p>
-                  {/* Botones de acción */}
                   <motion.div className="flex gap-3 mt-4" variants={childVariants}>
                     <div onClick={(e) => e.stopPropagation()}>
                       <Counter
@@ -245,7 +239,6 @@ function ProjectCard({ project, orderId }: { project: Project, orderId: string }
           </div>
         </div>
 
-        {/* Chevron Button */}
         <motion.button
           variants={chevronVariants}
           whileHover="hover"

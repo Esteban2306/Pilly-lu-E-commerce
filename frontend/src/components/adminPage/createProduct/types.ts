@@ -3,4 +3,4 @@ export type CategoryType = {
     _id: string;
 }
 
-export type Img = { url: string; isMain: boolean }
+export type Img = { _id?: string; url: string; isMain: boolean }

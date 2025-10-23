@@ -1,6 +1,5 @@
 import { LoginResponse } from "@/types/login.types"
 import { Cart, CartProduct } from "@/types/cart.types"
-import { Product } from "@/types/productsCategory.types"
 
 export type AuthContextType = {
     user: LoginResponse['user'] | null

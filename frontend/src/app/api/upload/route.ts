@@ -33,7 +33,7 @@ export async function GET() {
       fileName,
       publicUrl,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generando Signed URL:", error);
     return NextResponse.json(
       { error: "No se pudo generar el Signed URL" },

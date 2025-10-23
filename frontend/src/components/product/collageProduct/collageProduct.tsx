@@ -10,10 +10,9 @@ import { ImageType } from "./galeryProductType";
 import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages';
 
 
-export default function collageProduct({ id }: { id: string }) {
+export default function CollageProduct({ id }: { id: string }) {
 
     const { imagesByUrl, isLoading, mainImage } = useProductFetchImages(id)
-
 
     const images = [
         productProof,
@@ -48,6 +47,9 @@ export default function collageProduct({ id }: { id: string }) {
         setPrincipalImage(clicked);
     }
 
+    if (isLoading) {
+        return <p className="text-center text-gray-400 mt-10">Cargando imágenes...</p>
+    }
     return (
         <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-3 max-w-[460px] mx-auto">
             <div className="rounded-lg overflow-hidden">

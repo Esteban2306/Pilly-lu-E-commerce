@@ -1,9 +1,10 @@
 'use client'
 
 import { useDropzone } from "react-dropzone";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { generateReactHelpers } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import Image from "next/image";
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
@@ -51,7 +52,7 @@ export default function ProductImageUploader({
                 <input {...getInputProps()} />
 
                 {preview ? (
-                    <img
+                    <Image
                         src={preview}
                         alt="preview"
                         className="absolute inset-0 w-full h-full object-cover rounded-md"

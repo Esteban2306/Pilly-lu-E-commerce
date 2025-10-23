@@ -1,10 +1,10 @@
 import Link from "next/link"
-import { Gem } from "lucide-react"
 import ringsIcon from '../../../../../../public/icons/iconRingBlack.svg'
 import brasaletIcon from '../../../../../../public/icons/iconBrasaletBlack.png'
 import cadenaIcon from '../../../../../../public/icons/iconCadenaBlack.png'
 import airRingsIcon from '../../../../../../public/icons/iconAirringsBlack.png'
 import chairsIcon from '../../../../../../public/icons/iconChairsBlack.png'
+import Image from "next/image"
 
 export default function ModalShop() {
     const categories = [
@@ -35,7 +35,7 @@ export default function ModalShop() {
               transition
             "
                     >
-                        {cat.icon && <img src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
+                        {cat.icon && <Image src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
                         {cat.name}
                     </Link>
                 </li>

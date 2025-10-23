@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { productApi } from "@/services/ProductApi";
 import { useDeleteProducts } from "@/hooks/useProducts/useProducts";
 
 type DeleteProps = {

@@ -20,7 +20,7 @@ export default function ProductGallery({
     status
 }: ProductCardProps) {
 
-    const { mainImage, isLoading } = useProductFetchImages(_id);
+    const { mainImage } = useProductFetchImages(_id);
     const { addToCart } = useCart();
     const { formatCurrency } = useCurrencyFormat();
 

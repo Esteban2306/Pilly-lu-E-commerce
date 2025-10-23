@@ -3,6 +3,7 @@ import React from "react";
 import CartItem from "./CartItem";
 import { useCart } from "@/context/cartContext";
 import { orderApi } from "@/services/OrderApi";
+import { OrderType } from "@/types/order.types";
 import {
     Sheet,
     SheetTrigger,
@@ -11,21 +12,19 @@ import {
     SheetTitle,
     SheetDescription,
     SheetFooter,
-    SheetClose,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 
 type ModalCartProps = {
     trigger: React.ReactElement;
 };
 
 const ModalCart: React.FC<ModalCartProps> = ({ trigger }) => {
-    const { cart, product, removeCart } = useCart();
+    const { cart, product } = useCart();
 
     const handleConsultCart = async () => {
         try {
             const userId = cart?.user;
-            const response = await orderApi.createOrder<{ order: any; whatsappLink: string }>({ userId });
+            const response = await orderApi.createOrder<{ order: OrderType; whatsappLink: string }>({ userId });
             const resWhatsappLink = response.whatsappLink;
             window.open(resWhatsappLink, "_blank", "noopener,noreferrer");
         } catch (err) {

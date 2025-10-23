@@ -1,5 +1,4 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { z } from "zod";
 
 const f = createUploadthing();
 

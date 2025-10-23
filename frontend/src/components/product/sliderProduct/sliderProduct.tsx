@@ -8,12 +8,15 @@ import { Pagination } from "swiper/modules"
 import { Swiper as SwiperType } from "swiper"
 import ProductGallery from "@/components/product/productGallery/productGallery"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-
 import { ProductCardProps } from "@/types/product.types"
 import { productApi } from "@/services/ProductApi"
 
+type SwiperWithLoop = SwiperType & {
+    slideToLoop?: (index: number, speed?: number, runCallbacks?: boolean) => void
+}
+
 export default function SliderProduct() {
-    const swiperRef = useRef<SwiperType | null>(null)
+    const swiperRef = useRef<SwiperWithLoop | null>(null)
     const [featured, setFeatured] = useState<ProductCardProps[]>([])
 
     useEffect(() => {
@@ -32,7 +35,7 @@ export default function SliderProduct() {
         if (!featured.length) return
         const mid = Math.floor(featured.length / 3)
         setTimeout(() => {
-            ; (swiperRef.current as any)?.slideToLoop?.(mid, 0)
+            swiperRef.current?.slideToLoop?.(mid, 0)
         }, 50)
     }, [featured])
 
@@ -43,6 +46,7 @@ export default function SliderProduct() {
             <h1 className="text-center text-3xl font-bold mb-10 text-gray-800">
                 Productos destacados
             </h1>
+
             {featured.length > 0 && (
                 <Swiper
                     onBeforeInit={(swiper) => {
@@ -64,13 +68,10 @@ export default function SliderProduct() {
                         1024: { slidesPerView: 3, spaceBetween: 30 },
                     }}
                     modules={[Pagination]}
-                    className=" w-full mx-auto transform translate-x-0 translate-y-0"
+                    className="w-full mx-auto"
                 >
                     {featured.map((p) => (
-                        <SwiperSlide
-                            key={p._id}
-                            className="h-auto flex justify-center items-start transform translate-x-0 translate-y-0"
-                        >
+                        <SwiperSlide key={p._id} className="flex justify-center items-start">
                             <div className="w-full">
                                 <ProductGallery {...p} />
                             </div>
@@ -87,7 +88,6 @@ export default function SliderProduct() {
                     <ChevronLeft size={18} />
                 </button>
 
-                {/* coincide con el el en pagination */}
                 <div className="custom-pagination swiper-pagination flex justify-center" />
 
                 <button

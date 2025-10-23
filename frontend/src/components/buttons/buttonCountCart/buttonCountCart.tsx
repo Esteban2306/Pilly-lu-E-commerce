@@ -1,7 +1,5 @@
 "use client"
 
-import { useState } from 'react'
-
 export default function ButtonCountCart({ value, onChange }: { value: number, onChange: (value: number) => void }) {
 
     const increment = () => { onChange(value + 1) };

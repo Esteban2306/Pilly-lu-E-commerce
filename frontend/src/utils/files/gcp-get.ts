@@ -1,9 +1,7 @@
-async function uploadFile(file: File) {
-  // Pide URL firmada
+export async function uploadFile(file: File) {
   const res = await fetch("/api/upload");
   const { url, fileName } = await res.json();
 
-  // Sube directo a GCS
   await fetch(url, {
     method: "PUT",
     body: file,

@@ -8,7 +8,7 @@ import { useOrders, useDeleteOrders } from "@/hooks/useOrders/useOrders"
 import { useDebounce } from "@/hooks/useDebounce/useDebounce"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { Eye, Edit, Trash2, MoreVertical } from 'lucide-react'
+import { Eye, Trash2, MoreVertical } from 'lucide-react'
 import OrderEditPopover from "./OrderEditPopover"
 import { OrderRow } from '@/types/order.types'
 

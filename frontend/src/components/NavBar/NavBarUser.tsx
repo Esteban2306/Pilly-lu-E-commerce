@@ -77,12 +77,12 @@ export default function NavBarUser() {
 
             <nav className="hidden md:flex items-center gap-6 z-10">
                 <ShopPopover />
-                <a
+                <Link
                     href="/#ubication"
                     className={`${baseClass} ${pathname === "/#ubication" ? activeClasses : inactiveClass}`}
                 >
                     Contáctanos
-                </a>
+                </Link>
             </nav>
 
             <div className="absolute left-1/2 transform -translate-x-1/2 z-0">
@@ -203,7 +203,7 @@ export default function NavBarUser() {
                                                     transition
                                                 "
                                             >
-                                                {cat.icon && <img src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
+                                                {cat.icon && <Image src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
                                                 {cat.name}
                                             </Link>
                                         ))}

@@ -9,7 +9,7 @@ import { productApi } from "@/services/ProductApi"
 import { Img } from "@/components/adminPage/createProduct/types"
 
 export default function EditProductImages({ productId }: { productId: string }) {
-    const [images, setImages] = useState<any[]>([])
+    const [images, setImages] = useState<Img[]>([])
     const [editingImageId, setEditingImageId] = useState<string | null>(null)
 
     useEffect(() => {
@@ -30,8 +30,8 @@ export default function EditProductImages({ productId }: { productId: string }) 
 
     const handleNewUpload = async (urls: string[]) => {
         const newImages = urls.map(url => ({ url, isMain: false }))
-        const response = await productApi.addImages(productId, newImages)
-        const created = (response as any).newImageDocs || []
+        const response = await productApi.addImages(productId, newImages) as { newImageDocs: Img[] }
+        const created = response.newImageDocs ?? []
         setImages(prev => [...prev, ...created])
     }
 
@@ -51,7 +51,7 @@ export default function EditProductImages({ productId }: { productId: string }) 
                         <Button
                             size="icon"
                             variant="ghost"
-                            onClick={() => setEditingImageId(img._id)}
+                            onClick={() => setEditingImageId(img._id ?? null)}
                         >
                             <Upload size={14} />
                         </Button>
@@ -59,6 +59,7 @@ export default function EditProductImages({ productId }: { productId: string }) 
                             size="icon"
                             variant="ghost"
                             onClick={async () => {
+                                if (!img._id) return
                                 await productApi.updateImages({ url: null }, img._id)
                                 setImages(prev => prev.filter(i => i._id !== img._id))
                             }}
@@ -71,7 +72,7 @@ export default function EditProductImages({ productId }: { productId: string }) 
                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
                             <ProductImageUploader
                                 compact
-                                onUploadComplete={urls => handleReplaceImage(img._id, urls[0])}
+                                onUploadComplete={urls => img._id && handleReplaceImage(img._id, urls[0])}
                             />
                         </div>
                     )}

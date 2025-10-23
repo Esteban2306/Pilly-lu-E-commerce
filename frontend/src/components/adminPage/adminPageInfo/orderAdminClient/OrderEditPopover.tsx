@@ -4,15 +4,19 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button"
 import { useUpdateOrders } from "@/hooks/useOrders/useOrders"
 import { Edit } from "lucide-react"
-import { OrderType } from "@/types/order.types"
+import { OrderType, OrderRow } from "@/types/order.types"
 
-export default function OrderEditPopover({ order }: any) {
+type OrderEditPopoverProps = {
+    order: OrderType | OrderRow
+}
+
+export default function OrderEditPopover({ order }: OrderEditPopoverProps) {
     const [open, setOpen] = useState(false)
     const [status, setStatus] = useState(order?.status || "")
     const updateOrder = useUpdateOrders()
 
     const handleSubmit = async () => {
-        await updateOrder.mutateAsync({ id: order.id, data: { status } })
+        await updateOrder.mutateAsync({ id: order._id, data: { status } })
         setOpen(false)
     }
 
