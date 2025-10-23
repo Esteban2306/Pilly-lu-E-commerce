@@ -30,7 +30,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                 className="
           grid grid-cols-2 sm:grid-cols-3
           lg:[grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]
-          gap-7 justify-center justify-items-center px-6
+          gap-3 justify-center justify-items-center px-6
         "
             >
                 {categorias.map((cat, i) => (
