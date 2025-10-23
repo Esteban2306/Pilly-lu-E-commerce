@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Eye, Edit, Trash2, MoreVertical } from 'lucide-react'
 import OrderEditPopover from "./OrderEditPopover"
+import { OrderRow } from '@/types/order.types'
+
 
 export default function OrderAdminClient() {
     const router = useRouter()
@@ -72,9 +74,9 @@ export default function OrderAdminClient() {
             />
 
             <div className="mt-6">
-                <AdminDataGrid
+                <AdminDataGrid<OrderRow>
                     data={orders.map(o => ({
-                        id: o._id,
+                        _id: o._id,
                         user: o.user?.name || "Sin nombre",
                         total: o.total,
                         status: o.status,
@@ -105,14 +107,14 @@ export default function OrderAdminClient() {
                                 className="w-40 p-2 bg-white shadow-lg border rounded-xl space-y-1"
                             >
                                 <button
-                                    onClick={() => handleView(row.id)}
+                                    onClick={() => handleView(row._id)}
                                     className="flex items-center gap-2 w-full px-2 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                 >
                                     <Eye size={14} /> Ver orden
                                 </button>
                                 <OrderEditPopover order={row} />
                                 <button
-                                    onClick={() => handleDelete(row.id)}
+                                    onClick={() => handleDelete(row._id)}
                                     className="flex items-center gap-2 w-full px-2 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md"
                                 >
                                     <Trash2 size={14} /> Eliminar

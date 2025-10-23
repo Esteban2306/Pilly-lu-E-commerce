@@ -11,3 +11,12 @@ export type OrderType = {
     createAt: string;
     whatsappLink: string;
 }
+
+export type OrderRow = {
+    _id: string
+    user: string
+    total: number | string
+    status: string
+    updateAt?: string
+    createdAt: string
+}

@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button"
 import { useUpdateOrders } from "@/hooks/useOrders/useOrders"
 import { Edit } from "lucide-react"
+import { OrderType } from "@/types/order.types"
 
 export default function OrderEditPopover({ order }: any) {
     const [open, setOpen] = useState(false)

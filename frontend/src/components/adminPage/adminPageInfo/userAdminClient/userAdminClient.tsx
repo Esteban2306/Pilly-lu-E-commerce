@@ -5,6 +5,7 @@ import UserFilterBar from "./UserFilterBar"
 import AdminDataGrid from "../adminDataGrid/AdminDataGrid"
 import { useDeleteUsers, useUsers } from "@/hooks/useUsers/useUsers"
 import { useDebounce } from "@/hooks/useDebounce/useDebounce"
+import { UserRow } from '@/types/user.types'
 
 export default function USerAdminClient() {
     const [searchFilters, setSearchFilters] = useState('')
@@ -32,9 +33,9 @@ export default function USerAdminClient() {
             <UserFilterBar filters={searchFilters} filtersTwo={roleFilter} onChange={setSearchFilters} onChangeTwo={setRoleFilter} />
 
             <div className="mt-6">
-                <AdminDataGrid
+                <AdminDataGrid<UserRow>
                     data={users.map(u => ({
-                        id: u._id,
+                        _id: u._id,
                         name: u.fullName,
                         email: u.email,
                         role: u.role?.name || 'sin rol',
