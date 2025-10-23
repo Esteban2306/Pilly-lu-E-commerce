@@ -4,7 +4,7 @@
 @plugin "flowbite/plugin";
 
 
-@custom-variant dark (&:is(.dark *));
+
 
 @plugin "@midudev/tailwind-animations";
 

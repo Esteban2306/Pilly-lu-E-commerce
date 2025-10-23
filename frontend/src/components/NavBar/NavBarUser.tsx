@@ -14,7 +14,7 @@ import ButtonGlowingBorder from "../buttons/buttonGlowingBorder/buttonGlowingBor
 import { useAuth } from "@/context/authContext"
 import ModalUserPanel from "@/utils/modals/modalUser/ModalUserPanel"
 import ShopPopover from "./utils/modals/modalShop/ShopPopover"
-import { Gem } from "lucide-react"
+
 import {
     DropDrawer,
     DropDrawerTrigger,
@@ -31,6 +31,7 @@ import brasaletIcon from '../../../public/icons/iconBrasaletBlack.png'
 import cadenaIcon from '../../../public/icons/iconCadenaBlack.png'
 import airRingsIcon from '../../../public/icons/iconAirringsBlack.png'
 import chairsIcon from '../../../public/icons/iconChairsBlack.png'
+import iconUser from '../../../public/icons/iconUser.png'
 import ModalNotification from "./utils/modals/modalNotification/modalNotification"
 
 export default function NavBarUser() {
@@ -223,13 +224,13 @@ export default function NavBarUser() {
                         <div className="border-t border-zinc-300 pt-4 space-y-2 max-w-[90vw] m-auto">
                             <ModalCart
                                 trigger={
-                                    <button className="w-full flex items-center font-bold gap-2 py-3 rounded-md bg-gray-100 hover:bg-white transition">
+                                    <button className="max-w-[380px] w-full flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-900">
                                         Carrito <CartIcon className="size-5" />
                                     </button>
                                 }
                             />
                             <DropDrawerSub>
-                                <DropDrawerSubTrigger >
+                                <DropDrawerSubTrigger className="max-w-[380px] w-full flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-900 m-0">
                                     <span className='font-bold'>Notificación</span>
                                     <BellIcon />
                                 </DropDrawerSubTrigger>
@@ -245,7 +246,7 @@ export default function NavBarUser() {
                             <DropDrawerSub>
                                 <button
                                     onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
-                                    className="w-[380px] flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-700"
+                                    className="max-w-[380px] w-full flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-900"
                                 >
                                     Buscar <SearchIcon className="size-5" />
                                 </button>
@@ -257,8 +258,11 @@ export default function NavBarUser() {
                 {token ? (
                     <ModalUserPanel />
                 ) : (
-                    <Link href="/auth/signIn">
-                        <ButtonGlowingBorder text="Iniciar sesión" />
+                    <Link
+                        href="/auth/signIn"
+                        className="p-2 rounded-full border border-blue-300 bg-blue-100/40 text-black hover:bg-blue-200/70 transition flex items-center justify-center w-10 h-10"
+                    >
+                        <Image src={iconUser} alt="icono de usuario no logueado" />
                     </Link>
                 )}
             </div>
