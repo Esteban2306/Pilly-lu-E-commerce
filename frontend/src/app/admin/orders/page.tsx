@@ -1,4 +1,4 @@
-import OrderAdminClient from "@/components/adminPage/adminPageInfo/orderAdminClient/orderAdminClient"
+import OrderAdminClient from "@/components/adminPage/adminPageInfo/orderAdminClient/OrderAdminClient"
 
 export default function OrderPage() {
     return (

@@ -35,7 +35,7 @@ export default function ModalShop() {
               transition
             "
                     >
-                        {cat.icon && <Image src={cat.icon.src} alt={cat.name} className="size-4 object-contain" />}
+                        {cat.icon && <Image src={cat.icon.src} alt={cat.name} width={16} height={16} className="size-4 object-contain" />}
                         {cat.name}
                     </Link>
                 </li>
