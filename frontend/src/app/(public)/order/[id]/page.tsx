@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { OrderPageClient } from "@/components/orderPage/OrderPageClient"
+import { OrderPageClient } from "@/components/orderPage/orderPageClient"
 
 interface PageProps {
     params: Promise<{ id: string }>
