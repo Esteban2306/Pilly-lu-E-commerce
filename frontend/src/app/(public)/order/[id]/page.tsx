@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { OrderPageClient } from "@/components/orderPage/orderPageClient"
 
 interface PageProps {
