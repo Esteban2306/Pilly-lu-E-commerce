@@ -55,6 +55,8 @@ export default function ProductImageUploader({
                     <Image
                         src={preview}
                         alt="preview"
+                        width={20}
+                        height={20}
                         className="absolute inset-0 w-full h-full object-cover rounded-md"
                     />
                 ) : (
