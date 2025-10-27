@@ -65,7 +65,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             total
         })
 
-        const orderUrl = `http://localhost:3000/order/${order._id}`
+        const orderUrl = `https://pillylu.qzz.io/order/${order._id}`
 
         const message =
             `*Nueva orden creada*\n\n` +

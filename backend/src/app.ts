@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 app.disable('x-powered-by');
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://pilly-lu-e-commerce.vercel.app'],
+    origin: ['http://localhost:3000', 'https://pilly-lu-e-commerce.vercel.app', 'https://pillylu.qzz.io'],
     credentials: true
 }))
 app.use(cookieParser());
