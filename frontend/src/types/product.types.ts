@@ -10,6 +10,7 @@ export type ProductCardProps = {
     description?: string;
     isFeatured?: boolean;
     color: string;
+    finalPrice: number;
     offer: number | string;
     stock?: number;
     status?: string;

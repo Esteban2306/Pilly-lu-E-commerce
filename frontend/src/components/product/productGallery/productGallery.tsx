@@ -9,7 +9,6 @@ import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages
 import { CometCard } from '@/components/ui/comet-card';
 import { useCart } from '@/context/cartContext';
 import { useCurrencyFormat } from '@/hooks/useCurrencyFormat/useCurrencyFormat';
-import { calculateDiscountedPrice } from './calculateDiscountedPrice';
 import { useEffect, useState } from 'react';
 
 export default function ProductGallery({
@@ -17,6 +16,7 @@ export default function ProductGallery({
     productName,
     price,
     offer,
+    finalPrice,
     stock,
     status
 }: ProductCardProps) {
@@ -52,7 +52,7 @@ export default function ProductGallery({
         return 'bg-gray-100 text-gray-700 border-gray-300';
     };
 
-    const { finalPrice, discountAmount } = calculateDiscountedPrice(price, offer);
+
 
     return (
         <CometCard>
@@ -103,9 +103,9 @@ export default function ProductGallery({
                                         </span>
                                     </div>
                                     <p className="text-xs text-green-600">
-                                        {typeof offer === 'string' && offer.includes('%')
+                                        {typeof offer === "string" && offer.includes("%")
                                             ? `Descuento del ${offer}`
-                                            : `Descuento de ${formatCurrency(discountAmount)}`}
+                                            : `Descuento de ${formatCurrency(price - finalPrice)}`}
                                     </p>
                                 </>
                             ) : (

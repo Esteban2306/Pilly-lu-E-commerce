@@ -9,6 +9,7 @@ export type Product = {
     description?: string;
     price: number;
     color: string;
+    finalPrice: number;
     offer: string | number;
     status: string;
     images: { url: string }[];
