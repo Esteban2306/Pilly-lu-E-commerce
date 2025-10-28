@@ -84,6 +84,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                         images={p.images}
                         color={p.color}
                         offer={p.offer}
+                        stock={p.stock}
                     />
                 ))}
             </div>

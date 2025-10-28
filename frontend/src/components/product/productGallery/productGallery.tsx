@@ -20,6 +20,8 @@ export default function ProductGallery({
     status
 }: ProductCardProps) {
 
+    console.log(stock)
+
     const { mainImage } = useProductFetchImages(_id);
     const { addToCart } = useCart();
     const { formatCurrency } = useCurrencyFormat();
@@ -31,6 +33,9 @@ export default function ProductGallery({
     ].filter(Boolean) as string[];
 
     const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
+
+    console.log('Badges:', badges);
+    console.log('Current Badge Index:', currentBadgeIndex);
 
     useEffect(() => {
         if (badges.length > 1) {
