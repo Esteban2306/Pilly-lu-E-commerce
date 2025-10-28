@@ -5,6 +5,7 @@ import NotFoundError from "../middlewares/not-found.js";
 import { Image } from "../models/image.js";
 import mongoose from "mongoose";
 import { Category } from "../models/category.js";
+import { calculateDiscountedPrice } from "../utils/calculateDiscountedPrice.js";
 
 const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,6 +15,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             color,
             material,
             price,
+            finalPrice,
             offer,
             status,
             category,
@@ -32,6 +34,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             color,
             material,
             price,
+            finalPrice,
             offer,
             status,
             category,
@@ -246,9 +249,18 @@ const getRelatedProducts = async (req: Request, res: Response, next: NextFunctio
 
 const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+        const { price, offer } = req.body;
+        let updatedData = { ...req.body };
+
+        if (price !== undefined && offer !== undefined) {
+            const { finalPrice } = calculateDiscountedPrice({ price, offer });
+            updatedData = { ...updatedData, finalPrice };
+        }
+
         const data = await Product.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updatedData,
             { new: true, runValidators: true }
         ).populate("category", "categoryName")
         if (!data) {

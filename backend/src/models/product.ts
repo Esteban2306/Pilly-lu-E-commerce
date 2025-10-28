@@ -28,6 +28,11 @@ const productShema = new mongoose.Schema({
         require: true
     },
 
+    finalPrice: {
+        type: Number,
+        default: 0
+    },
+
     material: {
         type: String,
         require: true
