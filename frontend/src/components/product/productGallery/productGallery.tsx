@@ -21,22 +21,17 @@ export default function ProductGallery({
     status
 }: ProductCardProps) {
 
-    console.log(stock)
-
     const { mainImage } = useProductFetchImages(_id);
     const { addToCart } = useCart();
     const { formatCurrency } = useCurrencyFormat();
 
     const badges = [
         status === 'nuevo' ? 'Nuevo' : null,
-        offer ? offer : null,
+        offer ? 'Oferta!' : null,
         stock !== undefined && stock < 5 ? 'Poco stock' : null
     ].filter(Boolean) as string[];
 
     const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
-
-    console.log('Badges:', badges);
-    console.log('Current Badge Index:', currentBadgeIndex);
 
     useEffect(() => {
         if (badges.length > 1) {

@@ -12,12 +12,7 @@ export const optionalAuth = (req: Request, res: Response, next: NextFunction) =>
     if (authHeader?.startsWith('Bearer ')) {
         try {
             const token = authHeader.split(" ")[1];
-
-            console.log('token:', token)
-            console.log('jwtSecret:', jwtSecret)
             const payload = Jwt.verify(token, jwtSecret) as CustomJwtPayload;
-
-
             req.userId = payload.sub
             req.userRole = payload.role
         } catch (err) {
