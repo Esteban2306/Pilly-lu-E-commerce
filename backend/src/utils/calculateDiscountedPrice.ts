@@ -1,4 +1,4 @@
-export function calculateDiscountedPrice({ price, offer }: { price: number; offer: string | number }) {
+export function calculateDiscountedPrice(price: number, offer: string | number) {
     if (!offer) return { finalPrice: price, discountAmount: 0, percent: 0 };
 
     if (typeof offer === "string" && offer.includes("%")) {

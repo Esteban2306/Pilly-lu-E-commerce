@@ -15,19 +15,21 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             color,
             material,
             price,
-            finalPrice,
             offer,
             status,
             category,
             stock,
             images,
             sku,
-            isFeatured
+            isFeatured,
         } = req.body;
 
         if (!productName || !description || !price || !category) {
             return res.status(400).json({ error: "Campos requeridos faltantes" });
         }
+
+        const { finalPrice } = calculateDiscountedPrice(price, offer);
+
         const product = new Product({
             productName,
             description,
@@ -40,7 +42,7 @@ const createProduct = async (req: Request, res: Response, next: NextFunction) =>
             category,
             stock,
             sku,
-            isFeatured
+            isFeatured,
         });
 
         await product.save();
@@ -254,7 +256,7 @@ const updateProduct = async (req: Request, res: Response, next: NextFunction) =>
         let updatedData = { ...req.body };
 
         if (price !== undefined && offer !== undefined) {
-            const { finalPrice } = calculateDiscountedPrice({ price, offer });
+            const { finalPrice } = calculateDiscountedPrice(price, offer);
             updatedData = { ...updatedData, finalPrice };
         }
 

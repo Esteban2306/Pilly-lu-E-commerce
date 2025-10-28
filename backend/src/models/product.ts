@@ -5,17 +5,17 @@ const productShema = new mongoose.Schema({
 
     productName: {
         type: String,
-        require: true
+        required: true
     },
 
     description: {
         type: String,
-        require: true
+        required: true
     },
 
     color: {
         type: String,
-        require: true
+        required: true
     },
 
     images: [{
@@ -25,17 +25,17 @@ const productShema = new mongoose.Schema({
 
     price: {
         type: Number,
-        require: true
+        required: true
     },
 
     finalPrice: {
         type: Number,
-        require: true
+        required: true
     },
 
     material: {
         type: String,
-        require: true
+        required: true
     },
 
     offer: {
@@ -66,7 +66,7 @@ const productShema = new mongoose.Schema({
 
     sku: {
         type: String,
-        require: true,
+        required: true,
         default: () => {
             return crypto
                 .randomBytes(8)
