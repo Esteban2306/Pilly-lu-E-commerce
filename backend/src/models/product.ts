@@ -34,7 +34,7 @@ const productShema = new mongoose.Schema({
     },
 
     offer: {
-        type: Number,
+        type: mongoose.Schema.Types.Mixed,
         default: 0
     },
 

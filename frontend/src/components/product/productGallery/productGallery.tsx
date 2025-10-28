@@ -9,6 +9,7 @@ import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages
 import { CometCard } from '@/components/ui/comet-card';
 import { useCart } from '@/context/cartContext';
 import { useCurrencyFormat } from '@/hooks/useCurrencyFormat/useCurrencyFormat';
+import { calculateDiscountedPrice } from './calculateDiscountedPrice';
 import { useEffect, useState } from 'react';
 
 export default function ProductGallery({
@@ -56,6 +57,8 @@ export default function ProductGallery({
         return 'bg-gray-100 text-gray-700 border-gray-300';
     };
 
+    const { finalPrice, discountAmount } = calculateDiscountedPrice(price, offer);
+
     return (
         <CometCard>
             <div className="snap-center flex-shrink-0 max-w-[280px] w-full bg-sky-100 rounded-3xl shadow-sm 
@@ -93,14 +96,27 @@ export default function ProductGallery({
                             {stock && stock < 5 ? 'Bajo stock' : 'En stock'}
                         </p>
 
-                        <div className="flex items-center gap-2">
-                            <p className="text-[16px] font-bold text-gray-900">
-                                {formatCurrency(price)}
-                            </p>
-                            {offer && (
-                                <span className="text-gray-400 text-[13px] line-through">
-                                    {formatCurrency(price + price * 0.15)}
-                                </span>
+                        <div className="flex flex-col">
+                            {offer ? (
+                                <>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-[16px] font-bold text-gray-900">
+                                            {formatCurrency(finalPrice)}
+                                        </p>
+                                        <span className="text-gray-400 text-[13px] line-through">
+                                            {formatCurrency(price)}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-green-600">
+                                        {typeof offer === 'string' && offer.includes('%')
+                                            ? `Descuento del ${offer}`
+                                            : `Descuento de ${formatCurrency(discountAmount)}`}
+                                    </p>
+                                </>
+                            ) : (
+                                <p className="text-[16px] font-bold text-gray-900">
+                                    {formatCurrency(price)}
+                                </p>
                             )}
                         </div>
                     </div>
