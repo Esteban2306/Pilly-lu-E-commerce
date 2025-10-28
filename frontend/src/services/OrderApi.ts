@@ -44,6 +44,6 @@ export class OrderApi extends Api {
 }
 
 export const orderApi = new OrderApi({
-    baseUrl: 'https://pilly-lu-e-commerce-production.up.railway.app',
+    baseUrl: 'https://api.pillylu.qzz.io',
     headers: { 'Content-Type': 'application/json' },
 });

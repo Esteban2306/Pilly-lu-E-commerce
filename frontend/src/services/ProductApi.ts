@@ -49,6 +49,6 @@ export class ProductApi extends Api {
 }
 
 export const productApi = new ProductApi({
-    baseUrl: 'https://pilly-lu-e-commerce-production.up.railway.app',
+    baseUrl: 'https://api.pillylu.qzz.io',
     headers: { 'Content-Type': 'application/json' }
 })

@@ -25,6 +25,6 @@ export class CartApi extends Api {
 }
 
 export const cartApi = new CartApi({
-    baseUrl: 'https://pilly-lu-e-commerce-production.up.railway.app',
+    baseUrl: 'https://api.pillylu.qzz.io',
     headers: { 'Content-Type': 'application/json' },
 });
