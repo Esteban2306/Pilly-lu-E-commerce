@@ -78,21 +78,24 @@ export default function EditProductPopover({ product }: { product: Product }) {
                 <Button
                     variant="secondary"
                     size="icon"
-                    className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-blue-100 shadow-sm"
+                    className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-blue-100 shadow-sm max-sm:max-w-[90vw]"
                 >
                     <FileEdit className="w-4 h-4 text-blue-600" />
                 </Button>
             </PopoverTrigger>
 
             <PopoverContent
-                className="w-[480px] bg-gradient-to-b from-blue-50 to-white border border-blue-200 shadow-lg rounded-xl p-6"
-                side="right"
+                className="w-full sm:w-[480px] max-w-[95vw] bg-gradient-to-b from-blue-50 to-white border border-blue-200 shadow-lg rounded-xl p-6 mx-auto sm:mx-0"
+                side={window.innerWidth < 640 ? "bottom" : "right"}
                 align="center"
                 sideOffset={8}
             >
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold text-blue-700">Editar Producto</h2>
-                    <button onClick={() => setOpen(false)} className="text-gray-500 hover:text-blue-600">
+                    <button
+                        onClick={() => setOpen(false)}
+                        className="text-gray-500 hover:text-blue-600"
+                    >
                         <X size={18} />
                     </button>
                 </div>
