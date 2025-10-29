@@ -34,9 +34,9 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                 $project: {
                     product: '$productInfo._id',
                     amount: '$products.amount',
-                    price: '$productInfo.price',
+                    price: '$productInfo.finalPrice',
                     stock: '$productInfo.stock',
-                    subtotal: { $multiply: ['$products.amount', '$productInfo.price'] },
+                    subtotal: { $multiply: ['$products.amount', '$productInfo.finalPrice'] },
                     insufficient: { $cond: [{ $lt: ['$products.stock', '$products.amount'] }, 1, 0] } //cond es lo mismo que '? a : b'
                 }
             },
@@ -45,7 +45,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                 $group: {
                     _id: null,
                     items: {
-                        $push: { product: '$product', amount: '$amount', price: '$price', subtotal: { $multiply: ['$amount', '$price'] } }
+                        $push: { product: '$product', amount: '$amount', price: '$finalPrice', subtotal: { $multiply: ['$amount', '$finalPrice'] } }
                     },
                     total: { $sum: '$subtotal' },
                     insufficientCount: { $sum: '$insufficient' }
@@ -292,7 +292,7 @@ const deleteProductInOrder = async (req: Request, res: Response, next: NextFunct
         );
 
         order.total = order.products.reduce(
-            (acc: number, item: any) => acc + (item.amount * item.price),
+            (acc: number, item: any) => acc + (item.amount * item.finalPrice),
             0
         );
 
@@ -304,7 +304,7 @@ const deleteProductInOrder = async (req: Request, res: Response, next: NextFunct
             { new: true }
         ).populate({
             path: "products.product",
-            select: "productName price images",
+            select: "productName price finalPrice images",
             populate: { path: "images", select: "url" }
         });
 
@@ -341,7 +341,7 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
         productItem.amount = amount;
 
         order.total = order.products.reduce(
-            (acc: number, item: any) => acc + (item.amount * item.price),
+            (acc: number, item: any) => acc + (item.amount * item.finalPrice),
             0
         );
 
@@ -349,7 +349,7 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
 
         const updatedOrder = await order.populate({
             path: "products.product",
-            select: "productName price images",
+            select: "productName price finalPrice images",
             populate: { path: "images", select: "url" },
         });
 
