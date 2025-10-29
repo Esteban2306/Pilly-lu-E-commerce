@@ -28,11 +28,28 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                     product: "$productInfo._id",
                     amount: "$products.amount",
                     price: { $toDouble: "$productInfo.price" },
-                    finalPrice: { $toDouble: "$productInfo.finalPrice" },
+                    finalPrice: {
+                        $cond: {
+                            if: { $gt: [{ $type: "$productInfo.finalPrice" }, "missing"] },
+                            then: { $toDouble: "$productInfo.finalPrice" },
+                            else: { $toDouble: "$productInfo.price" }
+                        }
+                    },
                     offer: "$productInfo.offer",
                     subtotal: { $multiply: ["$products.amount", { $toDouble: "$productInfo.price" }] },
-                    totalWithDiscount: { $multiply: ["$products.amount", { $toDouble: "$productInfo.finalPrice" }] },
-                },
+                    totalWithDiscount: {
+                        $multiply: [
+                            "$products.amount",
+                            {
+                                $cond: {
+                                    if: { $gt: [{ $type: "$productInfo.finalPrice" }, "missing"] },
+                                    then: { $toDouble: "$productInfo.finalPrice" },
+                                    else: { $toDouble: "$productInfo.price" }
+                                }
+                            }
+                        ]
+                    },
+                }
             },
             {
                 $group: {
@@ -64,9 +81,9 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
         const order = await Order.create({
             user: userId,
             products: items,
-            subtotal,
-            total,
-            totalDiscount,
+            subtotal: subtotal || 0,
+            total: total || subtotal,
+            totalDiscount: totalDiscount || 0,
         });
 
         const whatsappLink = `https://wa.me/573144455235?text=${encodeURIComponent(
@@ -171,7 +188,6 @@ const getOrderById = async (req: Request, res: Response, next: NextFunction) => 
             throw new NotFoundError('no hay ordenes creadas para este usuario')
         }
 
-        //const orderResponse = order.toObject()
 
         order.products = order.products.map((item: any) => ({
             product: { ...item.product, amount: item.amount, subtotal: item.subtotal }
@@ -271,9 +287,14 @@ const deleteProductInOrder = async (req: Request, res: Response, next: NextFunct
         );
 
         order.total = order.products.reduce(
-            (acc: number, item: any) => acc + (item.amount * item.finalPrice),
+            (acc: number, item: any) => acc + (item.amount * (item.product?.finalPrice || item.product?.price || 0)),
             0
         );
+        order.subtotal = order.products.reduce(
+            (acc: number, item: any) => acc + (item.amount * (item.product?.price || 0)),
+            0
+        );
+        order.totalDiscount = order.subtotal - order.total;
 
         await order.save();
 
