@@ -12,57 +12,73 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
         const { userId } = req.body;
 
         const cartData = await Cart.aggregate([
-
-            /*se filtra el carrito del usuario */
             { $match: { user: new mongoose.Types.ObjectId(userId) } },
             { $unwind: '$products' },
 
-            /*join con la coleccion porducts */
             {
                 $lookup: {
                     from: 'products',
                     localField: 'products.product',
                     foreignField: '_id',
-                    as: 'productInfo'
-                }
+                    as: 'productInfo',
+                },
             },
-
-            /* desempaquta el array de lookup*/
             { $unwind: '$productInfo' },
 
             {
                 $project: {
                     product: '$productInfo._id',
                     amount: '$products.amount',
-                    price: '$productInfo.finalPrice',
-                    stock: '$productInfo.stock',
-                    subtotal: { $multiply: ['$products.amount', '$productInfo.finalPrice'] },
-                    insufficient: { $cond: [{ $lt: ['$products.stock', '$products.amount'] }, 1, 0] } //cond es lo mismo que '? a : b'
-                }
+                    price: '$productInfo.price',
+                    finalPrice: '$productInfo.finalPrice',
+                    offer: '$productInfo.offer',
+                    subtotal: { $multiply: ['$products.amount', '$productInfo.price'] },
+                    totalWithDiscount: { $multiply: ['$products.amount', '$productInfo.finalPrice'] },
+                    insufficient: { $cond: [{ $lt: ['$productInfo.stock', '$products.amount'] }, 1, 0] },
+                },
             },
 
             {
                 $group: {
                     _id: null,
                     items: {
-                        $push: { product: '$product', amount: '$amount', price: '$finalPrice', subtotal: { $multiply: ['$amount', '$finalPrice'] } }
+                        $push: {
+                            product: '$product',
+                            amount: '$amount',
+                            price: '$price',
+                            finalPrice: '$finalPrice',
+                            offer: '$offer',
+                            subtotal: { $multiply: ['$amount', '$price'] },
+                            totalWithDiscount: { $multiply: ['$amount', '$finalPrice'] },
+                        },
                     },
-                    total: { $sum: '$subtotal' },
-                    insufficientCount: { $sum: '$insufficient' }
-                }
-            }
+                    subtotal: { $sum: '$subtotal' },
+                    total: { $sum: '$totalWithDiscount' },
+                    totalDiscount: {
+                        $sum: {
+                            $subtract: [
+                                { $multiply: ['$amount', '$price'] },
+                                { $multiply: ['$amount', '$finalPrice'] },
+                            ],
+                        },
+                    },
+                    insufficientCount: { $sum: '$insufficient' },
+                },
+            },
         ])
 
         if (!cartData || cartData.length === 0) {
             throw new BadRequest('el carrito se encuentra vacio')
         }
 
-        const { items, total } = cartData[0]
+        const { items, subtotal, total, totalDiscount } = cartData[0]
 
         const order = await Order.create({
             user: userId,
             products: items,
-            total
+            subtotal,
+            total,
+            totalDiscount,
         })
 
         const orderUrl = `https://pillylu.qzz.io/order/${order._id}`

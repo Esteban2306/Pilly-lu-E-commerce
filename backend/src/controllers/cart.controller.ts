@@ -52,7 +52,7 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
             { new: true }
         ).populate({
             path: 'products.product',
-            select: 'productName price images',
+            select: 'productName price finalPrice images',
             populate: {
                 path: 'images',
                 select: 'url',
@@ -99,7 +99,7 @@ const removeItemFromCart = async (req: Request, res: Response, next: NextFunctio
             { new: true }
         ).populate({
             path: 'products.product',
-            select: 'productName price images',
+            select: 'productName price finalPrice images',
             populate: {
                 path: 'images',
                 select: 'url',
@@ -187,7 +187,7 @@ const updateItemCuantity = async (req: Request, res: Response, next: NextFunctio
             { new: true }
         ).populate({
             path: "products.product",
-            select: "productName price images",
+            select: "productName price finalPrice images",
             populate: {
                 path: "images",
                 select: "url",

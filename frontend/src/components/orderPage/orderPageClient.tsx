@@ -46,11 +46,11 @@ export function OrderPageClient({ orderId }: Props) {
             <div className="mt-8 border-t pt-6">
                 <div className="flex justify-between text-gray-600 text-sm mb-2">
                     <span>Subtotal</span>
-                    <span>{formatCurrency(data.total)}</span>
+                    <span>{formatCurrency(data.subtotal || 0)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600 text-sm mb-2">
                     <span>Descuento</span>
-                    <span>-</span>
+                    <span>-{formatCurrency(data.totalDiscount || 0)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600 text-sm mb-2">
                     <span>Impuesto</span>
@@ -62,7 +62,7 @@ export function OrderPageClient({ orderId }: Props) {
                 </div>
                 <div className="flex justify-between text-lg font-bold text-gray-800 mt-4">
                     <span>Total</span>
-                    <span>{formatCurrency(data.total)}</span>
+                    <span>{formatCurrency(data.total || 0)}</span>
                 </div>
             </div>
 
