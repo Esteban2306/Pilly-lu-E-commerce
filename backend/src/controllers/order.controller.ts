@@ -116,7 +116,7 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
             })
             .populate({
                 path: "products.product",
-                select: "productName price images.url",
+                select: "productName price finalPrice images.url",
             });
 
         if (search) {
@@ -170,7 +170,7 @@ const getOrderById = async (req: Request, res: Response, next: NextFunction) => 
             .populate('user', 'name email')
             .populate({
                 path: 'products.product',
-                select: 'productName price images sku stock amount',
+                select: 'productName price finalPrice images sku stock amount',
                 populate: {
                     path: 'images',
                     select: 'url'
@@ -207,7 +207,7 @@ const getAllOrdersByUserId = async (req: Request, res: Response, next: NextFunct
         const orders = await Order.find({ user: userId })
             .populate({
                 path: 'products.product',
-                select: 'productName price images sku stock amount',
+                select: 'productName price finalPrice images sku stock amount',
                 populate: {
                     path: 'images',
                     select: 'url'
