@@ -129,7 +129,7 @@ const getCartByUserId = async (req: Request, res: Response, next: NextFunction) 
         const cart = await Cart.findOne(query)
             .populate({
                 path: 'products.product',
-                select: 'productName price images',
+                select: 'productName price finalPrice images',
                 populate: {
                     path: 'images',
                     select: 'url',
