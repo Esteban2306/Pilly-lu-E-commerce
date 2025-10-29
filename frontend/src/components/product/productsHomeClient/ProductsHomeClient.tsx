@@ -83,7 +83,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                         price={p.price}
                         images={p.images}
                         color={p.color}
-                        finalPrice={p.finalPrice}
+                        finalPrice={p.finalPrice || 0}
                         offer={p.offer}
                         stock={p.stock}
                     />

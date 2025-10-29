@@ -74,13 +74,12 @@ const ModalCart: React.FC<ModalCartProps> = ({ trigger }) => {
                     <div className="flex-1 overflow-y-auto custom-scrollbar">
                         {product?.map((p, i) => {
                             if (!p?.product?._id) return null;
-
                             return (
                                 <CartItem
                                     key={i}
                                     productId={p.product._id}
                                     title={p.product.productName}
-                                    price={p.product.price}
+                                    finalPrice={p.product.finalPrice || 0}
                                     image={p.product?.images?.[0]?.url}
                                     amount={p.amount}
                                 />

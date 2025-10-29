@@ -45,7 +45,7 @@ export default function PageCategoryClient({ category, products, icon }: Categor
                         price={p.price}
                         images={p.images}
                         color={p.color}
-                        finalPrice={p.finalPrice}
+                        finalPrice={p.finalPrice || 0}
                         offer={p.offer}
                     />
                 ))}

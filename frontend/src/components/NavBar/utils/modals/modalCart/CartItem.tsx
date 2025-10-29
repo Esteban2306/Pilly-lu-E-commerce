@@ -8,12 +8,12 @@ import { useCart } from "@/context/cartContext";
 interface CartItemProps {
     productId: string
     title: string;
-    price: number;
+    finalPrice: number;
     image: string;
     amount: number
 }
 
-const CartItem: React.FC<CartItemProps> = ({ productId, title, price, image, amount }) => {
+const CartItem: React.FC<CartItemProps> = ({ productId, title, finalPrice, image, amount }) => {
     const { updateCart, removeCart } = useCart()
 
     return (
@@ -32,7 +32,7 @@ const CartItem: React.FC<CartItemProps> = ({ productId, title, price, image, amo
                 />
                 <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{title}</p>
-                    <p className="text-sm text-gray-600">${price}</p>
+                    <p className="text-sm text-gray-600">${finalPrice}</p>
                 </div>
             </div>
 

@@ -60,7 +60,7 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
                                         ? formatCurrency(product.finalPrice)
                                         : formatCurrency(product.price)}
                                 </span>
-                                {product.finalPrice && (
+                                {product.finalPrice && product.finalPrice < product.price && (
                                     <span className="text-gray-400 line-through font-medium text-lg">
                                         {formatCurrency(product.price)}
                                     </span>

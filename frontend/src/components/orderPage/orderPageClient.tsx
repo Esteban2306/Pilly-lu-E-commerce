@@ -25,7 +25,7 @@ export function OrderPageClient({ orderId }: Props) {
     const projects = data?.products.map((item) => ({
         id: item.product._id,
         title: item.product.productName || "Sin nombre",
-        pricePerHour: formatCurrency((item.product.price || 0) * (item.product.amount || 1)),
+        pricePerHour: formatCurrency((item.product.finalPrice || 0) * (item.product.amount || 1)),
         categories: [item.product.sku || "Sin SKU"],
         description: `Cantidad: ${item.product.amount ?? 1}`,
         logoColor: "bg-gray-200",
@@ -62,7 +62,7 @@ export function OrderPageClient({ orderId }: Props) {
                 </div>
                 <div className="flex justify-between text-lg font-bold text-gray-800 mt-4">
                     <span>Total</span>
-                    <span>${formatCurrency(data.total)}</span>
+                    <span>{formatCurrency(data.total)}</span>
                 </div>
             </div>
 
