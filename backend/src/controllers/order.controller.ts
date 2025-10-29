@@ -13,65 +13,53 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
         const cartData = await Cart.aggregate([
             { $match: { user: new mongoose.Types.ObjectId(userId) } },
-            { $unwind: '$products' },
-
+            { $unwind: "$products" },
             {
                 $lookup: {
-                    from: 'products',
-                    localField: 'products.product',
-                    foreignField: '_id',
-                    as: 'productInfo',
+                    from: "products",
+                    localField: "products.product",
+                    foreignField: "_id",
+                    as: "productInfo",
                 },
             },
-            { $unwind: '$productInfo' },
-
+            { $unwind: "$productInfo" },
             {
                 $project: {
-                    product: '$productInfo._id',
-                    amount: '$products.amount',
-                    price: '$productInfo.price',
-                    finalPrice: '$productInfo.finalPrice',
-                    offer: '$productInfo.offer',
-                    subtotal: { $multiply: ['$products.amount', '$productInfo.price'] },
-                    totalWithDiscount: { $multiply: ['$products.amount', '$productInfo.finalPrice'] },
-                    insufficient: { $cond: [{ $lt: ['$productInfo.stock', '$products.amount'] }, 1, 0] },
+                    product: "$productInfo._id",
+                    amount: "$products.amount",
+                    price: { $toDouble: "$productInfo.price" },
+                    finalPrice: { $toDouble: "$productInfo.finalPrice" },
+                    offer: "$productInfo.offer",
+                    subtotal: { $multiply: ["$products.amount", { $toDouble: "$productInfo.price" }] },
+                    totalWithDiscount: { $multiply: ["$products.amount", { $toDouble: "$productInfo.finalPrice" }] },
                 },
             },
-
             {
                 $group: {
                     _id: null,
                     items: {
                         $push: {
-                            product: '$product',
-                            amount: '$amount',
-                            price: '$price',
-                            finalPrice: '$finalPrice',
-                            offer: '$offer',
-                            subtotal: { $multiply: ['$amount', '$price'] },
-                            totalWithDiscount: { $multiply: ['$amount', '$finalPrice'] },
+                            product: "$product",
+                            amount: "$amount",
+                            price: "$price",
+                            finalPrice: "$finalPrice",
+                            offer: "$offer",
                         },
                     },
-                    subtotal: { $sum: '$subtotal' },
-                    total: { $sum: '$totalWithDiscount' },
+                    subtotal: { $sum: "$subtotal" },
+                    total: { $sum: "$totalWithDiscount" },
                     totalDiscount: {
                         $sum: {
-                            $subtract: [
-                                { $multiply: ['$amount', '$price'] },
-                                { $multiply: ['$amount', '$finalPrice'] },
-                            ],
+                            $subtract: ["$subtotal", "$totalWithDiscount"],
                         },
                     },
-                    insufficientCount: { $sum: '$insufficient' },
                 },
             },
-        ])
+        ]);
 
-        if (!cartData || cartData.length === 0) {
-            throw new BadRequest('el carrito se encuentra vacio')
-        }
+        if (!cartData.length) throw new BadRequest("El carrito está vacío");
 
-        const { items, subtotal, total, totalDiscount } = cartData[0]
+        const { items, subtotal, total, totalDiscount } = cartData[0];
 
         const order = await Order.create({
             user: userId,
@@ -79,35 +67,21 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
             subtotal,
             total,
             totalDiscount,
-        })
+        });
 
-        const orderUrl = `https://pillylu.qzz.io/order/${order._id}`
-
-        const message =
-            `*Nueva orden creada*\n\n` +
-            `*Orden ID:* ${order._id}\n` +
-            `*Total:* $${order.total}\n\n` +
-            `Ver detalles aquí:\n${orderUrl}`
-
-        const encodeMessage = encodeURIComponent(message)
-
-        const whatsappLink = `https://wa.me/573144455235?text=${encodeMessage}`
-
-        await Order.updateOne(
-            { user: userId },
-            { $set: { products: [] } }
-        )
+        const whatsappLink = `https://wa.me/573144455235?text=${encodeURIComponent(
+            `*Nueva orden creada*\n\n*Orden ID:* ${order._id}\n*Total:* $${order.total}\n\nVer detalles:\nhttps://pillylu.qzz.io/order/${order._id}`
+        )}`;
 
         res.status(201).json({
-            message: 'Orden creada exitosamente',
+            message: "Orden creada exitosamente",
             order,
-            whatsappLink
-        })
-
+            whatsappLink,
+        });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 const getOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -216,54 +190,43 @@ const getAllOrdersByUserId = async (req: Request, res: Response, next: NextFunct
     try {
         const { userId } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            throw new BadRequest('ID de usuario invalido')
-        }
+        if (!mongoose.Types.ObjectId.isValid(userId)) throw new BadRequest("ID de usuario inválido");
 
         const orders = await Order.find({ user: userId })
             .populate({
-                path: 'products.product',
-                select: 'productName price finalPrice images sku stock amount',
-                populate: {
-                    path: 'images',
-                    select: 'url'
-                }
-            })
-            .populate({
-                path: 'user',
-                select: 'firstName lastName email'
+                path: "products.product",
+                select: "productName price finalPrice images sku",
+                populate: { path: "images", select: "url" },
             })
             .sort({ createdAt: -1 });
 
-        if (!orders.length) {
-            throw new NotFoundError('No se encuentran ordenes hechas en este usuario.')
-        }
+        if (!orders.length) throw new NotFoundError("No se encuentran órdenes de este usuario.");
 
-        const formattedOrders = orders.map(order => ({
+        const formatted = orders.map(order => ({
             _id: order._id,
+            subtotal: order.subtotal,
+            totalDiscount: order.totalDiscount,
             total: order.total,
             status: order.status,
             createdAt: order.createdAt,
-            updatedAt: order.updatedAt,
             products: order.products.map((item: any) => ({
                 name: item.product?.productName || "Producto eliminado",
-                price: item.price,
+                price: item.product?.price,
+                finalPrice: item.product?.finalPrice,
                 amount: item.amount,
-                subtotal: item.amount * item.price,
-                images: new Array({ url: item.product?.images?.[0]?.url }) || null,
+                subtotal: item.amount * item.product?.finalPrice,
+                image: item.product?.images?.[0]?.url || null,
             })),
-        }))
+        }));
 
         res.status(200).json({
-            message: 'Órdenes del usuario encontradas con exito.',
-            formattedOrders
-        })
-
-
+            message: "Órdenes del usuario encontradas con éxito.",
+            orders: formatted,
+        });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 const cancelOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -341,38 +304,37 @@ const updateOrderProductAmount = async (req: Request, res: Response, next: NextF
 
         if (!amount || amount < 1) throw new BadRequest("Cantidad inválida");
 
-        const order = await Order.findById(orderId);
+        const order = await Order.findById(orderId).populate({
+            path: "products.product",
+            select: "price finalPrice",
+        });
+
         if (!order) throw new NotFoundError("Orden no encontrada");
+        if (order.status !== "pendiente") throw new BadRequest("Solo puedes editar órdenes pendientes");
 
-        if (order.status !== "pendiente") {
-            throw new BadRequest(`No puedes modificar cantidades en una orden con estado '${order.status}'`);
-        }
+        const item = order.products.find(p => p.product._id.toString() === productId);
+        if (!item) throw new NotFoundError("Producto no encontrado en la orden");
 
-        const productItem = order.products.find(
-            (item: any) => item.product.toString() === productId
-        );
+        item.amount = amount;
 
-        if (!productItem) throw new NotFoundError("Producto no encontrado en la orden");
-
-        productItem.amount = amount;
-
-        order.total = order.products.reduce(
-            (acc: number, item: any) => acc + (item.amount * item.finalPrice),
+        order.subtotal = order.products.reduce(
+            (acc, p: any) => acc + Number(p.product.price) * p.amount,
             0
         );
 
-        await order.save();
+        order.total = order.products.reduce(
+            (acc, p: any) => acc + Number(p.product.finalPrice) * p.amount,
+            0
+        );
 
-        const updatedOrder = await order.populate({
-            path: "products.product",
-            select: "productName price finalPrice images",
-            populate: { path: "images", select: "url" },
-        });
+        order.totalDiscount = order.subtotal - order.total;
+
+        await order.save();
 
         res.status(200).json({
             success: true,
             message: "Cantidad actualizada correctamente",
-            order: updatedOrder,
+            order,
         });
     } catch (err) {
         next(err);

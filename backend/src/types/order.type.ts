@@ -24,6 +24,8 @@ export interface OrderTypeGeneral extends Document {
         price: number;
     }[];
     total: number;
+    subtotal: number;
+    totalDiscount: number;
     status: string;
     createdAt: Date;
     updatedAt: Date;

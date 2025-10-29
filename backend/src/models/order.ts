@@ -12,6 +12,8 @@ const orderSchema = new Schema<OrderTypeGeneral>(
             },
         ],
         total: { type: Number, required: true },
+        subtotal: { type: Number, required: true },
+        totalDiscount: { type: Number, required: true },
         status: {
             type: String,
             enum: ["pendiente", "pagado", "enviado", "entregado", "cancelado", "procesando"],
