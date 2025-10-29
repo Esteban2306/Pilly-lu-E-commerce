@@ -12,6 +12,8 @@ export type Product = {
     finalPrice?: number;
     offer: string | number;
     status: string;
+    material?: string;
+    guarantee?: string
     images: { url: string }[];
     category: Category | null | undefined;
     sku?: string;
