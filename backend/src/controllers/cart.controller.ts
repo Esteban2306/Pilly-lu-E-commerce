@@ -66,7 +66,7 @@ const addItemToCart = async (req: Request, res: Response, next: NextFunction) =>
                 { new: true, upsert: true }
             ).populate({
                 path: 'products.product',
-                select: 'productName price images',
+                select: 'productName price finalPrice images',
                 populate: {
                     path: 'images',
                     select: 'url',
