@@ -38,12 +38,12 @@ export default function OrderAdminClient() {
     const { data: orders = [], isLoading, isError } = useOrders(debouncedFilters)
     const deleteOrderMutation = useDeleteOrders()
 
-    const handleDelete = (id: string | number) => {
-        deleteOrderMutation.mutate(id as string)
+    const handleDelete = (_id: string | number) => {
+        deleteOrderMutation.mutate(_id as string)
     }
 
-    const handleView = (id: string) => {
-        router.push(`/order/${id}`)
+    const handleView = (_id: string) => {
+        router.push(`/order/${_id}`)
     }
 
     const handleFilterChange = (key: string, value: string) => {
@@ -84,7 +84,7 @@ export default function OrderAdminClient() {
                         createdAt: new Date(o.createdAt).toLocaleDateString("es-CO"),
                     }))}
                     columns={[
-                        { key: "id", label: "Orden" },
+                        { key: "_id", label: "Orden" },
                         { key: "user", label: "Nombre" },
                         { key: "createdAt", label: "Fecha creación" },
                         { key: "status", label: "Estado" },

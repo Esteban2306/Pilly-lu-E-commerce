@@ -35,7 +35,7 @@ export function useDeleteProducts() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (id: string) => productApi.delete(id),
+        mutationFn: (_id: string) => productApi.delete(_id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['products'] })
         },
@@ -46,8 +46,8 @@ export function useUpdateProducts() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
-            productApi.update(id, data),
+        mutationFn: ({ _id, data }: { _id: string; data: Record<string, unknown> }) =>
+            productApi.update(_id, data),
 
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['products'] })
@@ -64,7 +64,7 @@ export function useToggleFeaturedProducts() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (id: string) => productApi.toggleFeatured(id),
+        mutationFn: (_id: string) => productApi.toggleFeatured(_id),
 
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['products'] })

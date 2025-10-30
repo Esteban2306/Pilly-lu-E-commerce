@@ -16,7 +16,7 @@ export default function OrderEditPopover({ order }: OrderEditPopoverProps) {
     const updateOrder = useUpdateOrders()
 
     const handleSubmit = async () => {
-        await updateOrder.mutateAsync({ id: order._id, data: { status } })
+        await updateOrder.mutateAsync({ _id: order._id, data: { status } })
         setOpen(false)
     }
 

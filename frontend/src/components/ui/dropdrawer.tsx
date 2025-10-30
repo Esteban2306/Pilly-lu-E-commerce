@@ -95,7 +95,7 @@ function DropDrawerContent({
   const [activeSubmenu, setActiveSubmenu] = React.useState<string | null>(null);
   const [submenuTitle, setSubmenuTitle] = React.useState<string | null>(null);
   const [submenuStack, setSubmenuStack] = React.useState<
-    { id: string; title: string }[]
+    { _id: string; title: string }[]
   >([]);
   // Add animation direction state
   const [animationDirection, setAnimationDirection] = React.useState<
@@ -108,12 +108,12 @@ function DropDrawerContent({
   );
 
   // Function to navigate to a submenu
-  const navigateToSubmenu = React.useCallback((id: string, title: string) => {
+  const navigateToSubmenu = React.useCallback((_id: string, title: string) => {
     // Set animation direction to forward when navigating to a submenu
     setAnimationDirection("forward");
-    setActiveSubmenu(id);
+    setActiveSubmenu(_id);
     setSubmenuTitle(title);
-    setSubmenuStack((prev) => [...prev, { id, title }]);
+    setSubmenuStack((prev) => [...prev, { _id, title }]);
   }, []);
 
   // Function to go back to previous menu
@@ -131,7 +131,7 @@ function DropDrawerContent({
       const newStack = [...submenuStack];
       newStack.pop(); // Remove current
       const previous = newStack[newStack.length - 1];
-      setActiveSubmenu(previous.id);
+      setActiveSubmenu(previous._id);
       setSubmenuTitle(previous.title);
       setSubmenuStack(newStack);
     }

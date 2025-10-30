@@ -40,7 +40,7 @@ export function useDeleteOrders() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (id: string) => orderApi.deleteOrder(id),
+        mutationFn: (_id: string) => orderApi.deleteOrder(_id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['orders'] })
         }
@@ -51,8 +51,8 @@ export function useUpdateOrders() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: Record<string, unknown> }) =>
-            orderApi.updateOrder(data, id),
+        mutationFn: ({ _id, data }: { _id: string; data: Record<string, unknown> }) =>
+            orderApi.updateOrder(data, _id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['orders'] })
         }

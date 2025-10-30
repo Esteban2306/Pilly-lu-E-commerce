@@ -1,5 +1,6 @@
 export type UserType = {
     _id: string;
+    id?: string;
     email: string;
     role: string
     firstName: string;

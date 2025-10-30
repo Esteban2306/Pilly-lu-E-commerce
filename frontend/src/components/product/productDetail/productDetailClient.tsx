@@ -46,7 +46,7 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
         <>
             <section className="max-w-6xl mx-auto px-6 py-12 mt-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-                    <ColageProcut id={product._id} />
+                    <ColageProcut _id={product._id} />
 
                     <div className="space-y-6 bg-white rounded-2xl">
                         <h1 className="text-3xl font-semibold text-gray-800 leading-tight">

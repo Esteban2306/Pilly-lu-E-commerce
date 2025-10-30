@@ -7,17 +7,17 @@ import { cn } from "@/lib/utils";
 import { useDeleteProducts } from "@/hooks/useProducts/useProducts";
 
 type DeleteProps = {
-    id: string;
+    _id: string;
 }
 
-const Delete = ({ id }: DeleteProps) => {
+const Delete = ({ _id }: DeleteProps) => {
     const [isActive, setIsActive] = useState(true);
     const deleteMutation = useDeleteProducts()
 
     const handleDeleteClick = () => setIsActive(false);
 
     const handleConfirmDelete = async () => {
-        deleteMutation.mutate(id)
+        deleteMutation.mutate(_id)
         setIsActive(true);
     }
 

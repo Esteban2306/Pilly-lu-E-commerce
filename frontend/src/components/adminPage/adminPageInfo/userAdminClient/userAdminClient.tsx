@@ -18,8 +18,8 @@ export default function USerAdminClient() {
     const { data: users = [], isLoading, isError } = useUsers(debouncedFilters)
     const deleteUserMutation = useDeleteUsers()
 
-    const handleDelete = (id: string | number) => {
-        deleteUserMutation.mutate(id as string)
+    const handleDelete = (_id: string | number) => {
+        deleteUserMutation.mutate(_id as string)
     }
 
 

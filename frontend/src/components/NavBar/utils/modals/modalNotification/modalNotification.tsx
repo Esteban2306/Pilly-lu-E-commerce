@@ -9,11 +9,11 @@ import NotificationList from "./notificationList";
 
 export default function ModalNotification({ inline = false }: { inline?: boolean }) {
     const { user } = useAuth();
-    const { data: orders = [], isLoading, refetch } = useUserOrders(user?._id);
+    const { data: orders = [], isLoading, refetch } = useUserOrders(user?.id);
 
     useEffect(() => {
-        if (user?._id) refetch();
-    }, [user?._id, refetch]);
+        if (user?.id) refetch();
+    }, [user?.id, refetch]);
 
     if (inline) {
         return (

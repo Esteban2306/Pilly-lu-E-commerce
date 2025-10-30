@@ -10,9 +10,9 @@ import { ImageType } from "./galeryProductType";
 import useProductFetchImages from '@/hooks/productFetchImages/productFetchImages';
 
 
-export default function CollageProduct({ id }: { id: string }) {
+export default function CollageProduct({ _id }: { _id: string }) {
 
-    const { imagesByUrl, isLoading, mainImage } = useProductFetchImages(id)
+    const { imagesByUrl, isLoading, mainImage } = useProductFetchImages(_id)
 
     const images = [
         productProof,

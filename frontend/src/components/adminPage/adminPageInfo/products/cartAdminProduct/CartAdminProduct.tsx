@@ -104,7 +104,7 @@ export default function CartAdminProduct({
                 </div>
 
                 <div className="flex justify-center mt-3">
-                    <Delete id={_id} />
+                    <Delete _id={_id} />
                 </div>
             </div>
         </div>

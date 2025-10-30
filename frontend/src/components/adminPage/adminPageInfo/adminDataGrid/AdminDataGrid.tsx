@@ -13,7 +13,7 @@ type BaseRow = { _id: string } & Record<string, unknown>
 interface AdminDataGridProps<T extends BaseRow> {
     data: T[]
     columns: Column[]
-    onDelete?: (id: string | number) => void
+    onDelete?: (_id: string | number) => void
     renderActions?: (row: T) => React.ReactNode
 }
 
