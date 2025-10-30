@@ -206,43 +206,54 @@ const getAllOrdersByUserId = async (req: Request, res: Response, next: NextFunct
     try {
         const { userId } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(userId)) throw new BadRequest("ID de usuario inválido");
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new BadRequest('ID de usuario invalido')
+        }
 
         const orders = await Order.find({ user: userId })
             .populate({
-                path: "products.product",
-                select: "productName price finalPrice images sku",
-                populate: { path: "images", select: "url" },
+                path: 'products.product',
+                select: 'productName price finalPrice images sku stock amount',
+                populate: {
+                    path: 'images',
+                    select: 'url'
+                }
+            })
+            .populate({
+                path: 'user',
+                select: 'firstName lastName email'
             })
             .sort({ createdAt: -1 });
 
-        if (!orders.length) throw new NotFoundError("No se encuentran órdenes de este usuario.");
+        if (!orders.length) {
+            throw new NotFoundError('No se encuentran ordenes hechas en este usuario.')
+        }
 
-        const formatted = orders.map(order => ({
+        const formattedOrders = orders.map(order => ({
             _id: order._id,
-            subtotal: order.subtotal,
-            totalDiscount: order.totalDiscount,
             total: order.total,
             status: order.status,
             createdAt: order.createdAt,
+            updatedAt: order.updatedAt,
             products: order.products.map((item: any) => ({
                 name: item.product?.productName || "Producto eliminado",
-                price: item.product?.price,
-                finalPrice: item.product?.finalPrice,
+                price: item.price,
                 amount: item.amount,
-                subtotal: item.amount * item.product?.finalPrice,
-                image: item.product?.images?.[0]?.url || null,
+                subtotal: item.amount * item.price,
+                images: new Array({ url: item.product?.images?.[0]?.url }) || null,
             })),
-        }));
+        }))
 
         res.status(200).json({
-            message: "Órdenes del usuario encontradas con éxito.",
-            orders: formatted,
-        });
+            message: 'Órdenes del usuario encontradas con exito.',
+            formattedOrders
+        })
+
+
     } catch (err) {
-        next(err);
+        next(err)
     }
-};
+}
 
 const cancelOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {

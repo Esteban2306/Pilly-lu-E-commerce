@@ -64,8 +64,8 @@ export function useUserOrders(userId?: string) {
         queryKey: ['orders', userId],
         queryFn: async () => {
             if (!userId) return [];
-            const res = await orderApi.getOrdersByUserId<{ orders: Order[] }>(userId);
-            return res.orders || [];
+            const res = await orderApi.getOrdersByUserId<{ formattedOrders: Order[] }>(userId);
+            return res.formattedOrders || [];
         },
         initialData: [],
         enabled: !!userId,
