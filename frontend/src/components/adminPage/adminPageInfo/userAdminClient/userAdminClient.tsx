@@ -35,8 +35,8 @@ export default function USerAdminClient() {
             <div className="mt-6">
                 <AdminDataGrid<UserRow>
                     data={users.map(u => ({
-                        _id: u._id,
                         name: u.fullName,
+                        _id: u._id,
                         email: u.email,
                         role: u.role?.name || 'sin rol',
                         createdAt: new Date(u.createdAt).toLocaleDateString('es-CO')

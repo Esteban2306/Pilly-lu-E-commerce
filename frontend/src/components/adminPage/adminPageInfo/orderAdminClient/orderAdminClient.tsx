@@ -84,8 +84,8 @@ export default function OrderAdminClient() {
                         createdAt: new Date(o.createdAt).toLocaleDateString("es-CO"),
                     }))}
                     columns={[
-                        { key: "_id", label: "Orden" },
                         { key: "user", label: "Nombre" },
+                        { key: "_id", label: "Orden" },
                         { key: "createdAt", label: "Fecha creación" },
                         { key: "status", label: "Estado" },
                         { key: "total", label: "Total" },
