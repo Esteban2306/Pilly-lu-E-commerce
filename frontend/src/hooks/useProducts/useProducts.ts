@@ -33,7 +33,10 @@ export function useGetCategory() {
 export function useGetRelatedProducts(id?: string) {
     return useQuery({
         queryKey: ['relatedProducts', id],
-        queryFn: () => productApi.getRelatedProducts<Product[]>(id!),
+        queryFn: async () => {
+            const res = await productApi.getRelatedProducts<{ relatedProducts: Product[] }>(id!);
+            return res.relatedProducts || [];
+        },
         enabled: !!id,
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: false,

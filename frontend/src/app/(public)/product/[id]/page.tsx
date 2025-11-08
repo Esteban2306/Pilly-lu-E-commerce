@@ -5,12 +5,11 @@ import ProductDetailClient from "@/components/product/productDetail/productDetai
 export default async function ProductDetail({ params }: { params: { id: string } }) {
 
     const product = await productApi.getById<Product>(params.id)
-    const productrecomendated = await productApi.getRelatedProducts<Product[]>(params.id)
+    // const productrecomendated = await productApi.getRelatedProducts<Product[]>(params.id)
 
-    console.log(productrecomendated)
 
 
     return (
-        <ProductDetailClient product={product} productRecommended={productrecomendated} />
+        <ProductDetailClient product={product} />
     );
 }

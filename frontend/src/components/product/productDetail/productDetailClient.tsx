@@ -16,7 +16,7 @@ import { OrderType } from "@/types/order.types";
 import { useAuth } from "@/context/authContext";
 import AnonUserModal from "@/components/orderPage/anonUserModal/AnonUserModal";
 
-export default function ProductDetailClient({ product, productRecommended }: Props) {
+export default function ProductDetailClient({ product }: Props) {
     const { formatCurrency } = useCurrencyFormat();
     const { cart } = useCart();
     const { user } = useAuth();
