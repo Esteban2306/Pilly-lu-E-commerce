@@ -30,7 +30,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                     price: { $toDouble: "$productInfo.price" },
                     finalPrice: {
                         $cond: {
-                            if: { $gt: [{ $type: "$productInfo.finalPrice" }, "missing"] },
+                            if: { $gt: [{ $type: "$productInfo.price" }, "$productInfo.finalPrice"] },
                             then: { $toDouble: "$productInfo.finalPrice" },
                             else: { $toDouble: "$productInfo.price" }
                         }
@@ -42,7 +42,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                             "$products.amount",
                             {
                                 $cond: {
-                                    if: { $gt: [{ $type: "$productInfo.finalPrice" }, "missing"] },
+                                    if: { $gt: [{ $type: "$productInfo.price" }, "$productInfo.finalPrice"] },
                                     then: { $toDouble: "$productInfo.finalPrice" },
                                     else: { $toDouble: "$productInfo.price" }
                                 }
