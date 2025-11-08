@@ -67,8 +67,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                     total: { $sum: "$totalWithDiscount" },
                     totalDiscount: {
                         $sum: {
-                            // $subtract: ["$subtotal", "$totalWithDiscount"],
-                            $subtract: ["$total", "$amount"]
+                            $subtract: ["$subtotal", "$totalWithDiscount"],
                         },
                     },
                 },
@@ -77,7 +76,9 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
         if (!cartData.length) throw new BadRequest("El carrito está vacío");
 
-        const { items, subtotal, total, totalDiscount } = cartData[0];
+        const { items, subtotal, total } = cartData[0];
+
+        const totalDiscount = subtotal - total;
 
         const order = await Order.create({
             user: userId,

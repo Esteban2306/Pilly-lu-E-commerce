@@ -31,6 +31,8 @@ export function OrderPageClient({ orderId }: Props) {
         logoColor: "bg-gray-200",
         logoIcon: item.product.images?.[0]?.url || "",
     }))
+
+    console.log(data.totalDiscount)
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-30">
             <div className="border-b pb-4 mb-6">
