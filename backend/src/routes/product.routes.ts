@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured, getImagesByProductId, toggleFeatured, updateImage, addImagesToProduct } from "../controllers/product.controller.js";
+import { createProduct, getProducts, getProductsById, getProductByCategory, updateProduct, deleteProduct, getProductsFeatured, getImagesByProductId, toggleFeatured, updateImage, addImagesToProduct, getRelatedProducts } from "../controllers/product.controller.js";
 import { authenticate } from "../middlewares/auth.js";
 
 import { requireRole } from "../middlewares/requireRole.js";
@@ -13,6 +13,7 @@ router.get('/featured', getProductsFeatured);
 router.get('/category/:categoryId', getProductByCategory);
 router.get('/image/:id', getImagesByProductId);
 router.get('/:id', getProductsById);
+router.get('/related/:id', getRelatedProducts)
 
 
 

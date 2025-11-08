@@ -334,5 +334,6 @@ export {
     getImagesByProductId,
     toggleFeatured,
     updateImage,
-    addImagesToProduct
+    addImagesToProduct,
+    getRelatedProducts
 }
