@@ -67,7 +67,8 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
                     total: { $sum: "$totalWithDiscount" },
                     totalDiscount: {
                         $sum: {
-                            $subtract: ["$subtotal", "$totalWithDiscount"],
+                            // $subtract: ["$subtotal", "$totalWithDiscount"],
+                            $subtract: ["$total", "$amount"]
                         },
                     },
                 },
