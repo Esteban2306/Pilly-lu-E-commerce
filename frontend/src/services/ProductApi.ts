@@ -17,6 +17,10 @@ export class ProductApi extends Api {
         return this.request<T>(`product/featured`, 'GET', false)
     }
 
+    getRelatedProducts<T>(id: string) {
+        return this.request<T>(`product/related/${id}`, 'GET', false)
+    }
+
     getImagesByProductId<T>(id: string) {
         return this.request<T>(`product/image/${id}`, 'GET', false)
     }

@@ -12,8 +12,9 @@ router.get('/', getProducts);
 router.get('/featured', getProductsFeatured);
 router.get('/category/:categoryId', getProductByCategory);
 router.get('/image/:id', getImagesByProductId);
-router.get('/:id', getProductsById);
 router.get('/related/:id', getRelatedProducts)
+router.get('/:id', getProductsById);
+
 
 
 

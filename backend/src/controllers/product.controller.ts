@@ -241,12 +241,23 @@ const toggleFeatured = async (req: Request, res: Response, next: NextFunction) =
 
 const getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
 
-        const product = await Product.findById(id).populate('category')
-        if (!product) {
-            throw new NotFoundError('producto no encontrado')
-        }
+        const product = await Product.findById(id).populate("category");
+        if (!product) throw new NotFoundError("Producto no encontrado");
+
+        const relatedProducts = await Product.find({
+            category: product.category?._id,
+            _id: { $ne: product._id },
+        })
+            .select("productName price finalPrice images color offer stock")
+            .limit(6)
+            .populate("images", "url");
+
+        res.status(200).json({
+            message: "Productos relacionados encontrados con éxito.",
+            relatedProducts,
+        });
 
     } catch (err) {
         next(err)

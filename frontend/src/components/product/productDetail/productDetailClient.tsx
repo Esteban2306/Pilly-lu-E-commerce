@@ -10,6 +10,7 @@ import { useCurrencyFormat } from "@/hooks/useCurrencyFormat/useCurrencyFormat";
 import { Counter } from "@/components/ui/shadcn-io/counter";
 import ButtonAddToCartDetail from "@/components/buttons/buttonAddToCartDetail/ButtonAddToCartDetail";
 import { useCart } from "@/context/cartContext";
+import { useGetRelatedProducts } from "@/hooks/useProducts/useProducts";
 import { orderApi } from "@/services/OrderApi";
 import { OrderType } from "@/types/order.types";
 import { useAuth } from "@/context/authContext";
@@ -22,6 +23,8 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
 
     const [count, setCount] = useState(1);
     const [showAnonModal, setShowAnonModal] = useState(false);
+
+    const { data: relatedProducts = [], isLoading } = useGetRelatedProducts(product._id);
 
     const handleConsultCart = async () => {
         try {
@@ -127,27 +130,36 @@ export default function ProductDetailClient({ product, productRecommended }: Pro
                     </div>
                 </div>
 
-                <div
-                    className="
-        grid justify-center gap-6 mt-20
-        [grid-template-columns:repeat(1,280px)]
-        sm:[grid-template-columns:repeat(2,280px)]
-        lg:[grid-template-columns:repeat(3,280px)]
-      "
-                >
-                    {productRecommended?.map((p) => (
-                        <ProductGallery
-                            key={p._id}
-                            _id={p._id}
-                            productName={p.productName}
-                            price={p.price}
-                            images={p.images}
-                            color={p.color}
-                            finalPrice={p.finalPrice ?? 0}
-                            offer={p.offer}
-                            stock={p.stock}
-                        />
-                    ))}
+
+                <div className="flex justify-center flex-col mt-10">
+                    <h2 className="text-2xl font-bold m-auto mb-6">Productos relacionados</h2>
+
+                    {isLoading ? (
+                        <p className="text-center text-gray-500">Cargando productos...</p>
+                    ) : relatedProducts.length === 0 ? (
+                        <p className="text-center text-gray-400">No hay productos similares.</p>
+                    ) : (
+                        <div className="
+                        grid justify-center gap-6
+                        [grid-template-columns:repeat(1,280px)]
+                        sm:[grid-template-columns:repeat(2,280px)]
+                        lg:[grid-template-columns:repeat(3,280px)]
+                    ">
+                            {relatedProducts.map((p) => (
+                                <ProductGallery
+                                    key={p._id}
+                                    _id={p._id}
+                                    productName={p.productName}
+                                    price={p.price}
+                                    images={p.images}
+                                    color={p.color}
+                                    finalPrice={p.finalPrice ?? 0}
+                                    offer={p.offer}
+                                    stock={p.stock}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
             {showAnonModal && <AnonUserModal onClose={() => setShowAnonModal(false)} />}

@@ -30,6 +30,16 @@ export function useGetCategory() {
     })
 }
 
+export function useGetRelatedProducts(id?: string) {
+    return useQuery({
+        queryKey: ['relatedProducts', id],
+        queryFn: () => productApi.getRelatedProducts<Product[]>(id!),
+        enabled: !!id,
+        staleTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+    });
+}
+
 export function useDeleteProducts() {
 
     const queryClient = useQueryClient()
