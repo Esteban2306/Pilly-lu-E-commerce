@@ -1,4 +1,5 @@
 import { Api } from "./Api";
+import { PaginatedResponse } from "@/types/pagination.types";
 
 export class ProductApi extends Api {
     getAll<T>(query?: string) {

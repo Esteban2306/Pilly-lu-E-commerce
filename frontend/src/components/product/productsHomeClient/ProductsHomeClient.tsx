@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductGallery from "@/components/product/productGallery/productGallery";
 import { Product } from "@/types/productsCategory.types";
+import { useState } from "react";
+import { useProducts } from "@/hooks/useProducts/useProducts";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Categoria {
     nombre: string;
@@ -14,12 +17,25 @@ interface Categoria {
 
 interface Props {
     categorias: Categoria[];
-    productos: Product[];
+    initialData: {
+        products: Product[];
+        totalPages: number;
+        currentPage: number;
+    };
 }
 
-export default function ProductsHomeClient({ categorias, productos }: Props) {
+export default function ProductsHomeClient({ categorias, initialData }: Props) {
+    const [page, setPage] = useState(initialData.currentPage);
+    const queryClient = useQueryClient();
+
+    const { data, isLoading } = useProducts(undefined, page);
+
+    const productos = data?.products || initialData.products;
+    const totalPages = data?.totalPages || initialData.totalPages;
+
     return (
         <main className="min-h-screen">
+            {/* CATEGORÍAS */}
             <div className="flex justify-center mt-30 mb-10">
                 <h1 className="text-4xl font-bold text-zinc-800 tracking-wide">
                     Categorías
@@ -27,11 +43,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
             </div>
 
             <div
-                className="
-          grid grid-cols-2 sm:grid-cols-3
-          lg:[grid-template-columns:repeat(auto-fit,minmax(180px,1fr))]
-          gap-3 justify-center justify-items-center px-6
-        "
+                className="grid grid-cols-2 sm:grid-cols-3 lg:[grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] gap-3 justify-center justify-items-center px-6"
             >
                 {categorias.map((cat, i) => (
                     <Link
@@ -40,12 +52,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                         className="group flex flex-col items-center max-sm:last:col-span-2"
                     >
                         <div
-                            className="
-                w-28 h-28 rounded-full bg-blue-300 shadow-md
-                flex items-center justify-center
-                hover:-translate-y-2 hover:scale-105 hover:shadow-2xl
-                transition-all duration-300 ease-out
-              "
+                            className="w-28 h-28 rounded-full bg-blue-300 shadow-md flex items-center justify-center hover:-translate-y-2 hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-out"
                         >
                             <Image
                                 src={cat.icono}
@@ -56,10 +63,7 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                             />
                         </div>
                         <p
-                            className="
-                mt-3 text-lg font-medium text-gray-700
-                group-hover:text-blue-600 transition-colors duration-300
-              "
+                            className="mt-3 text-lg font-medium text-gray-700 group-hover:text-blue-600 transition-colors duration-300"
                         >
                             {cat.nombre}
                         </p>
@@ -67,27 +71,50 @@ export default function ProductsHomeClient({ categorias, productos }: Props) {
                 ))}
             </div>
 
+            {/* PRODUCTOS */}
             <div
-                className="
-          grid justify-center gap-8 mt-20 mb-18
-          [grid-template-columns:repeat(1,280px)]
-          sm:[grid-template-columns:repeat(2,280px)]
-          lg:[grid-template-columns:repeat(3,280px)]
-        "
+                className="grid justify-center gap-8 mt-20 mb-18 [grid-template-columns:repeat(1,280px)] sm:[grid-template-columns:repeat(2,280px)] lg:[grid-template-columns:repeat(3,280px)]"
             >
-                {productos.map((p) => (
-                    <ProductGallery
-                        key={p._id}
-                        _id={p._id}
-                        productName={p.productName}
-                        price={p.price}
-                        images={p.images}
-                        color={p.color}
-                        finalPrice={p.finalPrice || 0}
-                        offer={p.offer}
-                        stock={p.stock}
-                    />
-                ))}
+                {isLoading ? (
+                    <p className="text-center text-gray-500">Cargando productos...</p>
+                ) : (
+                    productos.map((p) => (
+                        <ProductGallery
+                            key={p._id}
+                            _id={p._id}
+                            productName={p.productName}
+                            price={p.price}
+                            images={p.images}
+                            color={p.color}
+                            finalPrice={p.finalPrice || 0}
+                            offer={p.offer}
+                            stock={p.stock}
+                        />
+                    ))
+                )}
+            </div>
+
+            {/* PAGINACIÓN */}
+            <div className="flex justify-center gap-3 mt-10">
+                <button
+                    disabled={page <= 1}
+                    onClick={() => setPage((prev) => prev - 1)}
+                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                >
+                    Anterior
+                </button>
+
+                <span className="px-4 py-2">
+                    Página {page} de {totalPages}
+                </span>
+
+                <button
+                    disabled={page >= totalPages}
+                    onClick={() => setPage((prev) => prev + 1)}
+                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                >
+                    Siguiente
+                </button>
             </div>
         </main>
     );

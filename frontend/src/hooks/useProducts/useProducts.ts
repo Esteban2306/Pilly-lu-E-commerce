@@ -3,10 +3,14 @@ import { productApi } from "@/services/ProductApi";
 import { Product } from "@/types/productsCategory.types";
 import { categoryApi } from "@/services/CategoryApi";
 import { Category } from "@/types/productsCategory.types";
+import { PaginatedResponse } from "@/types/pagination.types";
 
-export function useProducts(filters?: Record<string, string | number | boolean>) {
-    return useQuery({
-        queryKey: ["products", filters],
+export function useProducts(
+    filters?: Record<string, string | number | boolean>,
+    page: number = 1
+) {
+    return useQuery<PaginatedResponse<Product>>({
+        queryKey: ["products", filters, page],
         queryFn: async () => {
             const params = new URLSearchParams();
 
@@ -17,8 +21,14 @@ export function useProducts(filters?: Record<string, string | number | boolean>)
                     }
                 });
             }
-            return productApi.getAll<Product[]>(`?${params.toString()}`);
 
+            params.append("page", String(page));
+
+            const response = await productApi.getAll<PaginatedResponse<Product>>(
+                `?${params.toString()}`
+            );
+
+            return response;
         },
     });
 }

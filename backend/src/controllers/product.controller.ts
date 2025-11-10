@@ -86,26 +86,7 @@ const getImagesByProductId = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-const updateImage = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { id } = req.params;
-        const { url, alt, isMain } = req.body;
 
-        const updated = await Image.findByIdAndUpdate(
-            id,
-            { url, alt, isMain },
-            { new: true }
-        );
-
-        if (!updated) {
-            throw new NotFoundError("Imagen no encontrada");
-        }
-
-        res.status(200).json(updated);
-    } catch (err) {
-        next(err);
-    }
-};
 
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -152,11 +133,29 @@ const getProducts = async (req: Request, res: Response, next: NextFunction) => {
                 sortOptions = { createdAt: -1 };
         }
 
-        const product = await Product.find(filter)
-            .populate("category", "categoryName")
-            .sort(sortOptions)
 
-        res.status(200).json(product)
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 12;
+        const skip = (page - 1) * limit;
+
+        const [products, totalProducts] = await Promise.all([
+            Product.find(filter)
+                .populate("category", "categoryName")
+                .sort(sortOptions)
+                .skip(skip)
+                .limit(limit),
+            Product.countDocuments(filter),
+        ]);
+
+        const totalPages = Math.ceil(totalProducts / limit)
+
+        res.status(200).json({
+            totalProducts,
+            totalPages,
+            currentPage: page,
+            limit,
+            products,
+        });
     } catch (err) {
         next(err)
     }
@@ -218,26 +217,6 @@ const getProductsFeatured = async (req: Request, res: Response, next: NextFuncti
     }
 }
 
-const toggleFeatured = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { id } = req.params;
-
-        const product = await Product.findById(id);
-        if (!product) {
-            throw new NotFoundError("Producto no encontrado");
-        }
-
-        product.isFeatured = !product.isFeatured;
-        await product.save();
-
-        res.status(200).json({
-            message: `El producto ahora está ${product.isFeatured ? "destacado" : "sin destacar"}`,
-            isFeatured: product.isFeatured,
-        });
-    } catch (err) {
-        next(err);
-    }
-};
 
 const getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -264,6 +243,28 @@ const getRelatedProducts = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
+const toggleFeatured = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findById(id);
+        if (!product) {
+            throw new NotFoundError("Producto no encontrado");
+        }
+
+        product.isFeatured = !product.isFeatured;
+        await product.save();
+
+        res.status(200).json({
+            message: `El producto ahora está ${product.isFeatured ? "destacado" : "sin destacar"}`,
+            isFeatured: product.isFeatured,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+
 const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
@@ -288,6 +289,27 @@ const updateProduct = async (req: Request, res: Response, next: NextFunction) =>
         next(err)
     }
 }
+
+const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { url, alt, isMain } = req.body;
+
+        const updated = await Image.findByIdAndUpdate(
+            id,
+            { url, alt, isMain },
+            { new: true }
+        );
+
+        if (!updated) {
+            throw new NotFoundError("Imagen no encontrada");
+        }
+
+        res.status(200).json(updated);
+    } catch (err) {
+        next(err);
+    }
+};
 
 const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
