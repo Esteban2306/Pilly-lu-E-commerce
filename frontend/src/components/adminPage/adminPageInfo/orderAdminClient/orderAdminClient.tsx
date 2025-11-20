@@ -67,7 +67,7 @@ export default function OrderAdminClient() {
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar órdenes</p>
 
     const orders = data?.orders || []
-    const totalPages = data?.pagination.totalPages
+    const totalPages = data?.pagination?.totalPages ?? 0
 
     return (
         <div className="p-8 min-h-screen">

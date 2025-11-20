@@ -17,7 +17,6 @@ export function useOrders(filters: FiltersRole & { page: number; limit: number }
             params.append("page", filters.page.toString())
             params.append("limit", filters.limit.toString())
 
-            // Llamada a la API con querys
             const res = await orderApi.getOrder(params.toString()) as {
                 orders: Order[]
                 pagination?: {

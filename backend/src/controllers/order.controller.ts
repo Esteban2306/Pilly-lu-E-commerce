@@ -169,7 +169,7 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
 
         res.status(200).json({
             message: "Órdenes encontradas con éxito",
-            order: formatted,
+            orders: formatted,
             pagination: {
                 total,
                 totalPages: Math.ceil(total / Number(limit)),

@@ -6,7 +6,7 @@ export function useUsers(filters: Filters) {
     return useQuery({
         queryKey: ['users', filters],
         queryFn: async () => {
-            const res = await userApi.getAllUsers<{ data: User[], pagination: any }>(
+            const res = await userApi.getAllUsers<{ data: User[], pagination: number }>(
                 filters.page,
                 filters.limit
             )
