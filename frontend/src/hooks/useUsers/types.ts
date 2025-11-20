@@ -18,4 +18,5 @@ export interface Filters {
     role: string
     page?: number
     limit?: number
+    totalPages?: number
 }

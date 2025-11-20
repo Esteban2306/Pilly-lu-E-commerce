@@ -30,8 +30,7 @@ export default function UserAdminClient() {
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar usuarios</p>
 
     const users = data?.users || []
-    const totalPages = data?.pagination
-
+    const totalPages = data?.pagination?.totalPages || 0
     return (
         <div className="p-8 min-h-screen">
             <h1 className="text-2xl font-black mb-6">Gestión de Usuarios</h1>
@@ -60,7 +59,7 @@ export default function UserAdminClient() {
                 onDelete={(_id) => deleteUserMutation.mutate(_id as string)}
             />
 
-            <Pagination page={page} totalPages={totalPages ?? 0} onChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </div>
     )
 }   
