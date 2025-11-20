@@ -1,45 +1,51 @@
-"use client"
+"use client";
 
-import React, { useEffect, useRef, useState } from "react"
-import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/css"
-import "swiper/css/pagination"
-import { Pagination } from "swiper/modules"
-import { Swiper as SwiperType } from "swiper"
-import ProductGallery from "@/components/product/productGallery/productGallery"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { ProductCardProps } from "@/types/product.types"
-import { productApi } from "@/services/ProductApi"
+import React, { useEffect, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import { Swiper as SwiperType } from "swiper";
+import ProductGallery from "@/components/product/productGallery/productGallery";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useGetFeaturedProducts } from "@/hooks/useProducts/useProducts";
+
+import SliderProductSkeleton from "./SliderProductSkeleton";
+import { useSkeletonLoader } from "@/hooks/useSkeletonLoader/useSkeletonLoader";
 
 type SwiperWithLoop = SwiperType & {
-    slideToLoop?: (index: number, speed?: number, runCallbacks?: boolean) => void
-}
+    slideToLoop?: (index: number, speed?: number, runCallbacks?: boolean) => void;
+};
 
 export default function SliderProduct() {
-    const swiperRef = useRef<SwiperWithLoop | null>(null)
-    const [featured, setFeatured] = useState<ProductCardProps[]>([])
+    const swiperRef = useRef<SwiperWithLoop | null>(null);
+
+    const { data, isLoading, isError } = useGetFeaturedProducts();
+
+    const featured = data || [];
+
+    const showSkeleton = useSkeletonLoader(isLoading);
 
     useEffect(() => {
-        const fetchFeaturedProducts = async () => {
-            try {
-                const response = await productApi.getFeatured<ProductCardProps[]>()
-                setFeatured(response)
-            } catch (error) {
-                console.error("Error fetching featured products:", error)
-            }
-        }
-        fetchFeaturedProducts()
-    }, [])
+        if (!featured.length) return;
+        const mid = Math.floor(featured.length / 3);
 
-    useEffect(() => {
-        if (!featured.length) return
-        const mid = Math.floor(featured.length / 3)
         setTimeout(() => {
-            swiperRef.current?.slideToLoop?.(mid, 0)
-        }, 50)
-    }, [featured])
+            swiperRef.current?.slideToLoop?.(mid, 0);
+        }, 50);
+    }, [featured]);
 
-    const initialSlide = featured.length ? Math.floor(featured.length / 3) : 0
+    const initialSlide = featured.length ? Math.floor(featured.length / 3) : 0;
+
+    if (showSkeleton) return <SliderProductSkeleton />;
+
+    if (isError) {
+        return (
+            <div className="text-center py-20 text-red-600 font-semibold">
+                Error cargando productos destacados
+            </div>
+        );
+    }
 
     return (
         <div className="w-full py-10 flex flex-col items-center">
@@ -50,7 +56,7 @@ export default function SliderProduct() {
             {featured.length > 0 && (
                 <Swiper
                     onBeforeInit={(swiper) => {
-                        swiperRef.current = swiper
+                        swiperRef.current = swiper;
                     }}
                     autoHeight={true}
                     observer={true}
@@ -98,5 +104,5 @@ export default function SliderProduct() {
                 </button>
             </div>
         </div>
-    )
+    );
 }

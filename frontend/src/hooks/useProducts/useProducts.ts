@@ -4,6 +4,7 @@ import { Product } from "@/types/productsCategory.types";
 import { categoryApi } from "@/services/CategoryApi";
 import { Category } from "@/types/productsCategory.types";
 import { PaginatedResponse } from "@/types/pagination.types";
+import { ProductCardProps } from "@/types/product.types";
 
 export function useProducts(
     filters?: Record<string, string | number | boolean>,
@@ -66,6 +67,19 @@ export function useGetRelatedProducts(id?: string) {
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: false,
     });
+}
+
+export function useGetFeaturedProducts() {
+    return useQuery({
+        queryKey: ['featuredProducts'],
+        queryFn: async () => {
+            const res = await productApi.getFeatured<ProductCardProps[]>();
+            return res || []
+        },
+        enabled: true,
+        staleTime: 10 * 60 * 1000,
+        refetchOnWindowFocus: false,
+    })
 }
 
 export function useDeleteProducts() {

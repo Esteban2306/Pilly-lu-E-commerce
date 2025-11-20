@@ -14,6 +14,8 @@ import { useGetRelatedProducts } from "@/hooks/useProducts/useProducts";
 import { orderApi } from "@/services/OrderApi";
 import { OrderType } from "@/types/order.types";
 import { useAuth } from "@/context/authContext";
+import ProductGallerySkeleton from "../productGallery/productGallerySkeleton";
+import { useSkeletonLoader } from "@/hooks/useSkeletonLoader/useSkeletonLoader";
 import AnonUserModal from "@/components/orderPage/anonUserModal/AnonUserModal";
 
 export default function ProductDetailClient({ product }: Props) {
@@ -25,6 +27,8 @@ export default function ProductDetailClient({ product }: Props) {
     const [showAnonModal, setShowAnonModal] = useState(false);
 
     const { data: relatedProducts = [], isLoading } = useGetRelatedProducts(product._id);
+
+    const showSkeleton = useSkeletonLoader(isLoading);
 
     const handleConsultCart = async () => {
         try {
@@ -134,8 +138,8 @@ export default function ProductDetailClient({ product }: Props) {
                 <div className="flex justify-center flex-col mt-10">
                     <h2 className="text-2xl font-bold m-auto mb-6">Productos relacionados</h2>
 
-                    {isLoading ? (
-                        <p className="text-center text-gray-500">Cargando productos...</p>
+                    {showSkeleton ? (
+                        <ProductGallerySkeleton />
                     ) : relatedProducts.length === 0 ? (
                         <p className="text-center text-gray-400">No hay productos similares.</p>
                     ) : (

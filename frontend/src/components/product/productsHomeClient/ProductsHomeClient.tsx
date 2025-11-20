@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useProducts } from "@/hooks/useProducts/useProducts";
 import { useQueryClient } from "@tanstack/react-query";
 import { Pagination } from "@/utils/pagination/pagination";
+import ProductsHomeClientSkeleton from "./productsHomeClientSkeleton";
+import { useSkeletonLoader } from "@/hooks/useSkeletonLoader/useSkeletonLoader";
 
 interface Categoria {
     nombre: string;
@@ -30,6 +32,8 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
     const queryClient = useQueryClient();
 
     const { data, isLoading } = useProducts(undefined, page);
+
+    const showSkeleton = useSkeletonLoader(isLoading);
 
     const productos = data?.products || initialData.products;
     const totalPages = data?.totalPages || initialData.totalPages;
@@ -74,8 +78,8 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
             <div
                 className="grid justify-center gap-8 mt-20 mb-18 [grid-template-columns:repeat(1,280px)] sm:[grid-template-columns:repeat(2,280px)] lg:[grid-template-columns:repeat(3,280px)]"
             >
-                {isLoading ? (
-                    <p className="text-center text-gray-500">Cargando productos...</p>
+                {showSkeleton ? (
+                    <ProductsHomeClientSkeleton />
                 ) : (
                     productos.map((p) => (
                         <ProductGallery

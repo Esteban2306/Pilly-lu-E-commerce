@@ -6,6 +6,8 @@ import { Category, Product } from "@/types/productsCategory.types"
 import { useProductsByCategory } from "@/hooks/useProducts/useProducts"
 import ProductGallery from "@/components/product/productGallery/productGallery"
 import { Pagination } from "@/utils/pagination/pagination"
+import ProductsHomeClientSkeleton from "@/components/product/productsHomeClient/productsHomeClientSkeleton"
+import { useSkeletonLoader } from "@/hooks/useSkeletonLoader/useSkeletonLoader";
 
 interface CategoryClientProps {
     categoryId: string
@@ -23,6 +25,8 @@ export default function PageCategoryClient({
     const [page, setPage] = useState(1)
 
     const { data, isLoading } = useProductsByCategory(categoryId, page)
+
+    const showSkeleton = useSkeletonLoader(isLoading);
 
     const products = data?.products ?? initialProducts
     const totalPages = data?.totalPages ?? 1
@@ -53,8 +57,8 @@ export default function PageCategoryClient({
           lg:[grid-template-columns:repeat(3,280px)]
         "
             >
-                {isLoading ? (
-                    <p className="text-center col-span-full text-zinc-400">Cargando...</p>
+                {showSkeleton ? (
+                    <ProductsHomeClientSkeleton />
                 ) : (
                     products.map((p) => (
                         <ProductGallery
