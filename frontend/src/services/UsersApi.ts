@@ -5,8 +5,8 @@ export class UsersApi extends Api {
         return this.request<T>(`users/${id}`, 'GET', true)
     }
 
-    getAllUsers<T>() {
-        return this.request<T>('users/', 'GET', true)
+    getAllUsers<T>(page = 1, limit = 10) {
+        return this.request<T>(`users?page=${page}&limit=${limit}`, 'GET', true)
     }
 
     deleteUser<T>(id: string) {

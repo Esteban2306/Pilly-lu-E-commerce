@@ -8,10 +8,10 @@ import { useOrders, useDeleteOrders } from "@/hooks/useOrders/useOrders"
 import { useDebounce } from "@/hooks/useDebounce/useDebounce"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { Eye, Trash2, MoreVertical } from 'lucide-react'
+import { Eye, Trash2, MoreVertical } from "lucide-react"
 import OrderEditPopover from "./OrderEditPopover"
-import { OrderRow } from '@/types/order.types'
-
+import { OrderRow } from "@/types/order.types"
+import { Pagination } from "@/utils/pagination/pagination"
 
 export default function OrderAdminClient() {
     const router = useRouter()
@@ -22,20 +22,23 @@ export default function OrderAdminClient() {
         dateFrom: "",
         dateTo: "",
         sort: "createdAt_desc",
-
     }
 
-    const [searchFilters, setSearchFilters] = useState("")
     const [filters, setFilters] = useState(initialFilters)
+    const [searchFilters, setSearchFilters] = useState("")
+    const [page, setPage] = useState(1)
+    const [limit] = useState(10)
 
     const debouncedSearch = useDebounce(searchFilters, 600)
 
     const debouncedFilters = {
         ...filters,
         search: debouncedSearch,
+        page,
+        limit,
     }
 
-    const { data: orders = [], isLoading, isError } = useOrders(debouncedFilters)
+    const { data, isLoading, isError } = useOrders(debouncedFilters)
     const deleteOrderMutation = useDeleteOrders()
 
     const handleDelete = (_id: string | number) => {
@@ -51,15 +54,20 @@ export default function OrderAdminClient() {
             ...prev,
             [key]: value,
         }))
+        setPage(1)
     }
 
     const handleResetFilters = () => {
         setFilters(initialFilters)
         setSearchFilters("")
+        setPage(1)
     }
 
     if (isLoading) return <p className="text-center mt-10">Cargando órdenes...</p>
     if (isError) return <p className="text-center mt-10 text-red-500">Error al cargar órdenes</p>
+
+    const orders = data?.orders || []
+    const totalPages = data?.pagination.totalPages
 
     return (
         <div className="p-8 min-h-screen">
@@ -124,6 +132,8 @@ export default function OrderAdminClient() {
                     )}
                 />
             </div>
+
+            <Pagination page={page} totalPages={totalPages ?? 0} onChange={setPage} />
         </div>
     )
 }

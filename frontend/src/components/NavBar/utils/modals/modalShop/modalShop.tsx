@@ -9,11 +9,11 @@ import Image from "next/image"
 export default function ModalShop() {
     const categories = [
         { name: "Todos", href: "/products" },
-        { name: "Anillos", href: "/products/anillos", icon: ringsIcon },
-        { name: "Manillas", href: "/products/manillas", icon: brasaletIcon },
-        { name: "Cadenas", href: "/products/cadenas", icon: cadenaIcon },
-        { name: "Aretes", href: "/products/aretes", icon: airRingsIcon },
-        { name: "Dijes", href: "/products/dijes", icon: chairsIcon },
+        { name: "Anillos", href: "/category/68c841d9aa6f123a0efb5c80", icon: ringsIcon },
+        { name: "Manillas", href: "/category/68c841ecaa6f123a0efb5c82", icon: brasaletIcon },
+        { name: "Cadenas", href: "/category/68c841fbaa6f123a0efb5c86", icon: cadenaIcon },
+        { name: "Aretes", href: "/category/68c841bfaa6f123a0efb5c7e", icon: airRingsIcon },
+        { name: "Dijes", href: "/category/68c841f1aa6f123a0efb5c84", icon: chairsIcon },
     ]
 
     return (

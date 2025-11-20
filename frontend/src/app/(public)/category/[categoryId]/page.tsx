@@ -42,7 +42,12 @@ export default async function productIdPage({ params }: ProductCategoryPageProps
 
     return (
         <Suspense fallback={<div className="text-center py-20">Cargando productos...</div>}>
-            <PageCategoryClient category={category} products={products} icon={iconoCategoria} />
+            <PageCategoryClient
+                categoryId={categoryId}
+                category={category}
+                initialProducts={products}
+                icon={iconoCategoria}
+            />
         </Suspense>
     )
 }

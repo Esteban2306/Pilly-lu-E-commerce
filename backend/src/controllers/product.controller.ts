@@ -178,6 +178,9 @@ const getProductsById = async (req: Request, res: Response, next: NextFunction) 
 const getProductByCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { categoryId } = req.params;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 12;
+        const skip = (page - 1) * limit;
 
         let category = null;
         if (mongoose.Types.ObjectId.isValid(categoryId)) {
@@ -190,18 +193,32 @@ const getProductByCategory = async (req: Request, res: Response, next: NextFunct
             throw new NotFoundError('Categoría no encontrada');
         }
 
-        const products = await Product.find({ category: category._id })
-            .populate({
-                path: 'images',
-                select: 'url alt isMain'
-            })
-            .exec();
+        const [products, totalProducts] = await Promise.all([
+            Product.find({ category: category._id })
+                .populate({
+                    path: "images",
+                    select: "url alt isMain",
+                })
+                .skip(skip)
+                .limit(limit)
+                .exec(),
+            Product.countDocuments({ category: category._id }),
+        ]);
 
         if (!products || products.length === 0) {
             throw new NotFoundError('No se han encontrado productos para esta categoría');
         }
 
-        res.status(200).json({ category, products });
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        res.status(200).json({
+            category,
+            products,
+            totalProducts,
+            totalPages,
+            currentPage: page,
+            limit,
+        });
     } catch (err) {
         next(err);
     }
@@ -221,6 +238,7 @@ const getProductsFeatured = async (req: Request, res: Response, next: NextFuncti
 const getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
+        const limit = Number(req.query.limit) || 6;
 
         const product = await Product.findById(id).populate("category");
         if (!product) throw new NotFoundError("Producto no encontrado");
@@ -230,18 +248,18 @@ const getRelatedProducts = async (req: Request, res: Response, next: NextFunctio
             _id: { $ne: product._id },
         })
             .select("productName price finalPrice images color offer stock")
-            .limit(6)
+            .limit(limit)
             .populate("images", "url");
 
         res.status(200).json({
             message: "Productos relacionados encontrados con éxito.",
+            totalRelated: relatedProducts.length,
             relatedProducts,
         });
-
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 const toggleFeatured = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import ModalShop from "./modalShop"
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useIsMobile } from "@/hooks/useIsMobile/useIsMobile"
 
 
 export default function ShopPopover() {

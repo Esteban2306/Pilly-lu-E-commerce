@@ -3,43 +3,38 @@ import { orderApi } from "@/services/OrderApi"
 import { FiltersRole, Order } from "./types"
 
 
-export function useOrders(filters: FiltersRole) {
-    return useQuery<Order[]>({
+export function useOrders(filters: FiltersRole & { page: number; limit: number }) {
+    return useQuery({
         queryKey: ['orders', filters],
         queryFn: async () => {
-            const res = await orderApi.getOrder('') as { order: Order[] }
-            return res.order
-        },
-        select: (orders) => {
-            return orders
-                .filter((o) => {
-                    const text = `${o.user?.name || ''} ${o.user?.email || ''} ${o._id}`.toLowerCase()
-                    const matchesSearch = text.includes(filters.search.toLowerCase())
+            const params = new URLSearchParams()
 
-                    const matchesStatus =
-                        filters.status === 'all' || o.status === filters.status
+            if (filters.search) params.append("search", filters.search)
+            if (filters.status && filters.status !== "all") params.append("status", filters.status)
+            if (filters.dateFrom) params.append("dateFrom", filters.dateFrom)
+            if (filters.dateTo) params.append("dateTo", filters.dateTo)
+            params.append("sort", filters.sort || "createdAt_desc")
+            params.append("page", filters.page.toString())
+            params.append("limit", filters.limit.toString())
 
-                    const matchesDateFrom =
-                        !filters.dateFrom || new Date(o.createdAt) >= new Date(filters.dateFrom)
+            // Llamada a la API con querys
+            const res = await orderApi.getOrder(params.toString()) as {
+                orders: Order[]
+                pagination?: {
+                    total: number
+                    page: number
+                    limit: number
+                    totalPages: number
+                }
+            }
 
-                    const matchesDateTo =
-                        !filters.dateTo || new Date(o.createdAt) <= new Date(filters.dateTo)
-
-                    return matchesSearch && matchesStatus && matchesDateFrom && matchesDateTo
-                })
-                .sort((a, b) => {
-                    if (filters.sort === 'createdAt_desc') {
-                        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                    } else {
-                        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-                    }
-                })
+            return {
+                orders: res.orders,
+                pagination: res.pagination || { total: res.orders.length, page: 1, totalPages: 1 },
+            }
         },
         staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchInterval: false,
-        retry: 1,
     })
 }
 

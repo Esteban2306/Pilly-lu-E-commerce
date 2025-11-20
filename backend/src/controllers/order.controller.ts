@@ -104,13 +104,11 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
 const getOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { search, status, dateFrom, dateTo, sort } = req.query;
+        const { search, status, dateFrom, dateTo, sort, page = 1, limit = 10 } = req.query;
 
         const filter: any = {};
 
-        if (status && status !== "all") {
-            filter.status = status;
-        }
+        if (status && status !== "all") filter.status = status;
 
         if (dateFrom || dateTo) {
             filter.createdAt = {};
@@ -129,12 +127,11 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
             });
 
         if (search) {
+            const regex = new RegExp(search as string, "i");
             query = query.find({
                 $or: [
-                    { "user.firstName": { $regex: search, $options: "i" } },
-                    { "user.lastName": { $regex: search, $options: "i" } },
-                    { "user.email": { $regex: search, $options: "i" } },
-                    { _id: { $regex: search, $options: "i" } },
+                    { _id: { $regex: regex } },
+                    { status: { $regex: regex } },
                 ],
             });
         }
@@ -142,12 +139,18 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
         if (sort) {
             const [field, direction] = (sort as string).split("_");
             query = query.sort({ [field]: direction === "desc" ? -1 : 1 });
+        } else {
+            query = query.sort({ createdAt: -1 });
         }
 
-        const orders = await query.exec();
+        const skip = (Number(page) - 1) * Number(limit);
+        const [orders, total] = await Promise.all([
+            query.skip(skip).limit(Number(limit)).exec(),
+            Order.countDocuments(filter),
+        ]);
 
         if (!orders.length) {
-            throw new NotFoundError("No hay órdenes registradas");
+            throw new NotFoundError("No se encontraron órdenes registradas");
         }
 
         const formatted = orders.map(o => ({
@@ -164,7 +167,16 @@ const getOrders = async (req: Request, res: Response, next: NextFunction) => {
                 : { name: "Usuario eliminado", email: "" },
         }));
 
-        res.status(200).json({ message: "Órdenes encontradas con éxito", order: formatted });
+        res.status(200).json({
+            message: "Órdenes encontradas con éxito",
+            order: formatted,
+            pagination: {
+                total,
+                totalPages: Math.ceil(total / Number(limit)),
+                currentPage: Number(page),
+                limit: Number(limit),
+            },
+        });
     } catch (err) {
         next(err);
     }

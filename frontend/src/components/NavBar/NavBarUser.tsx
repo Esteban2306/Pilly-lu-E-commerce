@@ -75,15 +75,16 @@ export default function NavBarUser() {
       `}
         >
 
-            <nav className="hidden md:flex items-center gap-6 z-10">
+            <div className="hidden md:flex items-center gap-6 z-10">
                 <ShopPopover />
+
                 <Link
                     href="/#ubication"
                     className={`${baseClass} ${pathname === "/#ubication" ? activeClasses : inactiveClass}`}
                 >
                     Contáctanos
                 </Link>
-            </nav>
+            </div>
 
             <div className="absolute left-1/2 transform -translate-x-1/2 z-0">
                 <Link href={"/"}>
@@ -108,14 +109,14 @@ export default function NavBarUser() {
                 <ModalNotification />
 
 
-                <button
+                {/* <button
                     onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
                     className="cursor-pointer p-2 rounded-lg border border-blue-200
           bg-blue-100/50 text-black hover:bg-blue-200/70
           transition duration-200 flex items-center justify-center"
                 >
                     <SearchIcon className="size-4 md:size-5" />
-                </button>
+                </button> */}
 
                 {activeModal === "search" && (
                     <div className="absolute top-full right-0 mt-2">
@@ -243,14 +244,14 @@ export default function NavBarUser() {
                                 </DropDrawerSubContent>
                             </DropDrawerSub>
 
-                            <DropDrawerSub>
+                            {/* <DropDrawerSub>
                                 <button
                                     onClick={() => setActiveModal(prev => (prev === "search" ? null : "search"))}
                                     className="max-w-[380px] w-full flex items-center gap-2 px-6 py-4 font-black rounded-md bg-gray-100 hover:bg-white transition text-zinc-900"
                                 >
                                     Buscar <SearchIcon className="size-5" />
                                 </button>
-                            </DropDrawerSub>
+                            </DropDrawerSub> */}
                         </div>
                     </DropDrawerContent>
                 </DropDrawer>

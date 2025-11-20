@@ -1,16 +1,32 @@
 "use client"
 
+import { useState } from "react"
 import Image, { StaticImageData } from "next/image"
-import ProductGallery from "@/components/product/productGallery/productGallery"
 import { Category, Product } from "@/types/productsCategory.types"
+import { useProductsByCategory } from "@/hooks/useProducts/useProducts"
+import ProductGallery from "@/components/product/productGallery/productGallery"
+import { Pagination } from "@/utils/pagination/pagination"
 
 interface CategoryClientProps {
+    categoryId: string
     category: Category
-    products: Product[]
+    initialProducts: Product[]
     icon: StaticImageData
 }
 
-export default function PageCategoryClient({ category, products, icon }: CategoryClientProps) {
+export default function PageCategoryClient({
+    categoryId,
+    category,
+    initialProducts,
+    icon,
+}: CategoryClientProps) {
+    const [page, setPage] = useState(1)
+
+    const { data, isLoading } = useProductsByCategory(categoryId, page)
+
+    const products = data?.products ?? initialProducts
+    const totalPages = data?.totalPages ?? 1
+
     return (
         <main className="min-h-screen pb-20">
             <div className="flex flex-col items-center mt-32 mb-10">
@@ -37,18 +53,26 @@ export default function PageCategoryClient({ category, products, icon }: Categor
           lg:[grid-template-columns:repeat(3,280px)]
         "
             >
-                {products.map((p) => (
-                    <ProductGallery
-                        key={p._id}
-                        _id={p._id}
-                        productName={p.productName}
-                        price={p.price}
-                        images={p.images}
-                        color={p.color}
-                        finalPrice={p.finalPrice || 0}
-                        offer={p.offer}
-                    />
-                ))}
+                {isLoading ? (
+                    <p className="text-center col-span-full text-zinc-400">Cargando...</p>
+                ) : (
+                    products.map((p) => (
+                        <ProductGallery
+                            key={p._id}
+                            _id={p._id}
+                            productName={p.productName}
+                            price={p.price}
+                            images={p.images}
+                            color={p.color}
+                            finalPrice={p.finalPrice || 0}
+                            offer={p.offer}
+                        />
+                    ))
+                )}
+            </div>
+
+            <div className="flex justify-center mt-12">
+                <Pagination page={page} totalPages={totalPages} onChange={setPage} />
             </div>
         </main>
     )

@@ -3,13 +3,17 @@ import { userApi } from "@/services/UsersApi"
 import { User, Filters } from "./types"
 
 export function useUsers(filters: Filters) {
-    return useQuery<User[]>({
+    return useQuery({
         queryKey: ['users', filters],
         queryFn: async () => {
-            const res = await userApi.getAllUsers() as { data: User[] }
+            const res = await userApi.getAllUsers<{ data: User[], pagination: any }>(
+                filters.page,
+                filters.limit
+            )
+
             const users = res.data
 
-            return users.filter(u => {
+            const filtered = users.filter(u => {
                 const matchesSearch =
                     u.fullName.toLowerCase().includes(filters.search.toLowerCase()) ||
                     u.email.toLowerCase().includes(filters.search.toLowerCase())
@@ -19,6 +23,11 @@ export function useUsers(filters: Filters) {
 
                 return matchesSearch && matchesRole
             })
+
+            return {
+                users: filtered,
+                pagination: res.pagination,
+            }
         },
     })
 }

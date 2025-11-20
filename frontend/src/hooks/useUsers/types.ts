@@ -16,4 +16,6 @@ export interface User {
 export interface Filters {
     search: string
     role: string
+    page?: number
+    limit?: number
 }

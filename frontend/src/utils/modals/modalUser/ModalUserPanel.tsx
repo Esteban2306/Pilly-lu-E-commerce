@@ -17,7 +17,7 @@ const ModalUserPanel = () => {
             <PopoverTrigger asChild>
                 <button
                     title="perfil"
-                    className="outline-none border-none bg-transparent shadow-none"
+                    className="outline-none border-none bg-transparent shadow-none cursor-pointer"
                 >
                     <UserAvatar name={`${user.firstName} ${user.lastName}`} />
                 </button>

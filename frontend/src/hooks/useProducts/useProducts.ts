@@ -40,6 +40,21 @@ export function useGetCategory() {
     })
 }
 
+export function useProductsByCategory(categoryId: string, page: number = 1, limit: number = 12) {
+    return useQuery<PaginatedResponse<Product> & { category: Category }>({
+        queryKey: ["productsByCategory", categoryId, page],
+        queryFn: async () => {
+            const data = await productApi.getByCategory<PaginatedResponse<Product> & { category: Category }>(
+                categoryId,
+                page,
+                limit
+            );
+            return data;
+        },
+        enabled: !!categoryId,
+    });
+}
+
 export function useGetRelatedProducts(id?: string) {
     return useQuery({
         queryKey: ['relatedProducts', id],

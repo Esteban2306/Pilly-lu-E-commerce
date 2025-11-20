@@ -10,7 +10,7 @@ export function Pagination({ page, totalPages, onChange }: PaginationProps) {
             <button
                 disabled={page === 1}
                 onClick={() => onChange(page - 1)}
-                className={`px-4 py-2 border rounded ${page === 1 ? "opacity-40 cursor-not-allowed" : ""}`}
+                className={`px-4 py-2 bg-gray-200 rounded hover:bg-blue-100 disabled:opacity-50 ${page === 1 ? "opacity-40 cursor-not-allowed" : ""}`}
             >
                 Anterior
             </button>
@@ -20,7 +20,7 @@ export function Pagination({ page, totalPages, onChange }: PaginationProps) {
             <button
                 disabled={page === totalPages}
                 onClick={() => onChange(page + 1)}
-                className={`px-4 py-2 border rounded ${page === totalPages ? "opacity-40 cursor-not-allowed" : ""}`}
+                className={`px-4 py-2 bg-gray-200 rounded hover:bg-blue-100  disabled:opacity-50 ${page === totalPages ? "opacity-40 cursor-not-allowed" : ""}`}
             >
                 Siguiente
             </button>

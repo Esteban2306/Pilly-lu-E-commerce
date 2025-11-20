@@ -7,6 +7,7 @@ import { Product } from "@/types/productsCategory.types";
 import { useState } from "react";
 import { useProducts } from "@/hooks/useProducts/useProducts";
 import { useQueryClient } from "@tanstack/react-query";
+import { Pagination } from "@/utils/pagination/pagination";
 
 interface Categoria {
     nombre: string;
@@ -35,7 +36,6 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
 
     return (
         <main className="min-h-screen">
-            {/* CATEGORÍAS */}
             <div className="flex justify-center mt-30 mb-10">
                 <h1 className="text-4xl font-bold text-zinc-800 tracking-wide">
                     Categorías
@@ -71,7 +71,6 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
                 ))}
             </div>
 
-            {/* PRODUCTOS */}
             <div
                 className="grid justify-center gap-8 mt-20 mb-18 [grid-template-columns:repeat(1,280px)] sm:[grid-template-columns:repeat(2,280px)] lg:[grid-template-columns:repeat(3,280px)]"
             >
@@ -94,28 +93,7 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
                 )}
             </div>
 
-            {/* PAGINACIÓN */}
-            <div className="flex justify-center gap-3 mt-10">
-                <button
-                    disabled={page <= 1}
-                    onClick={() => setPage((prev) => prev - 1)}
-                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
-                >
-                    Anterior
-                </button>
-
-                <span className="px-4 py-2">
-                    Página {page} de {totalPages}
-                </span>
-
-                <button
-                    disabled={page >= totalPages}
-                    onClick={() => setPage((prev) => prev + 1)}
-                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
-                >
-                    Siguiente
-                </button>
-            </div>
+            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </main>
     );
 }

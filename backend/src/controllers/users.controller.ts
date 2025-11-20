@@ -24,21 +24,34 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const { search, role, page = 1, limit = 10 } = req.query;
 
-        const { search, role } = req.query
+        const filter: any = {};
 
-        const filter: any = {}
+        if (role && role !== "all") filter["role.name"] = role;
 
-        if (role && role !== 'all') filter['role.name'] = role
+        const skip = (Number(page) - 1) * Number(limit);
 
-        const data = await User.find(filter)
-            .populate('role', 'name')
+        const [users, total] = await Promise.all([
+            User.find(filter)
+                .populate("role", "name")
+                .skip(skip)
+                .limit(Number(limit))
+                .exec(),
+            User.countDocuments(filter),
+        ]);
 
-        const formattedData = data.filter(u => {
-            if (!search) return true
-            const text = `${u.firstName} ${u.lastName} ${u.email}`.toLowerCase()
-            return text.includes((search as string).toLowerCase())
-        }).map(user => ({
+        if (!users.length) {
+            throw new NotFoundError("No se encontraron usuarios");
+        }
+
+        const filtered = users.filter(u => {
+            if (!search) return true;
+            const text = `${u.firstName} ${u.lastName} ${u.email}`.toLowerCase();
+            return text.includes((search as string).toLowerCase());
+        });
+
+        const formattedData = filtered.map(user => ({
             _id: user._id,
             email: user.email,
             role: user.role,
@@ -46,16 +59,22 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
             lastName: user.lastName,
             createdAt: user.createdAt,
             fullName: `${user.firstName} ${user.lastName}`,
-        }))
+        }));
 
         res.status(200).json({
-            message: 'usuarios encontrados con exito',
-            data: formattedData
-        })
+            message: "Usuarios encontrados con éxito",
+            data: formattedData,
+            pagination: {
+                total,
+                totalPages: Math.ceil(total / Number(limit)),
+                currentPage: Number(page),
+                limit: Number(limit),
+            },
+        });
     } catch (err) {
-        next(err)
+        next(err);
     }
-}
+};
 
 const delteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
