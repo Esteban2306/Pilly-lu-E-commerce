@@ -67,7 +67,7 @@ export default function ProductsHomeClient({ categorias, initialData }: Props) {
                             />
                         </div>
                         <p
-                            className="mt-3 text-lg font-medium text-gray-700 group-hover:text-blue-600 transition-colors duration-300"
+                            className="mt-3 text-lg font-medium text-gray-700 group-hover:text-blue-300 transition-colors duration-300"
                         >
                             {cat.nombre}
                         </p>
