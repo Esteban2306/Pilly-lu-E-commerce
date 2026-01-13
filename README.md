@@ -2,6 +2,8 @@
 
 A full-stack e-commerce platform for jewelry retail, built with a modern, scalable architecture featuring serverless frontend deployment and RESTful backend.
 
+check the page: pillylu.qzz.io
+
 ---
 
 ## Overview
@@ -340,87 +342,6 @@ backend/src/
 5. Controller processes business logic
 6. Mongoose operations interact with MongoDB
 7. Response serialized and returned
-
----
-
-## Setup & Installation
-
-### Prerequisites
-
-- **Node.js:** v22.18.0 or higher
-- **npm:** v10 or higher (or yarn/pnpm)
-- **MongoDB:** v5.0+ (local or cloud instance, e.g., MongoDB Atlas)
-- **Google Cloud Storage:** Service account credentials (for image uploads)
-
-### Backend Setup
-
-1. **Clone and navigate:**
-```bash
-git clone https://github.com/Esteban2306/pilly-lu-e-commerce.git
-cd backend
-```
-
-2. **Install dependencies:**
-```bash
-npm install
-```
-
-3. **Configure environment variables** (`.env` file):
-```env
-PORT=3001
-MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/pilly-lu
-JWT_SECRET=your-secret-key-min-32-chars
-GOOGLE_CLOUD_PROJECT_ID=your-project-id
-GOOGLE_CLOUD_BUCKET_NAME=your-bucket-name
-GOOGLE_APPLICATION_CREDENTIALS=./path/to/service-account-key.json
-NODE_ENV=development
-```
-
-4. **Run development server:**
-```bash
-npm run dev
-```
-Server runs on `http://localhost:3001`
-
-5. **Build for production:**
-```bash
-npm run build
-npm start
-```
-
-### Frontend Setup
-
-1. **Navigate to frontend:**
-```bash
-cd ../frontend
-```
-
-2. **Install dependencies:**
-```bash
-npm install
-```
-
-3. **Configure environment variables** (`.env.local` file):
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3001
-NEXT_PUBLIC_UPLOADTHING_APP_ID=your-uploadthing-app-id
-```
-
-4. **Run development server:**
-```bash
-npm run dev
-```
-Frontend runs on `http://localhost:3000`
-
-5. **Build for production:**
-```bash
-npm run build
-npm start
-```
-
-### Docker (Optional)
-
-For containerized deployment, create a `Dockerfile` in each directory and use `docker-compose` for orchestration. This setup includes MongoDB in compose.
 
 ---
 
